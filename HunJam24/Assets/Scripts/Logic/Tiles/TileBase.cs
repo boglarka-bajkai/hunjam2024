@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using Logic.Characters;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Logic.Tiles
 {
-    public class Tile : MonoBehaviour
+    public class TileBase : MonoBehaviour
     {
         public Vector Position { get; set; }
 
@@ -17,17 +16,17 @@ namespace Logic.Tiles
         /*
          * Check whether this tile touches with the other tile
          */
-        public bool IsNextTo(Tile other)
+        public bool IsNextTo(TileBase other)
         {
             return Position.DistanceFrom(other.Position).Length == 1;
         }
 
-        public bool IsOnSameLevel(Tile other)
+        public bool IsOnSameLevel(TileBase other)
         {
             return Position.Z == other.Position.Z;
         }
 
-        public bool IsOnNeighboringLevel(Tile other)
+        public bool IsOnNeighboringLevel(TileBase other)
         {
             return Math.Abs(Position.Z - other.Position.Z) == 1;
         }
@@ -35,7 +34,7 @@ namespace Logic.Tiles
         /*
          * Returns how much you would have to step from one tile to another if you could not move diagonally
          */
-        public Vector DistanceFrom(Tile other)
+        public Vector DistanceFrom(TileBase other)
         {
             return Position.DistanceFrom(other.Position);
         }
@@ -54,9 +53,9 @@ namespace Logic.Tiles
          * Returns existing tiles that have a distance of 1 without counting the Z dimension
          * The returned tiles' Z coordinate is the same as the `z` given here as parameter 
          */
-        public List<Tile> GetNeighboursInLevel(int z)
+        public List<TileBase> GetNeighboursInLevel(int z)
         {
-            List<Tile> result = new();
+            List<TileBase> result = new();
 
             var zOffset = z - Position.Z;
 
@@ -79,7 +78,7 @@ namespace Logic.Tiles
         /*
          * !!! Also accepts character that is already accepted
          */
-        public bool AcceptTile(Tile tile)
+        public bool AcceptTile(TileBase tile)
         {
             return false;
         }
@@ -103,9 +102,7 @@ namespace Logic.Tiles
         }
 
         
-
-
-        // Unity STUFF
+        
         public virtual void EnterFrom(Vector position) {}
 
         public virtual void ExitTo(Vector position) {}

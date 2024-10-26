@@ -41,10 +41,10 @@ namespace Logic
         }
 
         // Map
-        List<Tile> Map = new();
+        List<TileBase> Map = new();
         public StartTile StartTile {get;private set; }= null;
 
-        public Tile GetTileAt(Vector position)
+        public TileBase GetTileAt(Vector position)
         {
             var t = Map.FirstOrDefault(x => x.Position.Equals(position));
             Debug.Log($"found: {(t == null ? "none" : t.name)}");
@@ -64,7 +64,7 @@ namespace Logic
             foreach (var (pos, tile) in map.Select(x => (x.Key, x.Value)))
             {
                 var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity);
-                var t = go.GetComponent<Tile>();
+                var t = go.GetComponent<TileBase>();
                 t.Position = pos;
                 t.name = pos.ToString();
                 t.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
@@ -81,9 +81,9 @@ namespace Logic
             PlayerMoved(StartTile);
         }
 
-        List<Tile> selectedTiles = new();
+        List<TileBase> selectedTiles = new();
 
-        public void PlayerMoved(Tile newTile)
+        public void PlayerMoved(TileBase newTile)
         {
             foreach (var tile in selectedTiles)
             {

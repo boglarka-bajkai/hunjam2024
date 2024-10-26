@@ -1,9 +1,6 @@
-using System;
-using UnityEngine;
-
 namespace Logic.Tiles
 {
-    public class MovableTile : Tile
+    public class MovableTile : TileBase
     {
         /*
          * Tries to change the position of the tile to `destination`

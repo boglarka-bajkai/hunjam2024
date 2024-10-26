@@ -6,19 +6,19 @@ namespace Logic.Characters
 {
     public class Character : MonoBehaviour
     {
-        public Tile Tile { get; private set; }
+        private TileBase Tile { get; set; }
 
         /***********
          * GETTERS
          ***********/
         public Vector Position => Tile.Position + new Vector(0, 0, 1);
-        
+
         /*
          * Returns all tiles that the character could successfully move ONTO
          */
-        public List<Tile> ValidMoveOntoDestinations()
+        public List<TileBase> ValidMoveOntoDestinations()
         {
-            var result = new List<Tile> { Tile };
+            var result = new List<TileBase> { Tile };
 
             for (var zOffset = -1; zOffset <= 1; zOffset++)
             {
@@ -43,7 +43,7 @@ namespace Logic.Characters
         /**********
          * ACTIONS
          **********/
-        public void SetStartingTile(Tile t)
+        public void SetStartingTile(TileBase t)
         {
             if (Tile == null) Tile = t;
         }
@@ -52,7 +52,7 @@ namespace Logic.Characters
          * Character will try to move ONTO the tile at `destination`
          * The characters moves if it can and returns `true`, otherwise `false`.
          */
-        public bool MoveOnto(Tile destination)
+        public bool MoveOnto(TileBase destination)
         {
             if (!ValidMoveOntoDestinations().Contains(destination))
             {
@@ -78,7 +78,7 @@ namespace Logic.Characters
          * The `movableTile` is pushed when the push is valid and returns `true`, otherwise `false`.
          * THE CHARACTER DOES NOT MOVE !!!
          */
-        public bool PushOnto(Tile movableTile, Tile destination)
+        public bool PushOnto(TileBase movableTile, TileBase destination)
         {
             var destinationPosition = destination.Position + new Vector(0, 0, 1);
             var positionToDestinationDistance = Position.DistanceFrom(destinationPosition);
