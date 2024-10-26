@@ -46,7 +46,41 @@ namespace Logic.Characters
         public void SetStartingTile(TileBase t)
         {
             if (Tile == null) Tile = t;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
         }
+
+        // public bool TryMoveTo(Vector position){
+        //     var current = MapManager.Instance.GetTileAt(Position);
+        //     var target = MapManager.Instance.GetTileAt(position);
+        //     bool re = false;
+        //     if (Position.HorizontalDistance(position) > 1 || Position.VerticalDistance(position) > 2) return false;
+        //     //Staying
+        //     if (position == Position) re = true;
+        //     // Nothing there
+        //     else if (target == null) {
+        //         //Only move if solid ground beneath
+        //         var ground = MapManager.Instance.GetTileAt(position + new Vector(0,0,-1));
+        //         if (ground != null && ground.CanMoveOnFrom(position)) {
+        //             //Valid ground beneath
+        //             re = true;
+        //         }
+        //         //Non valid ground beneath
+        //     }
+        //     //Has something
+        //     else {
+        //         if (target.CanMoveInFrom(position)) {
+        //             //Entering enterable object
+        //             target.EnterFrom(position);
+        //             re = true;
+        //         }
+        //         //Non-enterable object
+        //     }
+        //     if (re) {
+        //         if (current != null) current.ExitTo(position);
+        //         transform.position = position.UnityVector;
+        //     }
+        //     return re;
+        // }
 
         /*
          * Character will try to move ONTO the tile at `destination`
@@ -61,6 +95,7 @@ namespace Logic.Characters
 
             var tileOnNextTile =
                 MapManager.Instance.GetTileAt(destination.Position + new Vector(0, 0, 1));
+            
             if (tileOnNextTile != null && !tileOnNextTile.AcceptCharacter(this))
             {
                 return false;
@@ -68,6 +103,7 @@ namespace Logic.Characters
 
             Tile = destination;
             transform.position = Position.UnityVector;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
             MapManager.Instance.PlayerMoved(Tile);
 
             return true;
@@ -102,7 +138,7 @@ namespace Logic.Characters
                 return false;
             }
 
-            var destination = Position + distance;
+            var destination = movableTile.Position + distance;
             return movableTile.MoveTo(destination);
         }
     }

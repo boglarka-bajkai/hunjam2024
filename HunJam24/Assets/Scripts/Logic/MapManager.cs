@@ -47,7 +47,7 @@ namespace Logic
         public TileBase GetTileAt(Vector position)
         {
             var t = Map.FirstOrDefault(x => x.Position.Equals(position));
-            Debug.Log($"found: {(t == null ? "none" : t.name)}");
+            //Debug.Log($"found: {(t == null ? "none" : t.name)}");
             return t;
         }
 
@@ -92,11 +92,9 @@ namespace Logic
 
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
-            Debug.Log($"Valid neighbors {selectedTiles.Count}");
             
             foreach (var t in selectedTiles)
             {
-                Debug.Log($"set {t.name}");
                 t.GetComponent<SpriteRenderer>().material = selectMaterial;
             }
         }

@@ -19,6 +19,9 @@ namespace Logic.Tiles
 
             Position = destinationPosition;
             transform.position = Position.UnityVector;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
+            
+            Debug.Log($"Moved tile to {destinationPosition}");
 
             return true;
         }
@@ -26,18 +29,18 @@ namespace Logic.Tiles
         public override void CommandPlayer(Player player)
         {
             var baseTile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, -1));
-            if (player.Push(this) == false)
+            if (!player.Push(this))
             {
                 Debug.Log($"failed to push {name}");
             }
 
-            if (player.MoveOnto(baseTile) == false)
+            if (!player.MoveOnto(baseTile))
             {
                 Debug.Log($"failed to move to {baseTile.name} after pushing {name}");
             }
 
             CloneManager.Instance.UpdateHistory(
-                clone => clone.Push(this) && player.MoveOnto(baseTile)
+                clone => clone.Push(this) && clone.MoveOnto(baseTile)
             );
         }
     }

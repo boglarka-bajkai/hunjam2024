@@ -26,7 +26,6 @@ namespace Controls
                 ray
                     .OrderByDescending(x => x.collider.GetComponent<SpriteRenderer>().sortingOrder)
                     .First();
-            Debug.Log($"{rayFirst.collider.gameObject.name} hit");
             
             var tile = rayFirst.collider.GetComponent<TileBase>();
             tile.CommandPlayer(MapManager.Instance.Player);

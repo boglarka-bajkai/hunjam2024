@@ -78,12 +78,12 @@ namespace Logic.Tiles
         /*
          * !!! Also accepts character that is already accepted
          */
-        public bool AcceptTile(TileBase tile)
+        public virtual bool AcceptTile(TileBase tile)
         {
-            return false;
+            return true;
         }
 
-        public bool AcceptCharacter(Character character)
+        public virtual bool AcceptCharacter(Character character)
         {
             return false;
         }
@@ -113,6 +113,12 @@ namespace Logic.Tiles
 
         public virtual void CommandPlayer(Player player)
         {
+            if (player.MoveOnto(this) == false)
+            {
+                Debug.Log($"failed to move to {name}");
+            }
+            
+            CloneManager.Instance.UpdateHistory(clone => clone.MoveOnto(this));
         }
     }
 }
