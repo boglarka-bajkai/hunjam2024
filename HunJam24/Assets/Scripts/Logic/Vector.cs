@@ -7,13 +7,13 @@ namespace Logic
 {
     public class Vector
     {
-        const float X_OFFSET = 0.642f;
-        const float Y_OFFSET = 0.37f;
-        public int X { get; private set; }
-        public int Y { get; private set; }
-        public int Z { get; private set; }
+        private const float XOffset = 0.642f;
+        private const float YOffset = 0.37f;
+        public int X { get; }
+        public int Y { get; }
+        public int Z { get; }
 
-        public Vector3 UnityVector => new Vector3((X + Y) * X_OFFSET, (X - Y) * Y_OFFSET + Z * 2 * Y_OFFSET, 0);
+        public Vector3 UnityVector => new((X + Y) * XOffset, (X - Y) * YOffset + Z * 2 * YOffset, 0);
         public int Order => 10 * (-X + Y + Z);
 
         public Vector(int x, int y, int z)
