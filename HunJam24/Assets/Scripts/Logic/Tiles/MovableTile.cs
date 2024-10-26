@@ -33,5 +33,20 @@ namespace Logic.Tiles
             var baseTile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, -1));
             return character.Push(this) && character.MoveOnto(baseTile);
         };
+
+        public override bool CanMoveOnFrom(Vector position)
+        {
+            return false;
+        }
+        public override bool CanMoveInFrom(Vector position)
+        {
+            Vector diff = position - Position;
+            Debug.Log($"diff: {diff.ToString()}");
+            Vector check = Position + !diff + new Vector(0,0,-1);
+            Debug.Log($"Checked tile: {check.ToString()}");
+            TileBase t = MapManager.Instance.GetTileAt(check);
+            if (t == null) Debug.Log("Ground NULL!");
+            return t != null && t.CanMoveOn(this);
+        }
     }
 }
