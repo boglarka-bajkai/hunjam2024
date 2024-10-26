@@ -93,5 +93,17 @@ namespace Logic.Characters
 
             return movableTile.MoveTo(destinationPosition);
         }
+        
+        public bool Push(TileBase movableTile)
+        {
+            var distance = Position.DistanceFrom(movableTile.Position);
+            if (distance.Length != 1)
+            {
+                return false;
+            }
+
+            var destination = Position + distance;
+            return movableTile.MoveTo(destination);
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace Logic.Tiles
 
         /*
          * Returns existing tiles that have a distance of 1 without counting the Z dimension
-         * The returned tiles' Z coordinate is the same as the `z` given here as parameter 
+         * The returned tiles' Z coordinate is the same as the `z` given here as parameter
          */
         public List<TileBase> GetNeighboursInLevel(int z)
         {
@@ -89,7 +89,7 @@ namespace Logic.Tiles
         }
 
         public virtual bool CanMoveOnFrom(Vector position) => true;
-        
+
         public virtual bool CanMoveInFrom(Vector position) => false;
 
         /*
@@ -101,10 +101,18 @@ namespace Logic.Tiles
             return false;
         }
 
-        
-        
-        public virtual void EnterFrom(Vector position) {}
 
-        public virtual void ExitTo(Vector position) {}
+        public virtual void EnterFrom(Vector position)
+        {
+        }
+
+        public virtual void ExitTo(Vector position)
+        {
+        }
+
+
+        public virtual void CommandPlayer(Player player)
+        {
+        }
     }
 }
