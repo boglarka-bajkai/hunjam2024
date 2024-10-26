@@ -1,4 +1,7 @@
-﻿namespace Logic
+﻿using JetBrains.Annotations;
+using Logic.Tiles;
+
+namespace Logic
 {
     public class Character
     {
@@ -13,8 +16,9 @@
             if (destination.IsOnNeighboringLevel(_tile) && destination.DistanceFrom(_tile) != 2)
                 return false;
 
-            // TODO: check for transparent tiles (door, pressure plate, ...)
-            if (_mapManager.Get(destination.Position + new Position(0, 0, 1)) != null)
+            var tileOnNextTile =
+                _mapManager.Get(destination.Position + new Position(0, 0, 1));
+            if (tileOnNextTile == null || !tileOnNextTile.AcceptsPlayerFrom(_tile))
             {
                 return false;
             }

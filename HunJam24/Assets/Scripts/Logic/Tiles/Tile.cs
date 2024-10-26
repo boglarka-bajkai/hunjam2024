@@ -1,10 +1,11 @@
 ﻿using System;
 
-namespace Logic
+namespace Logic.Tiles
 {
     public class Tile
     {
         public Position Position { get; }
+        
 
         public bool IsNextTo(Tile other)
         {
@@ -24,6 +25,11 @@ namespace Logic
         public int DistanceFrom(Tile other)
         {
             return Position.DistanceFrom(other.Position);
+        }
+
+        public bool AcceptsPlayerFrom(Tile other)
+        {
+            throw new NotImplementedException();
         }
     }
 }
