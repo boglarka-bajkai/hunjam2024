@@ -74,11 +74,17 @@ namespace Logic.Tiles
          * ACTIONS
          **********/
 
+        /*
+         * !!! Also accepts character that is already accepted
+         */
         public bool AcceptTile(Tile tile)
         {
             return false;
         }
 
+        /*
+         * !!! Also accepts character that is already accepted
+         */
         public bool AcceptCharacter(Character character)
         {
             return false;

@@ -19,7 +19,7 @@ namespace Logic
         /*
          * Returns all tiles that the character could successfully move ONTO
          */
-        public List<Tile> ValidMoveDestinations()
+        public List<Tile> ValidMoveOntoDestinations()
         {
             var result = new List<Tile> { Tile };
 
@@ -57,15 +57,14 @@ namespace Logic
          */
         public bool MoveOnto(Tile destination)
         {
-            if (destination.IsOnSameLevel(Tile) && !Tile.IsNextTo(destination))
+            if (!ValidMoveOntoDestinations().Contains(destination))
+            {
                 return false;
-
-            if (destination.IsOnNeighboringLevel(Tile) && destination.DistanceFrom(Tile).Length != 2)
-                return false;
+            }
 
             var tileOnNextTile =
                 MapManager.Instance.GetTileAt(destination.Position + new Vector(0, 0, 1));
-            if (tileOnNextTile == null || !tileOnNextTile.AcceptCharacter(this))
+            if (tileOnNextTile != null && !tileOnNextTile.AcceptCharacter(this))
             {
                 return false;
             }
