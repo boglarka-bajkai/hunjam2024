@@ -578,7 +578,7 @@ namespace Serializer {
     }
     [Serializable]
     public class TileDictionary : SerializableDictionary<string, GameObject> {}
-
+    [Serializable] public class TileMap : SerializableDictionary<Vector3Int, string> {}
 
 
 public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
@@ -767,5 +767,9 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
 
 [CustomPropertyDrawer(typeof(TileDictionary))]
 public class MyDictionaryDrawer1 : DictionaryDrawer<string, GameObject> { }
+
+[CustomPropertyDrawer(typeof(TileMap))]
+public class MyDictionaryDrawer2 : DictionaryDrawer<Vector3Int, string> { }
+
 
 }

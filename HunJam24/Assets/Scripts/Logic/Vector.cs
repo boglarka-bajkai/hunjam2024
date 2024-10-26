@@ -1,4 +1,5 @@
 ﻿using System;
+using Logic.Tiles;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -48,12 +49,21 @@ namespace Logic
 
         public override bool Equals(object obj)
         {
-            return X == X && Y == Y && Z == Z;
+            if (obj is Vector) {
+                Vector o = obj as Vector;
+                return X == o.X && Y == o.Y && Z == o.Z;
+            }
+            return false;
         }
 
         public override int GetHashCode()
         {
             return X * 1000000 + Y * 1000 + Z;
+        }
+
+        public override string ToString()
+        {
+            return $"{X} {Y} {Z}";
         }
     }
 }

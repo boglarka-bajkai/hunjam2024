@@ -13,14 +13,11 @@ public class TestMapbuilder : MonoBehaviour
         for (int x = 0; x < mapWidth; x++){
             for (int y = 0; y < mapHeight; y++){
                 for (int z = 0; z < 3; z++){
-                    // var pos = new Position(x,y,z);
-                    // var go = Instantiate(tile, pos.UnityVector, Quaternion.identity);
-                    // go.name = $"{x} - {y} - {z} Tile";
-                    // go.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
                     var pos = new Vector(x,y,z);
-                    //var tile = MapManager.Instance.getTileByName("Base");
-                    //var go = Instantiate(tile.gameObject, pos.UnityVector, Quaternion.identity);
-                    //tile.SetPosition(pos);
+                    if (pos.X == 0 && pos.Y == 0 && pos.Z == 2){
+                        map.Add(pos, "Start");
+                        continue;
+                    }
                     map.Add(pos, "Base");
                 }
             }

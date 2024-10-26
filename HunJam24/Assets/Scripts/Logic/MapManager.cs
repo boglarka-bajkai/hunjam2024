@@ -5,11 +5,13 @@ using JetBrains.Annotations;
 using UnityEngine;
 using Logic.Tiles;
 using Unity.Collections;
+using UnityEngine.UIElements;
 namespace Logic
 {
     
     public class MapManager : MonoBehaviour
     {
+        static Color selected = new Color(255, 224, 126);
         //Singleton Pattern
         static MapManager _instance;
         void Awake() {
@@ -33,35 +35,44 @@ namespace Logic
         StartTile startTile = null;
         public Tile GetTileAt(Vector position)
         {
-            return Map.First(x=> x.Position == position);
+            var t = Map.FirstOrDefault(x=> x.Position.Equals(position));
+            Debug.Log($"found: {(t == null ? "none" : t.name)}");
+            return t;
         }
-        // public void BuildMap() {
-        //     foreach(var tile in Map){
-        //         var go = Instantiate(tile, tile.Position.UnityVector, Quaternion.identity);
-        //         if (tile is StartTile) {
-        //             startTile = (StartTile)tile;
-        //         }
-        //         Debug.Log($"Spawned at {tile.Position.X} {tile.Position.Y} {tile.Position.Z}");
-        //     }
-        // }
 
         public void SetMap(Dictionary<Vector, string> map) {
             foreach (var item in Map){
                 Destroy(item.gameObject);
             }
-            var maxX = map.Keys.Max(x=>x.X);
-            var maxY = map.Keys.Max(x=>x.Y);
-            Vector offset = new Vector(-maxX/2, -maxY/2, 0);
+            var maxX = map.Keys.Max(x=>x.UnityVector.x);
+            var maxY = map.Keys.Max(x=>x.UnityVector.y);
+            Vector3 offset = new Vector3(-maxX/2, -maxY/2, 0);
             foreach(var (pos, tile) in map.Select(x=> (x.Key, x.Value))){
-                var go = Instantiate(getTileByName(tile), pos.UnityVector + offset.UnityVector, Quaternion.identity);
+                var go = Instantiate(getTileByName(tile), pos.UnityVector + offset, Quaternion.identity);
                 var t = go.GetComponent<Tile>();
+                t.Position = pos;
+                t.name = pos.ToString();
                 t.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
                 Map.Add(t);
+                if (t is StartTile) {
+                    startTile = (StartTile)t;
+                }
+            }
+            var playerPos = startTile.Position + new Vector(0,0,1);
+            var p = Instantiate(player, playerPos.UnityVector + offset, Quaternion.identity);
+            Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
+            p.GetComponent<Character>().setStartingTile(startTile);
+            PlayerMoved(startTile);
+        }
+
+        public void PlayerMoved(Tile newTile){
+            Debug.Log($"Valid neighbors {newTile.GetValidNeighbors().Count}");
+            foreach (var t in newTile.GetValidNeighbors()){
+                Debug.Log($"set {t.name}");
+                t.GetComponent<SpriteRenderer>().color = new Color(255, 224, 126);
             }
         }
 
-        public void Start(){
 
-        }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Logic.Tiles;
+using UnityEngine;
 
 namespace Logic
 {
-    public class Character
+    public class Character : MonoBehaviour
     {
         private MapManager _mapManager;
         private CloneManager _cloneManager;
-        private Tile _tile;
+        public Tile _tile { get; private set; }
 
         /***********
          * GETTERS
@@ -18,7 +19,9 @@ namespace Logic
         /**********
          * ACTIONS
          **********/
-
+        public void setStartingTile(Tile t) {
+            if (_tile == null) _tile = t;
+        }
         /*
          * Character will try to move ONTO the tile at `destination`
          * The characters moves if it can and returns `true`, otherwise `false`.
@@ -39,7 +42,7 @@ namespace Logic
             }
 
             _tile = destination;
-
+            MapManager.Instance.PlayerMoved(_tile);
             return true;
         }
 
