@@ -1,11 +1,22 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Logic
 {
-    public class Tile
+    [CreateAssetMenu(fileName = "Tile", menuName = "Tiles/BaseTile", order = 1)]
+    public class Tile : ScriptableObject
     {
-        public Position Position { get; }
+        [SerializeField] GameObject prefab;
+        GameObject spawnedObject;
+        public GameObject SpawnedObject => spawnedObject;
+        public GameObject Prefab => prefab;
+        public Position Position { get; private set; }
 
+        public void Spawn(GameObject go, Position pos) {
+            spawnedObject = go;
+            Position = pos;
+            go.GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
+        }
         public bool IsNextTo(Tile other)
         {
             return Position.DistanceFrom(other.Position) == 1;
