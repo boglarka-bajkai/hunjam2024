@@ -1,9 +1,14 @@
-using System;
+using Logic.Characters;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Logic.Tiles{
     public class StartTile : TileBase {
+        public override bool AcceptCharacter(Character character)
+        {
+            Debug.Log("Happy End!");
+            return true;
+        }
+        
         public override void EnterFrom(Vector pos)
         {
             //Win game
