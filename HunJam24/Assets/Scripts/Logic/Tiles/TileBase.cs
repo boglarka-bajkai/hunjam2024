@@ -63,6 +63,8 @@ namespace Logic.Tiles
             return result;
         }
 
+        public virtual Func<Character, bool> Command => character => character.MoveOnto(this);
+
         /**********
          * ACTIONS
          **********/
@@ -102,17 +104,6 @@ namespace Logic.Tiles
 
         public virtual void ExitTo(Vector position)
         {
-        }
-
-
-        public virtual void CommandPlayer(Player player)
-        {
-            if (player.MoveOnto(this) == false)
-            {
-                Debug.Log($"failed to move to {name}");
-            }
-            
-            CloneManager.Instance.UpdateHistory(clone => clone.MoveOnto(this));
         }
     }
 }

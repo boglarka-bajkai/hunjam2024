@@ -1,3 +1,4 @@
+using System;
 using Logic.Characters;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -23,42 +24,14 @@ namespace Logic.Tiles
             Position = destinationPosition;
             transform.position = Position.UnityVector;
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
-            
-            Debug.Log($"Moved tile to {destinationPosition}");
 
             return true;
         }
 
-        public override void CommandPlayer(Player player)
+        public override Func<Character, bool> Command => character =>
         {
             var baseTile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, -1));
-            if (!player.Push(this))
-            {
-                Debug.Log($"failed to push {name}");
-            }
-
-            if (!player.MoveOnto(baseTile))
-            {
-                Debug.Log($"failed to move to {baseTile.name} after pushing {name}");
-            }
-
-            CloneManager.Instance.UpdateHistory(
-                clone => clone.Push(this) && clone.MoveOnto(baseTile)
-            );
-        }
-        public override bool CanMoveOnFrom(Vector position)
-        {
-            return false;
-        }
-        public override bool CanMoveInFrom(Vector position)
-        {
-            Vector diff = position - Position;
-            Debug.Log($"diff: {diff.ToString()}");
-            Vector check = Position + !diff + new Vector(0,0,-1);
-            Debug.Log($"Checked tile: {check.ToString()}");
-            TileBase t = MapManager.Instance.GetTileAt(check);
-            if (t == null) Debug.Log("Ground NULL!");
-            return t != null && t.CanMoveOn(this);
-        }
+            return character.Push(this) && character.MoveOnto(baseTile);
+        };
     }
 }

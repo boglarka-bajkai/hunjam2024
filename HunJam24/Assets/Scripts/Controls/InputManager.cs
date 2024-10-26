@@ -26,9 +26,12 @@ namespace Controls
                 ray
                     .OrderByDescending(x => x.collider.GetComponent<SpriteRenderer>().sortingOrder)
                     .First();
-            
+
             var tile = rayFirst.collider.GetComponent<TileBase>();
-            tile.CommandPlayer(MapManager.Instance.Player);
+            if (!CommandExecutor.Execute(tile.Command))
+            {
+                Debug.Log($"$Player could not execute command with tile {tile.name}");
+            }
         }
     }
 }

@@ -441,7 +441,7 @@ MonoBehaviour:
   selectMaterial: {fileID: 2100000, guid: 22da0f19207374e47a25cd1355ca4cc0, type: 2}
   baseMaterial: {fileID: 2100000, guid: 4e421a8a69a94cd4cb026371e138ba1c, type: 2}
   playerPrefab: {fileID: 8494429758245100336, guid: 8bd130173ad818c42bcdd9bae0e0110c, type: 3}
-  clone: {fileID: 8494429758245100336, guid: aedf3f623b1370c4893cab20499ebd50, type: 3}
+  clone: {fileID: 8494429758245100336, guid: 3cf96736f1e662649b721fad272f8e01, type: 3}
   tileDictionary:
     _Buckets: 0000000002000000ffffffff
     _HashCodes: b9d0c50a722f652a71d98f59
@@ -470,7 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762156b8d8a24b828deb7723870b1b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clonePrefab: {fileID: 8494429758245100336, guid: aedf3f623b1370c4893cab20499ebd50, type: 3}
+  clonePrefab: {fileID: 8494429758245100336, guid: 3cf96736f1e662649b721fad272f8e01, type: 3}
 --- !u!1001 &1588467499
 PrefabInstance:
   m_ObjectHideFlags: 0
