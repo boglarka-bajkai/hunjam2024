@@ -8,7 +8,7 @@ namespace Logic
         private CloneManager _cloneManager;
         private Tile _tile;
 
-        public bool StepTo(Tile destination)
+        public bool StepOnto(Tile destination)
         {
             if (destination.IsOnSameLevel(_tile) && !_tile.IsNextTo(destination))
                 return false;
