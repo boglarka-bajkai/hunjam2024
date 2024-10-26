@@ -72,6 +72,7 @@ namespace Logic
             Tile = destination;
             transform.position = Position.UnityVector;
             MapManager.Instance.PlayerMoved(Tile);
+            
             return true;
         }
 

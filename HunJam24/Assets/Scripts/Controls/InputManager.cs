@@ -23,5 +23,6 @@ public class InputManager : MonoBehaviour
         if (!MapManager.Instance.Player.MoveOnto(tile)) {
             Debug.Log($"failed to move to {tile.name}");   
         }
+        CloneManager.Instance.UpdateHistory((x) => MapManager.Instance.Player.MoveOnto(tile));
     }
 }

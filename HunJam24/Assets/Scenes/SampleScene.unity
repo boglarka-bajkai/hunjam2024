@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
   - component: {fileID: 519420033}
-  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -228,38 +227,6 @@ MonoBehaviour:
   mapWidth: 10
   mapHeight: 10
   tile: {fileID: 0}
---- !u!114 &519420034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ed2a012b48143eab088fa613247cec3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectMaterial: {fileID: 2100000, guid: 22da0f19207374e47a25cd1355ca4cc0, type: 2}
-  baseMaterial: {fileID: 2100000, guid: 4e421a8a69a94cd4cb026371e138ba1c, type: 2}
-  playerPrefab: {fileID: 8494429758245100336, guid: b7a8b332d8e0cd44a9933d7d3ce27332, type: 3}
-  clone: {fileID: 0}
-  tileDictionary:
-    _Buckets: 0000000001000000ffffffff
-    _HashCodes: b9d0c50a722f652a00000000
-    _Next: ffffffffffffffff00000000
-    _Count: 2
-    _Version: 24
-    _FreeList: -1
-    _FreeCount: 0
-    _Keys:
-    - Base
-    - Start
-    - 
-    _Values:
-    - {fileID: 4137797853078752787, guid: 752296bdc22d434438e97fd48c50a81e, type: 3}
-    - {fileID: 7762378083673892038, guid: f81f05190ec2a0c48a83abeb61990d84, type: 3}
-    - {fileID: 0}
 --- !u!1001 &816284627
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -337,8 +304,10 @@ GameObject:
   - component: {fileID: 1496808412}
   - component: {fileID: 1496808411}
   - component: {fileID: 1496808410}
+  - component: {fileID: 1496808413}
+  - component: {fileID: 1496808414}
   m_Layer: 0
-  m_Name: InputManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -457,6 +426,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1496808413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496808409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ed2a012b48143eab088fa613247cec3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectMaterial: {fileID: 2100000, guid: 22da0f19207374e47a25cd1355ca4cc0, type: 2}
+  baseMaterial: {fileID: 2100000, guid: 4e421a8a69a94cd4cb026371e138ba1c, type: 2}
+  playerPrefab: {fileID: 8494429758245100336, guid: b7a8b332d8e0cd44a9933d7d3ce27332, type: 3}
+  clone: {fileID: 8494429758245100336, guid: aedf3f623b1370c4893cab20499ebd50, type: 3}
+  tileDictionary:
+    _Buckets: 0000000001000000ffffffff
+    _HashCodes: b9d0c50a722f652a00000000
+    _Next: ffffffffffffffff00000000
+    _Count: 2
+    _Version: 24
+    _FreeList: -1
+    _FreeCount: 0
+    _Keys:
+    - Base
+    - Start
+    - 
+    _Values:
+    - {fileID: 4137797853078752787, guid: 752296bdc22d434438e97fd48c50a81e, type: 3}
+    - {fileID: 7762378083673892038, guid: f81f05190ec2a0c48a83abeb61990d84, type: 3}
+    - {fileID: 0}
+--- !u!114 &1496808414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496808409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 762156b8d8a24b828deb7723870b1b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clonePrefab: {fileID: 8494429758245100336, guid: aedf3f623b1370c4893cab20499ebd50, type: 3}
 --- !u!1001 &1588467499
 PrefabInstance:
   m_ObjectHideFlags: 0

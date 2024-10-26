@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Logic
 {
-    public class Clone
+    public class Clone : MonoBehaviour
     {
         private readonly Queue<Func<Player, bool>> _history;
 
         public Player Character { get; }
-
+        int step = 0;
 
         /*
          * Constructor ?
@@ -33,12 +34,12 @@ namespace Logic
          */
         public bool Step()
         {
-            if (_history.Count == 0)
-            {
-                return true;
-            }
+            // if (_history.Count == 0)
+            // {
+            //     return true;
+            // }
 
-            var command = _history.Dequeue();
+            var command = CloneManager.Instance._fullHistory[step++];
             return command.Invoke(Character);
         }
     }

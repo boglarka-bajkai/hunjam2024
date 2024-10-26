@@ -7,9 +7,17 @@ namespace Logic
 {
     public class CloneManager : MonoBehaviour
     {
+        static CloneManager _instance;
+        void Awake() {
+            if (_instance != null) Destroy(this);
+            _instance = this;
+        }
+        public static CloneManager Instance {get;}
+
+
         [SerializeField] GameObject clonePrefab;
         private readonly List<Clone> _clones = new();
-        private readonly List<Func<Player, bool>> _fullHistory = new();
+        public readonly List<Func<Player, bool>> _fullHistory = new();
 
         public List<Clone> GetClonesAt(Vector position)
         {
@@ -23,12 +31,15 @@ namespace Logic
         {
             _fullHistory.Add(action);
 
-            _clones.ForEach(clone => { clone.UpdateHistory(action); });
+            //_clones.ForEach(clone => { clone.UpdateHistory(action); });
         }
 
         void Update() {
             if (Input.GetKeyUp(KeyCode.Space)){
                 Spawn();
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift)){
+                _clones.ForEach(x=> x.Step());
             }
         }
         public void Spawn()
@@ -40,7 +51,8 @@ namespace Logic
             // TODO: Pls fix Character instantiation
             var pos = MapManager.Instance.StartTile.Position + new Vector(0,0,1);
             var c = Instantiate(clonePrefab, pos.UnityVector, Quaternion.identity);
-            _clones.Add(new Clone(clonedHistory, new Player()));
+            //_clones.Add(new Clone(clonedHistory, new Player()));
+            _clones.Add(c.GetComponent<Clone>());
         }
     }
 }
