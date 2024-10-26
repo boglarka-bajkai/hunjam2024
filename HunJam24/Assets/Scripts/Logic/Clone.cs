@@ -5,14 +5,31 @@ namespace Logic
 {
     public class Clone
     {
-        private Stack<Func<Character, bool>> _fullHistory;
-        private Stack<Func<Character, bool>> _history;
+        private readonly Queue<Func<Character, bool>> _history;
 
         public Character Character { get; }
 
+
+        /*
+         * Constructor ?
+         */
+        public Clone(Queue<Func<Character, bool>> history, Character clonedCharacter)
+        {
+            _history = history;
+            Character = clonedCharacter;
+        }
+
+        /*
+         * Adds fresh action to local history of the clone
+         */
+        public void UpdateHistory(Func<Character, bool> action)
+        {
+            _history.Enqueue(action);
+        }
+
         /*
          * Replays one action of the clone
-         * Returns false if the action cannot be fulfilled 
+         * Returns false if the action cannot be fulfilled
          */
         public bool Step()
         {
@@ -21,7 +38,7 @@ namespace Logic
                 return true;
             }
 
-            var command = _history.Pop();
+            var command = _history.Dequeue();
             return command.Invoke(Character);
         }
     }

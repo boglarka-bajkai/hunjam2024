@@ -13,9 +13,9 @@ namespace Logic
         /***********
          * GETTERS
          ***********/
-        private Vector Position => Tile.Position + new Vector(0, 0, 1);
+        public Vector Position => Tile.Position + new Vector(0, 0, 1);
 
-        public bool ShouldBeDead => _cloneManager.Get(Position) != null;
+        public bool ShouldBeDead => _cloneManager.GetClonesAt(Position).Count != 0;
 
         /*
          * Returns all tiles that the character could successfully move ONTO
