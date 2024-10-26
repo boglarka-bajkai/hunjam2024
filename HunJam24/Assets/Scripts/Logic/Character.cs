@@ -1,4 +1,6 @@
-﻿using Logic.Tiles;
+﻿using System;
+using System.Collections.Generic;
+using Logic.Tiles;
 
 namespace Logic
 {
@@ -14,6 +16,18 @@ namespace Logic
         private Vector Position => _tile.Position + new Vector(0, 0, 1);
 
         public bool ShouldBeDead => _cloneManager.Get(Position) != null;
+
+        /*
+         * Returns all tiles that the character could successfully move onto
+         */
+        public List<Tile> ValidMoveDestinations()
+        {
+            throw new NotImplementedException();
+
+            var result = new List<Tile>();
+            
+            return result;
+        }
 
         /**********
          * ACTIONS
@@ -48,7 +62,7 @@ namespace Logic
          * The `movableTile` is pushed when the push is valid and returns `true`, otherwise `false`.
          * THE CHARACTER DOES NOT MOVE !!!
          */
-        public bool PushOnto(MovableTile movableTile, Tile destination)
+        public bool PushOnto(Tile movableTile, Tile destination)
         {
             var destinationPosition = destination.Position + new Vector(0, 0, 1);
             var positionToDestinationDistance = Position.DistanceFrom(destinationPosition);

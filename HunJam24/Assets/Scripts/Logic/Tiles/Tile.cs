@@ -6,8 +6,11 @@ namespace Logic.Tiles
 {
     public class Tile : MonoBehaviour
     {
-        public Vector Position { get; private set; }
+        public Vector Position { get; protected set; }
 
+        /**********
+         * GETTERS
+         **********/
 
         /*
          * Check whether this tile touches with the other tile
@@ -76,6 +79,26 @@ namespace Logic.Tiles
             return tiles;
         }
 
+        /**********
+         * ACTIONS
+         **********/
+
+        public bool Accept(Tile tile)
+        {
+            return false;
+        }
+
+        /*
+         * Tries to change the position of the tile to `destination`
+         * Returns true on success
+         */
+        public virtual bool MoveTo(Vector destinationPosition)
+        {
+            return false;
+        }
+
+
+        // Unity STUFF
         public virtual void Enter()
         {
         }
