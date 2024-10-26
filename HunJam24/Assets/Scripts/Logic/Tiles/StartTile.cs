@@ -2,7 +2,7 @@ using Logic.Characters;
 using UnityEngine;
 
 namespace Logic.Tiles{
-    public class StartTile : SimpleTile {
+    public class StartTile : TileBase {
         public override bool AcceptCharacter(Character character)
         {
             Debug.Log("Happy End!");
