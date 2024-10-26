@@ -6,7 +6,7 @@ namespace Logic.Tiles
 {
     public class Tile : MonoBehaviour
     {
-        public Vector Position { get; protected set; }
+        public Vector Position { get; set; }
 
         /**********
          * GETTERS
