@@ -22,6 +22,7 @@ public class TestMapbuilder : MonoBehaviour
                 }
             }
         }
+        map.Add(new Vector(8, 1, 3), "Box");
         MapManager.Instance.SetMap(map);
     }
 }

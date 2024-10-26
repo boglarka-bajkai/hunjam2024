@@ -80,7 +80,7 @@ namespace Logic.Tiles
          */
         public bool AcceptTile(TileBase tile)
         {
-            return false;
+            return true;
         }
 
         public bool AcceptCharacter(Character character)

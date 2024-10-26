@@ -46,6 +46,7 @@ namespace Logic.Characters
         public void SetStartingTile(TileBase t)
         {
             if (Tile == null) Tile = t;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
         }
 
         // public bool TryMoveTo(Vector position){
@@ -102,6 +103,7 @@ namespace Logic.Characters
 
             Tile = destination;
             transform.position = Position.UnityVector;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
             MapManager.Instance.PlayerMoved(Tile);
 
             return true;

@@ -14,6 +14,7 @@ namespace Logic.Tiles
             var destination = MapManager.Instance.GetTileAt(destinationPosition);
             if (destination != null && !destination.AcceptTile(this))
             {
+                Debug.Log("failed to accept tile");
                 return false;
             }
 
