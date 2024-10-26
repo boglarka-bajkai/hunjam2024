@@ -6,7 +6,6 @@ namespace Logic
 {
     public class Character : MonoBehaviour
     {
-        private MapManager _mapManager;
         private CloneManager _cloneManager;
         public Tile Tile { get; private set; }
 
@@ -65,13 +64,14 @@ namespace Logic
                 return false;
 
             var tileOnNextTile =
-                _mapManager.GetTileAt(destination.Position + new Vector(0, 0, 1));
+                MapManager.Instance.GetTileAt(destination.Position + new Vector(0, 0, 1));
             if (tileOnNextTile == null || !tileOnNextTile.AcceptCharacter(this))
             {
                 return false;
             }
 
             Tile = destination;
+            transform.position = Position.UnityVector;
             MapManager.Instance.PlayerMoved(Tile);
             return true;
         }

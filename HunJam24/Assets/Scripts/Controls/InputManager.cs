@@ -1,4 +1,7 @@
 using System.Linq;
+using Logic;
+using Logic.Tiles;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -16,5 +19,9 @@ public class InputManager : MonoBehaviour
         if (ray.Length <= 0) return;
         var rayFirst = ray.OrderByDescending(x=> x.collider.GetComponent<SpriteRenderer>().sortingOrder).First();
         Debug.Log($"{rayFirst.collider.gameObject.name} hit");
+        var tile = rayFirst.collider.GetComponent<Tile>();
+        if (!MapManager.Instance.Player.MoveOnto(tile)) {
+            Debug.Log($"failed to move to {tile.name}");   
+        }
     }
 }

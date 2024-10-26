@@ -23,7 +23,8 @@ namespace Logic
         public static MapManager Instance => _instance;
 
         // TileSet
-        [SerializeField] GameObject player;
+        [SerializeField] GameObject playerPrefab;
+        public Character Player {get; private set;}
         [SerializeField] GameObject clone;
         [SerializeField] TileDictionary tileDictionary;
         public GameObject getTileByName(string name) {
@@ -46,9 +47,9 @@ namespace Logic
             }
             var maxX = map.Keys.Max(x=>x.UnityVector.x);
             var maxY = map.Keys.Max(x=>x.UnityVector.y);
-            Vector3 offset = new Vector3(-maxX/2, -maxY/2, 0);
+            Vector.globalOffset = new Vector3(-maxX/2, -maxY/2, 0);
             foreach(var (pos, tile) in map.Select(x=> (x.Key, x.Value))){
-                var go = Instantiate(getTileByName(tile), pos.UnityVector + offset, Quaternion.identity);
+                var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity);
                 var t = go.GetComponent<Tile>();
                 t.Position = pos;
                 t.name = pos.ToString();
@@ -59,16 +60,20 @@ namespace Logic
                 }
             }
             var playerPos = startTile.Position + new Vector(0,0,1);
-            player = Instantiate(player, playerPos.UnityVector + offset, Quaternion.identity);
+            Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Character>();
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
-            player.GetComponent<Character>().SetStartingTile(startTile);
+            Player.SetStartingTile(startTile);
             PlayerMoved(startTile);
         }
 
+        List<Tile> selectedTiles = new();
         public void PlayerMoved(Tile newTile){
+            foreach (var tile in selectedTiles){
+                tile.GetComponent<SpriteRenderer>().material = baseMaterial;
+            }
             //player.GetComponent<Character>().ValidMoveDestinations()
-            Debug.Log($"Valid neighbors {player.GetComponent<Character>().ValidMoveDestinations().Count}");
-            foreach (var t in player.GetComponent<Character>().ValidMoveDestinations()){
+            Debug.Log($"Valid neighbors {Player.ValidMoveDestinations().Count}");
+            foreach (var t in Player.ValidMoveDestinations()){
                 Debug.Log($"set {t.name}");
                 t.GetComponent<SpriteRenderer>().material = selectMaterial;
             }
