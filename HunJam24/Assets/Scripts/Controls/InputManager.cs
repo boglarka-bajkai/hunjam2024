@@ -24,5 +24,6 @@ public class InputManager : MonoBehaviour
             Debug.Log($"failed to move to {tile.name}");   
         }
         CloneManager.Instance.UpdateHistory(clone => clone.MoveOnto(tile));
+
     }
 }

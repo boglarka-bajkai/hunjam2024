@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Logic.Characters;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Logic.Tiles
 {
@@ -88,6 +89,10 @@ namespace Logic.Tiles
             return false;
         }
 
+        public virtual bool CanMoveOnFrom(Vector position) => true;
+        
+        public virtual bool CanMoveInFrom(Vector position) => false;
+
         /*
          * Tries to change the position of the tile to `destination`
          * Returns true on success
@@ -97,14 +102,12 @@ namespace Logic.Tiles
             return false;
         }
 
+        
+
 
         // Unity STUFF
-        public virtual void Enter()
-        {
-        }
+        public virtual void EnterFrom(Vector position) {}
 
-        public virtual void Exit()
-        {
-        }
+        public virtual void ExitTo(Vector position) {}
     }
 }

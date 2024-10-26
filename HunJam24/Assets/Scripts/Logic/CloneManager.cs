@@ -15,7 +15,6 @@ namespace Logic
             if (_instance != null) Destroy(this);
             _instance = this;
         }
-
         public static CloneManager Instance => _instance;
 
 
@@ -33,7 +32,7 @@ namespace Logic
          */
         public void UpdateHistory(Func<CloneCharacter, bool> action)
         {
-            _fullHistory.Add(action);
+            //TileHistory.Add(tile);
 
             _clones.ForEach(clone => { clone.UpdateHistory(action); });
         }
