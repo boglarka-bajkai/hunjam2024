@@ -8,19 +8,17 @@ namespace Logic
 {
     public class CloneManager : MonoBehaviour
     {
-        static CloneManager _instance;
-
         void Awake()
         {
-            if (_instance != null) Destroy(this);
-            _instance = this;
+            if (Instance != null) Destroy(this);
+            Instance = this;
         }
-        public static CloneManager Instance => _instance;
+        public static CloneManager Instance { get; private set; }
 
 
-        [SerializeField] GameObject clonePrefab;
+        [SerializeField] private GameObject clonePrefab;
         private readonly List<Clone> _clones = new();
-        public readonly List<Func<CloneCharacter, bool>> _fullHistory = new();
+        private readonly List<Func<CloneCharacter, bool>> _fullHistory = new();
 
         public List<Clone> GetClonesAt(Vector position)
         {
@@ -32,7 +30,7 @@ namespace Logic
          */
         public void UpdateHistory(Func<CloneCharacter, bool> action)
         {
-            //TileHistory.Add(tile);
+            _fullHistory.Add(action);
 
             _clones.ForEach(clone => { clone.UpdateHistory(action); });
         }
