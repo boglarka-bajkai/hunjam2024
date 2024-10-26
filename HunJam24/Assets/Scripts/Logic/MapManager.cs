@@ -31,7 +31,7 @@ namespace Logic
         // Map
         List<Tile> Map = new();
         StartTile startTile = null;
-        public Tile GetTileAt(Position position)
+        public Tile GetTileAt(Vector position)
         {
             return Map.First(x=> x.Position == position);
         }
@@ -45,13 +45,13 @@ namespace Logic
         //     }
         // }
 
-        public void SetMap(Dictionary<Position, string> map) {
+        public void SetMap(Dictionary<Vector, string> map) {
             foreach (var item in Map){
                 Destroy(item.gameObject);
             }
             var maxX = map.Keys.Max(x=>x.X);
             var maxY = map.Keys.Max(x=>x.Y);
-            Position offset = new Position(-maxX/2, -maxY/2, 0);
+            Vector offset = new Vector(-maxX/2, -maxY/2, 0);
             foreach(var (pos, tile) in map.Select(x=> (x.Key, x.Value))){
                 var go = Instantiate(getTileByName(tile), pos.UnityVector + offset.UnityVector, Quaternion.identity);
                 var t = go.GetComponent<Tile>();

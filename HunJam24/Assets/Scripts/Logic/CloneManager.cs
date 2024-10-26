@@ -5,7 +5,7 @@ namespace Logic
     public class CloneManager
     {
         [CanBeNull]
-        public Clone Get(Position position)
+        public Clone Get(Vector position)
         {
             throw new System.NotImplementedException();
         }
