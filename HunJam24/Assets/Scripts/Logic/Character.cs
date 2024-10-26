@@ -1,6 +1,5 @@
 ﻿using Logic.Tiles;
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 
 namespace Logic
@@ -9,12 +8,12 @@ namespace Logic
     {
         private MapManager _mapManager;
         private CloneManager _cloneManager;
-        public Tile _tile { get; private set; }
+        public Tile Tile { get; private set; }
 
         /***********
          * GETTERS
          ***********/
-        private Vector Position => _tile.Position + new Vector(0, 0, 1);
+        private Vector Position => Tile.Position + new Vector(0, 0, 1);
 
         public bool ShouldBeDead => _cloneManager.Get(Position) != null;
 
@@ -25,9 +24,9 @@ namespace Logic
         {
             var result = new List<Tile>();
 
-            for (var z = -1; z <= 1; z++)
+            for (var zOffset = -1; zOffset <= 1; zOffset++)
             {
-                foreach (var neighbour in _tile.GetNeighboursInLevel(z))
+                foreach (var neighbour in Tile.GetNeighboursInLevel(Tile.Position.Z + zOffset))
                 {
                     var targetTile = MapManager.Instance.GetTileAt(neighbour.Position + new Vector(0, 0, 1));
 
@@ -50,7 +49,7 @@ namespace Logic
          **********/
         public void SetStartingTile(Tile t)
         {
-            if (_tile == null) _tile = t;
+            if (Tile == null) Tile = t;
         }
 
         /*
@@ -59,10 +58,10 @@ namespace Logic
          */
         public bool MoveOnto(Tile destination)
         {
-            if (destination.IsOnSameLevel(_tile) && !_tile.IsNextTo(destination))
+            if (destination.IsOnSameLevel(Tile) && !Tile.IsNextTo(destination))
                 return false;
 
-            if (destination.IsOnNeighboringLevel(_tile) && destination.DistanceFrom(_tile).Length != 2)
+            if (destination.IsOnNeighboringLevel(Tile) && destination.DistanceFrom(Tile).Length != 2)
                 return false;
 
             var tileOnNextTile =
@@ -72,8 +71,8 @@ namespace Logic
                 return false;
             }
 
-            _tile = destination;
-            MapManager.Instance.PlayerMoved(_tile);
+            Tile = destination;
+            MapManager.Instance.PlayerMoved(Tile);
             return true;
         }
 

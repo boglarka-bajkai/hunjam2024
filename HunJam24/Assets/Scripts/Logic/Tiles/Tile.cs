@@ -49,6 +49,11 @@ namespace Logic.Tiles
             return false;
         }
 
+        /*
+         * Checks whether the tile is able to accept a character.
+         * Acceptance means the character could be moved INTO this tile.
+         * (Useful for doors, pressure plates, and other transparent objects...)
+         */
         public virtual bool AcceptsCharacter(Character character)
         {
             return false;
@@ -60,6 +65,10 @@ namespace Logic.Tiles
             return tile == null || tile.AcceptsCharacterFrom(this);
         }
 
+        /*
+         * Returns existing tiles that have a distance of 1 without counting the Z dimension
+         * The returned tiles' Z coordinate is the same as the `z` given here as parameter 
+         */
         public List<Tile> GetNeighboursInLevel(int z)
         {
             List<Tile> result = new();

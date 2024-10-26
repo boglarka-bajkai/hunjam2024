@@ -11,7 +11,8 @@ namespace Logic
         public Character Character { get; }
 
         /*
-         * 
+         * Replays one action of the clone
+         * Returns false if the action cannot be fulfilled 
          */
         public bool Step()
         {
