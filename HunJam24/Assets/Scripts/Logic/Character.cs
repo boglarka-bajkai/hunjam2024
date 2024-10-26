@@ -22,7 +22,7 @@ namespace Logic
          */
         public List<Tile> ValidMoveDestinations()
         {
-            var result = new List<Tile>();
+            var result = new List<Tile> { Tile };
 
             for (var zOffset = -1; zOffset <= 1; zOffset++)
             {
