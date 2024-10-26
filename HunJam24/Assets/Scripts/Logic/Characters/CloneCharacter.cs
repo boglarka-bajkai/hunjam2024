@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using Logic.Tiles;
-using UnityEngine;
 
 namespace Logic.Characters
 {
-    public class Player : Character
+    public class CloneCharacter : Character
     {
         private CloneManager _cloneManager;
         public Tile Tile { get; private set; }

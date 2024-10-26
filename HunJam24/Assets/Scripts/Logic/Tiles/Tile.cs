@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logic.Characters;
 using UnityEngine;
 
 namespace Logic.Tiles
@@ -43,7 +44,7 @@ namespace Logic.Tiles
          * Acceptance means the character could be moved INTO this tile.
          * (Useful for doors, pressure plates, and other transparent objects...)
          */
-        public virtual bool AcceptsCharacter(Player character)
+        public virtual bool AcceptsCharacter(Character character)
         {
             return false;
         }
@@ -82,7 +83,7 @@ namespace Logic.Tiles
             return false;
         }
 
-        public bool AcceptCharacter(Player character)
+        public bool AcceptCharacter(Character character)
         {
             return false;
         }

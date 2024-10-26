@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Serializer;
 using JetBrains.Annotations;
+using Logic.Characters;
 using UnityEngine;
 using Logic.Tiles;
 using Unity.Collections;
