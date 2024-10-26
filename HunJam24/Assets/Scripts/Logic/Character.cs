@@ -10,20 +10,20 @@ namespace Logic
 
         /***********
          * GETTERS
-         */
-        public bool ShouldBeDead
-        {
-            get
-            {
-                var position = _tile.Position + new Vector(0, 0, 1);
-                return _cloneManager.Get(position) != null;
-            }
-        }
+         ***********/
+        private Vector Position => _tile.Position + new Vector(0, 0, 1);
+
+        public bool ShouldBeDead => _cloneManager.Get(Position) != null;
+
+        /**********
+         * ACTIONS
+         **********/
 
         /*
-         * ACTIONS
+         * Character will try to move ONTO the tile at `destination`
+         * The characters moves if it can and returns `true`, otherwise `false`.
          */
-        public bool StepOnto(Tile destination)
+        public bool MoveOnto(Tile destination)
         {
             if (destination.IsOnSameLevel(_tile) && !_tile.IsNextTo(destination))
                 return false;
@@ -43,11 +43,25 @@ namespace Logic
             return true;
         }
 
-        // public bool Push(Tile box, Tile destination)
-        // {
-        //     if (_tile.IsNextTo(box) && box.IsNextTo(destination))
-        //
-        //         return box.Move(destination);
-        // }
+        /*
+         * Character will try to push the given `movableTile` ONTO the tile at `destination`
+         * The `movableTile` is pushed when the push is valid and returns `true`, otherwise `false`.
+         * THE CHARACTER DOES NOT MOVE !!!
+         */
+        public bool PushOnto(MovableTile movableTile, Tile destination)
+        {
+            var destinationPosition = destination.Position + new Vector(0, 0, 1);
+            var positionToDestinationDistance = Position.DistanceFrom(destinationPosition);
+            if (!(
+                    Position.DistanceFrom(movableTile.Position).Length == 1 &&
+                    positionToDestinationDistance.Length == 2 &&
+                    positionToDestinationDistance.IsPureDirectional()
+                ))
+            {
+                return false;
+            }
+
+            return movableTile.MoveTo(destinationPosition);
+        }
     }
 }
