@@ -8,7 +8,8 @@ using Logic;
 using UnityEditor;
 using UnityObject = UnityEngine.Object;
 using Debug = UnityEngine.Debug;
-namespace helper {
+using Logic.Tiles;
+namespace Serializer {
     [Serializable, DebuggerDisplay("Count = {Count}")]
     public class SerializableDictionary<TKey, TValue> : IDictionary<TKey, TValue>
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Logic;
 using UnityEngine;
-
+using Logic.Tiles;
 public class TestMapbuilder : MonoBehaviour
 {
     [SerializeField] int mapWidth = 5;
