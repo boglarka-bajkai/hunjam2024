@@ -39,17 +39,6 @@ namespace Logic.Tiles
         }
 
         /*
-         * Checks whether the tile is able to accept a player from another tile.
-         * Acceptance means the player could be moved INTO this tile.
-         * (Useful for doors, pressure plates, and other transparent objects...)
-         */
-        public virtual bool AcceptsCharacterFrom(Tile other)
-        {
-            // TODO: remove
-            return false;
-        }
-
-        /*
          * Checks whether the tile is able to accept a character.
          * Acceptance means the character could be moved INTO this tile.
          * (Useful for doors, pressure plates, and other transparent objects...)
@@ -57,12 +46,6 @@ namespace Logic.Tiles
         public virtual bool AcceptsCharacter(Character character)
         {
             return false;
-        }
-
-        public virtual bool CanBeMovedOn()
-        {
-            var tile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, 1));
-            return tile == null || tile.AcceptsCharacterFrom(this);
         }
 
         /*
@@ -85,38 +68,6 @@ namespace Logic.Tiles
             if (neighbour != null) result.Add(neighbour);
 
             return result;
-        }
-
-        /// <summary>
-        /// Returns the list of valid neighbor tiles that can be stepped upon
-        /// </summary>
-        /// <returns>
-        ///     List of valid tiles
-        /// </returns>
-        public List<Tile> GetValidNeighbors()
-        {
-            List<Tile> tiles = new();
-            // Same Level
-            var tile = MapManager.Instance.GetTileAt(Position + new Vector(1, 0, 0));
-            if (tile != null && tile.CanBeMovedOn()) tiles.Add(tile);
-            Debug.Log("tile added? " + tiles.Count);
-            tile = MapManager.Instance.GetTileAt(Position + new Vector(-1, 0, 0));
-            if (tile != null && tile.CanBeMovedOn()) tiles.Add(tile);
-            tile = MapManager.Instance.GetTileAt(Position + new Vector(0, 1, 0));
-            if (tile != null && tile.CanBeMovedOn()) tiles.Add(tile);
-            tile = MapManager.Instance.GetTileAt(Position + new Vector(0, -1, 0));
-            if (tile != null && tile.CanBeMovedOn()) tiles.Add(tile);
-            // One Above
-            tile = MapManager.Instance.GetTileAt(Position + new Vector(1, 0, 1));
-            if (tile != null && tile.CanBeMovedOn()) tiles.Add(tile);
-            tile = MapManager.Instance.GetTileAt(Position + new Vector(-1, 0, 1));
-            if (tile != null && tile.CanBeMovedOn()) tiles.Add(tile);
-            tile = MapManager.Instance.GetTileAt(Position + new Vector(0, 1, 1));
-            if (tile != null && tile.CanBeMovedOn()) tiles.Add(tile);
-            tile = MapManager.Instance.GetTileAt(Position + new Vector(0, -1, 1));
-            if (tile != null && tile.CanBeMovedOn()) tiles.Add(tile);
-            tiles.Add(this);
-            return tiles;
         }
 
         /**********
