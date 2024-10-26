@@ -113,6 +113,12 @@ namespace Logic.Tiles
 
         public virtual void CommandPlayer(Player player)
         {
+            if (player.MoveOnto(this) == false)
+            {
+                Debug.Log($"failed to move to {name}");
+            }
+            
+            CloneManager.Instance.UpdateHistory(clone => clone.MoveOnto(this));
         }
     }
 }

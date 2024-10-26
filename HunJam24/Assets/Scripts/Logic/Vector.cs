@@ -1,5 +1,6 @@
 ﻿using System;
 using Logic.Tiles;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -42,6 +43,12 @@ namespace Logic
         public Vector DistanceFrom(Vector other)
         {
             return new Vector(other.X - X, other.Y - Y, other.Z - Z);
+        }
+        public int HorizontalDistance(Vector other) {
+            return Math.Abs(other.X - X) + Math.Abs(other.Y - Y);
+        }
+        public int VerticalDistance(Vector other) {
+            return Math.Abs(other.Z - Z);
         }
 
         public static Vector operator +(Vector lhs, Vector rhs)
