@@ -13,5 +13,6 @@ namespace Logic.Tiles{
         {
             //Win game
         }
+        public override void UpdateSprite() { }
     }
 }

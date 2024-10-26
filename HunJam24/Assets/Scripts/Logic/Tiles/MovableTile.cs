@@ -43,5 +43,7 @@ namespace Logic.Tiles
                 clone => clone.Push(this) && clone.MoveOnto(baseTile)
             );
         }
+
+        public override void UpdateSprite() { }
     }
 }
