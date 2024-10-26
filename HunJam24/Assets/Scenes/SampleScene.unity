@@ -242,7 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectMaterial: {fileID: 2100000, guid: 22da0f19207374e47a25cd1355ca4cc0, type: 2}
   baseMaterial: {fileID: 2100000, guid: 4e421a8a69a94cd4cb026371e138ba1c, type: 2}
-  player: {fileID: 8494429758245100336, guid: b7a8b332d8e0cd44a9933d7d3ce27332, type: 3}
+  playerPrefab: {fileID: 8494429758245100336, guid: b7a8b332d8e0cd44a9933d7d3ce27332, type: 3}
   clone: {fileID: 0}
   tileDictionary:
     _Buckets: 0000000001000000ffffffff

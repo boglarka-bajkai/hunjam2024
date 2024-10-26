@@ -30,7 +30,7 @@ namespace Logic
 
         // TileSet
         [SerializeField] GameObject playerPrefab;
-        public Character Player { get; private set; }
+        public Player Player {get; private set;}
         [SerializeField] GameObject clone;
         [SerializeField] TileDictionary tileDictionary;
 
@@ -41,7 +41,7 @@ namespace Logic
 
         // Map
         List<Tile> Map = new();
-        StartTile startTile = null;
+        public StartTile StartTile {get;private set; }= null;
 
         public Tile GetTileAt(Vector position)
         {
@@ -70,15 +70,14 @@ namespace Logic
                 Map.Add(t);
                 if (t is StartTile)
                 {
-                    startTile = (StartTile)t;
+                    StartTile = (StartTile)t;
                 }
             }
-
-            var playerPos = startTile.Position + new Vector(0, 0, 1);
-            Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Character>();
+            var playerPos = StartTile.Position + new Vector(0,0,1);
+            Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
-            Player.SetStartingTile(startTile);
-            PlayerMoved(startTile);
+            Player.SetStartingTile(StartTile);
+            PlayerMoved(StartTile);
         }
 
         List<Tile> selectedTiles = new();
@@ -91,8 +90,10 @@ namespace Logic
             }
 
             //player.GetComponent<Character>().ValidMoveDestinations()
-            Debug.Log($"Valid neighbors {Player.ValidMoveOntoDestinations().Count}");
-            foreach (var t in Player.ValidMoveOntoDestinations())
+            selectedTiles = Player.ValidMoveOntoDestinations();
+            Debug.Log($"Valid neighbors {selectedTiles.Count}");
+            
+            foreach (var t in selectedTiles)
             {
                 Debug.Log($"set {t.name}");
                 t.GetComponent<SpriteRenderer>().material = selectMaterial;

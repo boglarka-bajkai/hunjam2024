@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Logic
 {
-    public class Character : MonoBehaviour
+    public class Player : MonoBehaviour
     {
         private CloneManager _cloneManager;
         public Tile Tile { get; private set; }

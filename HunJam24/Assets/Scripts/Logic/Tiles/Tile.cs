@@ -43,7 +43,7 @@ namespace Logic.Tiles
          * Acceptance means the character could be moved INTO this tile.
          * (Useful for doors, pressure plates, and other transparent objects...)
          */
-        public virtual bool AcceptsCharacter(Character character)
+        public virtual bool AcceptsCharacter(Player character)
         {
             return false;
         }
@@ -82,10 +82,7 @@ namespace Logic.Tiles
             return false;
         }
 
-        /*
-         * !!! Also accepts character that is already accepted
-         */
-        public bool AcceptCharacter(Character character)
+        public bool AcceptCharacter(Player character)
         {
             return false;
         }

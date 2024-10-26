@@ -5,15 +5,15 @@ namespace Logic
 {
     public class Clone
     {
-        private readonly Queue<Func<Character, bool>> _history;
+        private readonly Queue<Func<Player, bool>> _history;
 
-        public Character Character { get; }
+        public Player Character { get; }
 
 
         /*
          * Constructor ?
          */
-        public Clone(Queue<Func<Character, bool>> history, Character clonedCharacter)
+        public Clone(Queue<Func<Player, bool>> history, Player clonedCharacter)
         {
             _history = history;
             Character = clonedCharacter;
@@ -22,7 +22,7 @@ namespace Logic
         /*
          * Adds fresh action to local history of the clone
          */
-        public void UpdateHistory(Func<Character, bool> action)
+        public void UpdateHistory(Func<Player, bool> action)
         {
             _history.Enqueue(action);
         }
