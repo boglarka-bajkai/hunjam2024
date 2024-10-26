@@ -61,7 +61,7 @@ namespace Logic
             var playerPos = startTile.Position + new Vector(0,0,1);
             var p = Instantiate(player, playerPos.UnityVector + offset, Quaternion.identity);
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
-            p.GetComponent<Character>().setStartingTile(startTile);
+            p.GetComponent<Character>().SetStartingTile(startTile);
             PlayerMoved(startTile);
         }
 

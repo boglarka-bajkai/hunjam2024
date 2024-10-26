@@ -43,13 +43,39 @@ namespace Logic.Tiles
          * Acceptance means the player could be moved INTO this tile.
          * (Useful for doors, pressure plates, and other transparent objects...)
          */
-        public virtual bool AcceptsPlayerFrom(Tile other)
+        public virtual bool AcceptsCharacterFrom(Tile other)
+        {
+            // TODO: remove
+            return false;
+        }
+
+        public virtual bool AcceptsCharacter(Character character)
         {
             return false;
         }
-        public virtual bool CanBeMovedOn() {
-            var tile = MapManager.Instance.GetTileAt(Position + new Vector(0,0,1));
-            return tile == null || tile.AcceptsPlayerFrom(this);
+
+        public virtual bool CanBeMovedOn()
+        {
+            var tile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, 1));
+            return tile == null || tile.AcceptsCharacterFrom(this);
+        }
+
+        public List<Tile> GetNeighboursInLevel(int z)
+        {
+            List<Tile> result = new();
+
+            var zOffset = z - Position.Z;
+
+            var neighbour = MapManager.Instance.GetTileAt(Position + new Vector(1, 0, zOffset));
+            if (neighbour != null) result.Add(neighbour);
+            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(0, 1, zOffset));
+            if (neighbour != null) result.Add(neighbour);
+            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(-1, 0, zOffset));
+            if (neighbour != null) result.Add(neighbour);
+            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(0, -1, zOffset));
+            if (neighbour != null) result.Add(neighbour);
+
+            return result;
         }
 
         /// <summary>
@@ -88,7 +114,12 @@ namespace Logic.Tiles
          * ACTIONS
          **********/
 
-        public bool Accept(Tile tile)
+        public bool AcceptTile(Tile tile)
+        {
+            return false;
+        }
+
+        public bool AcceptCharacter(Character character)
         {
             return false;
         }

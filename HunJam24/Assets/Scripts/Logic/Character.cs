@@ -1,6 +1,6 @@
 ﻿using Logic.Tiles;
 using UnityEngine;
-﻿using System;
+using System;
 using System.Collections.Generic;
 
 namespace Logic
@@ -19,23 +19,40 @@ namespace Logic
         public bool ShouldBeDead => _cloneManager.Get(Position) != null;
 
         /*
-         * Returns all tiles that the character could successfully move onto
+         * Returns all tiles that the character could successfully move ONTO
          */
         public List<Tile> ValidMoveDestinations()
         {
-            throw new NotImplementedException();
-
             var result = new List<Tile>();
-            
+
+            for (var z = -1; z <= 1; z++)
+            {
+                foreach (var neighbour in _tile.GetNeighboursInLevel(z))
+                {
+                    var targetTile = MapManager.Instance.GetTileAt(neighbour.Position + new Vector(0, 0, 1));
+
+                    if (targetTile == null)
+                    {
+                        result.Add(neighbour);
+                    }
+                    else if (targetTile.AcceptsCharacter(this))
+                    {
+                        result.Add(neighbour);
+                    }
+                }
+            }
+
             return result;
         }
 
         /**********
          * ACTIONS
          **********/
-        public void setStartingTile(Tile t) {
+        public void SetStartingTile(Tile t)
+        {
             if (_tile == null) _tile = t;
         }
+
         /*
          * Character will try to move ONTO the tile at `destination`
          * The characters moves if it can and returns `true`, otherwise `false`.
@@ -50,7 +67,7 @@ namespace Logic
 
             var tileOnNextTile =
                 _mapManager.GetTileAt(destination.Position + new Vector(0, 0, 1));
-            if (tileOnNextTile == null || !tileOnNextTile.AcceptsPlayerFrom(_tile))
+            if (tileOnNextTile == null || !tileOnNextTile.AcceptCharacter(this))
             {
                 return false;
             }

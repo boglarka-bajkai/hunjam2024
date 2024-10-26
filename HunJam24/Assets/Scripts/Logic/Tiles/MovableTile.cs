@@ -12,7 +12,7 @@ namespace Logic.Tiles
         public override bool MoveTo(Vector destinationPosition)
         {
             var destination = MapManager.Instance.GetTileAt(destinationPosition);
-            if (destination != null && !destination.Accept(this))
+            if (destination != null && !destination.AcceptTile(this))
             {
                 return false;
             }
