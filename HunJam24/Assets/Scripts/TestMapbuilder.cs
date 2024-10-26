@@ -1,21 +1,22 @@
+using Logic;
 using UnityEngine;
 
 public class TestMapbuilder : MonoBehaviour
 {
-    [SerializeField] int mapWidth = 10;
-    [SerializeField] int mapHeight = 10;
+    [SerializeField] int mapWidth = 5;
+    [SerializeField] int mapHeight = 5;
     [SerializeField] GameObject tile;
 
     void Start(){
-        for (int x = mapWidth; x >= 0; x--){
+        for (int x = 0; x < mapWidth; x++){
             for (int y = 0; y < mapHeight; y++){
                 for (int z = 0; z < 3; z++){
-                    float xPos = (x+y) / 2f;
-                    float yPos = (x-y) / 4f + z * 0.5f;
-                    var go = Instantiate(tile, new Vector3(xPos,yPos,0), Quaternion.identity);
+                    var pos = new Position(x,y,z);
+                    var go = Instantiate(tile, pos.UnityVector, Quaternion.identity);
                     go.name = $"{x} - {y} - {z} Tile";
+                    go.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
                 }
             }
         }
-    }    
+    }
 }
