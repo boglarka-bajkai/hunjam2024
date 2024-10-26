@@ -31,7 +31,7 @@ namespace Logic
 
         // TileSet
         [SerializeField] GameObject playerPrefab;
-        public Player Player {get; private set;}
+        public Player Player { get; private set; }
         [SerializeField] GameObject clone;
         [SerializeField] TileDictionary tileDictionary;
 
@@ -41,19 +41,19 @@ namespace Logic
         }
 
         // Map
-        List<TileBase> Map = new();
+        private readonly List<TileBase> _tiles = new();
         public StartTile StartTile {get;private set; }= null;
 
         public TileBase GetTileAt(Vector position)
         {
-            var t = Map.FirstOrDefault(x => x.Position.Equals(position));
+            var t = _tiles.FirstOrDefault(x => x.Position.Equals(position));
             //Debug.Log($"found: {(t == null ? "none" : t.name)}");
             return t;
         }
 
         public void SetMap(Dictionary<Vector, string> map)
         {
-            foreach (var item in Map)
+            foreach (var item in _tiles)
             {
                 Destroy(item.gameObject);
             }
@@ -69,13 +69,14 @@ namespace Logic
                 t.name = pos.ToString();
                 if (t is MovableTile) t.name = "box";
                 t.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
-                Map.Add(t);
+                _tiles.Add(t);
                 if (t is StartTile)
                 {
                     StartTile = (StartTile)t;
                 }
             }
-            var playerPos = StartTile.Position + new Vector(0,0,1);
+
+            var playerPos = StartTile.Position + new Vector(0, 0, 1);
             Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
             Player.SetStartingTile(StartTile);
@@ -93,7 +94,7 @@ namespace Logic
             Debug.Log("updating-----");
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
-            
+
             foreach (var t in selectedTiles)
             {
                 t.GetComponent<SpriteRenderer>().material = selectMaterial;

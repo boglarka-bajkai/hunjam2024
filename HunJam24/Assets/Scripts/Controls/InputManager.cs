@@ -30,7 +30,7 @@ namespace Controls
             var tile = rayFirst.collider.GetComponent<TileBase>();
             if (!CommandExecutor.Execute(tile.Command))
             {
-                Debug.Log($"$Player could not execute command with tile {tile.name}");
+                Debug.Log($"Player could not execute command with tile {tile.name}");
             }
         }
     }
