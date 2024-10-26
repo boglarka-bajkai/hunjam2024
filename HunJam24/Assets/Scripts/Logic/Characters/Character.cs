@@ -110,7 +110,7 @@ namespace Logic.Characters
         }
 
         /*
-         * Character will try to push the given `movableTile` ONTO the tile at `destination`
+         * Character will try to move the given `movableTile` ONTO the tile at `destination`
          * The `movableTile` is pushed when the push is valid and returns `true`, otherwise `false`.
          * THE CHARACTER DOES NOT MOVE !!!
          */
@@ -130,6 +130,11 @@ namespace Logic.Characters
             return movableTile.MoveTo(destinationPosition);
         }
         
+        /*
+         * Character will try to push the given `movableTile`
+         * The `movableTile` is pushed when the push is valid and returns `true`, otherwise `false`.
+         * THE CHARACTER DOES NOT MOVE !!!
+         */
         public bool Push(TileBase movableTile)
         {
             var distance = Position.DistanceFrom(movableTile.Position);
