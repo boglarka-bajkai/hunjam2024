@@ -138,7 +138,7 @@ namespace Logic.Characters
                 return false;
             }
 
-            var destination = Position + distance;
+            var destination = movableTile.Position + distance;
             return movableTile.MoveTo(destination);
         }
     }
