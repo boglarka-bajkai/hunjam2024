@@ -577,7 +577,7 @@ namespace Serializer {
         }
     }
     [Serializable]
-    public class TileDictionary : SerializableDictionary<string, Tile> {}
+    public class TileDictionary : SerializableDictionary<string, GameObject> {}
 
 
 
@@ -766,6 +766,6 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
 }
 
 [CustomPropertyDrawer(typeof(TileDictionary))]
-public class MyDictionaryDrawer1 : DictionaryDrawer<string, Tile> { }
+public class MyDictionaryDrawer1 : DictionaryDrawer<string, GameObject> { }
 
 }

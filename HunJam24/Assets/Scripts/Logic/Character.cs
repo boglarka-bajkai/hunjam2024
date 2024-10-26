@@ -17,7 +17,7 @@ namespace Logic
                 return false;
 
             var tileOnNextTile =
-                _mapManager.Get(destination.Position + new Position(0, 0, 1));
+                _mapManager.GetTileAt(destination.Position + new Position(0, 0, 1));
             if (tileOnNextTile == null || !tileOnNextTile.AcceptsPlayerFrom(_tile))
             {
                 return false;

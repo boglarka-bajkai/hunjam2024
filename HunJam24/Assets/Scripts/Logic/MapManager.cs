@@ -4,11 +4,13 @@ using Serializer;
 using JetBrains.Annotations;
 using UnityEngine;
 using Logic.Tiles;
+using Unity.Collections;
 namespace Logic
 {
     
     public class MapManager : MonoBehaviour
     {
+        //Singleton Pattern
         static MapManager _instance;
         void Awake() {
             if (_instance != null) {
@@ -16,28 +18,50 @@ namespace Logic
             }
             _instance = this;
         }
-
         public static MapManager Instance => _instance;
-        Dictionary<Position, Tile> Map = new();
 
-        public TileDictionary tileDictionary;
-        public Tile getTileByName(string name) {
+        // TileSet
+        [SerializeField] GameObject player;
+        [SerializeField] GameObject clone;
+        [SerializeField] TileDictionary tileDictionary;
+        public GameObject getTileByName(string name) {
             return tileDictionary[name];
         }
-        public Tile Get(Position position)
-        {
-            return Map[position];
-        }
 
-        public void BuildMap() {
-            foreach(var (pos, tile) in Map.Select(x=> (x.Key, x.Value))){
-                var go = Instantiate(tile.Prefab, pos.UnityVector, Quaternion.identity);
-                tile.Spawn(go, pos);
+        // Map
+        List<Tile> Map = new();
+        StartTile startTile = null;
+        public Tile GetTileAt(Position position)
+        {
+            return Map.First(x=> x.Position == position);
+        }
+        // public void BuildMap() {
+        //     foreach(var tile in Map){
+        //         var go = Instantiate(tile, tile.Position.UnityVector, Quaternion.identity);
+        //         if (tile is StartTile) {
+        //             startTile = (StartTile)tile;
+        //         }
+        //         Debug.Log($"Spawned at {tile.Position.X} {tile.Position.Y} {tile.Position.Z}");
+        //     }
+        // }
+
+        public void SetMap(Dictionary<Position, string> map) {
+            foreach (var item in Map){
+                Destroy(item.gameObject);
+            }
+            var maxX = map.Keys.Max(x=>x.X);
+            var maxY = map.Keys.Max(x=>x.Y);
+            Position offset = new Position(-maxX/2, -maxY/2, 0);
+            foreach(var (pos, tile) in map.Select(x=> (x.Key, x.Value))){
+                var go = Instantiate(getTileByName(tile), pos.UnityVector + offset.UnityVector, Quaternion.identity);
+                var t = go.GetComponent<Tile>();
+                t.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
+                Map.Add(t);
             }
         }
 
-        public void SetMap(Dictionary<Position, Tile> map) {
-            Map = map;
+        public void Start(){
+
         }
     }
 }
