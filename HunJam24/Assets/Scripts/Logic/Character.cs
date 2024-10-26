@@ -1,11 +1,11 @@
-﻿using JetBrains.Annotations;
-using Logic.Tiles;
+﻿using Logic.Tiles;
 
 namespace Logic
 {
     public class Character
     {
         private MapManager _mapManager;
+        private CloneManager _cloneManager;
         private Tile _tile;
 
         public bool StepTo(Tile destination)
@@ -26,6 +26,12 @@ namespace Logic
             _tile = destination;
 
             return true;
+        }
+
+        public bool ShouldBeDead()
+        {
+            var position = _tile.Position + new Position(0, 0, 1);
+            return _cloneManager.Get(position) != null;
         }
     }
 }
