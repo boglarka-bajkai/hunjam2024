@@ -39,15 +39,7 @@ namespace Logic.Tiles
             return Position.DistanceFrom(other.Position);
         }
 
-        /*
-         * Checks whether the tile is able to accept a character.
-         * Acceptance means the character could be moved INTO this tile.
-         * (Useful for doors, pressure plates, and other transparent objects...)
-         */
-        public virtual bool AcceptsCharacter(Character character)
-        {
-            return false;
-        }
+
 
         /*
          * Returns existing tiles that have a distance of 1 without counting the Z dimension
@@ -76,20 +68,22 @@ namespace Logic.Tiles
          **********/
 
         /*
-         * !!! Also accepts character that is already accepted
+         * Checks whether the tile is able to accept a character.
+         * Acceptance means the character could be moved ONTO this tile.
+         * (Useful for doors, pressure plates, and other transparent objects...)
          */
-        public virtual bool AcceptTile(TileBase tile)
-        {
-            return true;
-        }
-
-        public virtual bool AcceptCharacter(Character character)
-        {
-            return false;
-        }
-
         public virtual bool CanMoveOnFrom(Vector position) => true;
-
+        /*
+         * Checks whether the tile is able to accept another tile.
+         * Acceptance means the character could be moved ONTO this tile.
+         * (Useful for doors, pressure plates, and other transparent objects...)
+         */
+        public virtual bool CanMoveOn(TileBase tile) => true;
+        /*
+         * Checks whether the tile is able to accept a character.
+         * Acceptance means the character could be moved INTO this tile.
+         * (Useful for doors, pressure plates, and other transparent objects...)
+         */
         public virtual bool CanMoveInFrom(Vector position) => false;
 
         /*

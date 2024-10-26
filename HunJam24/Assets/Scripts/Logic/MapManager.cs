@@ -67,6 +67,7 @@ namespace Logic
                 var t = go.GetComponent<TileBase>();
                 t.Position = pos;
                 t.name = pos.ToString();
+                if (t is MovableTile) t.name = "box";
                 t.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
                 Map.Add(t);
                 if (t is StartTile)
@@ -89,7 +90,7 @@ namespace Logic
             {
                 tile.GetComponent<SpriteRenderer>().material = baseMaterial;
             }
-
+            Debug.Log("updating-----");
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
             
