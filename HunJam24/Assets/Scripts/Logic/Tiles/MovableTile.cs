@@ -28,12 +28,12 @@ namespace Logic.Tiles
         public override void CommandPlayer(Player player)
         {
             var baseTile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, -1));
-            if (player.Push(this) == false)
+            if (!player.Push(this))
             {
                 Debug.Log($"failed to push {name}");
             }
 
-            if (player.MoveOnto(baseTile) == false)
+            if (!player.MoveOnto(baseTile))
             {
                 Debug.Log($"failed to move to {baseTile.name} after pushing {name}");
             }

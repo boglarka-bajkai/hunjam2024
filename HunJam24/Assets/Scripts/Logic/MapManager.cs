@@ -92,11 +92,9 @@ namespace Logic
 
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
-            Debug.Log($"Valid neighbors {selectedTiles.Count}");
             
             foreach (var t in selectedTiles)
             {
-                Debug.Log($"set {t.name}");
                 t.GetComponent<SpriteRenderer>().material = selectMaterial;
             }
         }
