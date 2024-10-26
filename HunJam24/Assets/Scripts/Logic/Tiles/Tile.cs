@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Logic
+namespace Logic.Tiles
 {
     [CreateAssetMenu(fileName = "Tile", menuName = "Tiles/BaseTile", order = 1)]
     public class Tile : ScriptableObject
@@ -35,6 +35,11 @@ namespace Logic
         public int DistanceFrom(Tile other)
         {
             return Position.DistanceFrom(other.Position);
+        }
+
+        public bool AcceptsPlayerFrom(Tile other)
+        {
+            throw new NotImplementedException();
         }
     }
 }
