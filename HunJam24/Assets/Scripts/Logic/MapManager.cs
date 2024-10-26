@@ -81,6 +81,11 @@ namespace Logic
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
             Player.SetStartingTile(StartTile);
             PlayerMoved(StartTile);
+            
+            foreach (var tile in _tiles)
+            {
+                tile.UpdateSprite();
+            }
         }
 
         List<TileBase> selectedTiles = new();

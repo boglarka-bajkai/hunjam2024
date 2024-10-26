@@ -7,6 +7,8 @@ namespace Logic.Tiles
     public class Spike : TileBase
     {
         private bool _active;
+        
+        public override void UpdateSprite() { }
 
         // public override Func<Character, bool> Command => character =>
         //     AcceptsCharacter(character) &&

@@ -8,5 +8,7 @@ namespace Logic.Tiles{
         {
             Debug.Log("Happy End!");
         }
+        
+        public override void UpdateSprite() { }
     }
 }

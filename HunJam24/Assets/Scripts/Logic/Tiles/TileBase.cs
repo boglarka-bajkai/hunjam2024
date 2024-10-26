@@ -7,6 +7,26 @@ namespace Logic.Tiles
 {
     public class TileBase : MonoBehaviour
     {
+        public virtual void UpdateSprite()
+                {
+                    String i1 = (MapManager.Instance.GetTileAt(new Vector(Position.X,Position.Y-1,Position.Z)) == null)?"0":"1";
+                    String i2 = (MapManager.Instance.GetTileAt(new Vector(Position.X+1,Position.Y,Position.Z)) == null)?"0":"1";
+                    String i3 = (MapManager.Instance.GetTileAt(new Vector(Position.X-1,Position.Y,Position.Z)) == null)?"0":"1";
+                    String i4 = (MapManager.Instance.GetTileAt(new Vector(Position.X,Position.Y+1,Position.Z)) == null)?"0":"1";
+        
+                    String spriteName = "Qube/Qube" + i1 + i2 + i3 + i4;
+                    Sprite newSprite = Resources.Load<Sprite>(spriteName);
+        
+                    if (newSprite != null)
+                    {
+                        gameObject.GetComponent<SpriteRenderer>().sprite = newSprite;
+                    }
+                    else
+                    {
+                        Debug.LogError("Sprite not found: " + spriteName);
+                    }
+                }
+                
         public Vector Position { get; set; }
 
         /**********

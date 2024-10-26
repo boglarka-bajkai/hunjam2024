@@ -47,5 +47,7 @@ namespace Logic.Tiles
             if (t == null) Debug.Log("Ground NULL!");
             return t != null && t.CanMoveOn(this);
         }
+        
+        public override void UpdateSprite() { }
     }
 }
