@@ -68,6 +68,7 @@ namespace Logic.Characters
 
             Tile = destination;
             transform.position = Position.UnityVector;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
             MapManager.Instance.PlayerMoved(Tile);
 
             return true;

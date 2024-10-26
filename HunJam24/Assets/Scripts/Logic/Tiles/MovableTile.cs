@@ -19,6 +19,7 @@ namespace Logic.Tiles
 
             Position = destinationPosition;
             transform.position = Position.UnityVector;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
 
             return true;
         }
