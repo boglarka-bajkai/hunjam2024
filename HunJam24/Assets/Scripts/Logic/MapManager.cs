@@ -11,7 +11,7 @@ namespace Logic
     
     public class MapManager : MonoBehaviour
     {
-        static Color selected = new Color(255, 224, 126);
+        [SerializeField] Material selectMaterial, baseMaterial;
         //Singleton Pattern
         static MapManager _instance;
         void Awake() {
@@ -59,19 +59,22 @@ namespace Logic
                 }
             }
             var playerPos = startTile.Position + new Vector(0,0,1);
-            var p = Instantiate(player, playerPos.UnityVector + offset, Quaternion.identity);
+            player = Instantiate(player, playerPos.UnityVector + offset, Quaternion.identity);
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
-            p.GetComponent<Character>().SetStartingTile(startTile);
+            player.GetComponent<Character>().SetStartingTile(startTile);
             PlayerMoved(startTile);
         }
 
         public void PlayerMoved(Tile newTile){
-            Debug.Log($"Valid neighbors {newTile.GetValidNeighbors().Count}");
-            foreach (var t in newTile.GetValidNeighbors()){
+            //player.GetComponent<Character>().ValidMoveDestinations()
+            Debug.Log($"Valid neighbors {player.GetComponent<Character>().ValidMoveDestinations().Count}");
+            foreach (var t in player.GetComponent<Character>().ValidMoveDestinations()){
                 Debug.Log($"set {t.name}");
-                t.GetComponent<SpriteRenderer>().color = new Color(255, 224, 126);
+                t.GetComponent<SpriteRenderer>().material = selectMaterial;
             }
         }
+
+        
 
 
     }
