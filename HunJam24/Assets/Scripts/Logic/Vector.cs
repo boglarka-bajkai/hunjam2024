@@ -56,6 +56,13 @@ namespace Logic
             return new Vector(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
         }
 
+        public static Vector operator -(Vector lhs, Vector rhs){
+            return new Vector(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z -rhs.Z);
+        }
+        public static Vector operator !(Vector v) {
+            return new Vector(-v.X, -v.Y, -v.Z);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj is Vector) {

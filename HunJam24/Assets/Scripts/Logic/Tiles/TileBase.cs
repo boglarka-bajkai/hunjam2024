@@ -7,6 +7,26 @@ namespace Logic.Tiles
 {
     public class TileBase : MonoBehaviour
     {
+        public virtual void UpdateSprite()
+        {
+            String i1 = (MapManager.Instance.GetTilesAt(new Vector(Position.X,Position.Y-1,Position.Z)) == null)?"0":"1";
+            String i2 = (MapManager.Instance.GetTilesAt(new Vector(Position.X+1,Position.Y,Position.Z)) == null)?"0":"1";
+            String i3 = (MapManager.Instance.GetTilesAt(new Vector(Position.X-1,Position.Y,Position.Z)) == null)?"0":"1";
+            String i4 = (MapManager.Instance.GetTilesAt(new Vector(Position.X,Position.Y+1,Position.Z)) == null)?"0":"1";
+
+            String spriteName = "Qube/Qube" + i1 + i2 + i3 + i4;
+            Sprite newSprite = Resources.Load<Sprite>(spriteName);
+
+            if (newSprite != null)
+            {
+                gameObject.GetComponentInChildren<SpriteRenderer>().sprite = newSprite;
+            }
+            else
+            {
+                Debug.LogError("Sprite not found: " + spriteName);
+            }
+        }
+                
         public Vector Position { get; set; }
 
         /**********
@@ -39,15 +59,7 @@ namespace Logic.Tiles
             return Position.DistanceFrom(other.Position);
         }
 
-        /*
-         * Checks whether the tile is able to accept a character.
-         * Acceptance means the character could be moved INTO this tile.
-         * (Useful for doors, pressure plates, and other transparent objects...)
-         */
-        public virtual bool AcceptsCharacter(Character character)
-        {
-            return false;
-        }
+
 
         /*
          * Returns existing tiles that have a distance of 1 without counting the Z dimension
@@ -59,14 +71,14 @@ namespace Logic.Tiles
 
             var zOffset = z - Position.Z;
 
-            var neighbour = MapManager.Instance.GetTileAt(Position + new Vector(1, 0, zOffset));
-            if (neighbour != null) result.Add(neighbour);
-            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(0, 1, zOffset));
-            if (neighbour != null) result.Add(neighbour);
-            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(-1, 0, zOffset));
-            if (neighbour != null) result.Add(neighbour);
-            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(0, -1, zOffset));
-            if (neighbour != null) result.Add(neighbour);
+            var neighbour = MapManager.Instance.GetTilesAt(Position + new Vector(1, 0, zOffset));
+            if (neighbour != null) result.AddRange(neighbour);
+            neighbour = MapManager.Instance.GetTilesAt(Position + new Vector(0, 1, zOffset));
+            if (neighbour != null) result.AddRange(neighbour);
+            neighbour = MapManager.Instance.GetTilesAt(Position + new Vector(-1, 0, zOffset));
+            if (neighbour != null) result.AddRange(neighbour);
+            neighbour = MapManager.Instance.GetTilesAt(Position + new Vector(0, -1, zOffset));
+            if (neighbour != null) result.AddRange(neighbour);
 
             return result;
         }
@@ -78,20 +90,22 @@ namespace Logic.Tiles
          **********/
 
         /*
-         * !!! Also accepts character that is already accepted
+         * Checks whether the tile is able to accept a character.
+         * Acceptance means the character could be moved ONTO this tile.
+         * (Useful for doors, pressure plates, and other transparent objects...)
          */
-        public virtual bool AcceptTile(TileBase tile)
-        {
-            return true;
-        }
-
-        public virtual bool AcceptCharacter(Character character)
-        {
-            return false;
-        }
-
         public virtual bool CanMoveOnFrom(Vector position) => true;
-
+        /*
+         * Checks whether the tile is able to accept another tile.
+         * Acceptance means the character could be moved ONTO this tile.
+         * (Useful for doors, pressure plates, and other transparent objects...)
+         */
+        public virtual bool CanMoveOn(TileBase tile) => true;
+        /*
+         * Checks whether the tile is able to accept a character.
+         * Acceptance means the character could be moved INTO this tile.
+         * (Useful for doors, pressure plates, and other transparent objects...)
+         */
         public virtual bool CanMoveInFrom(Vector position) => false;
 
         /*
@@ -111,5 +125,6 @@ namespace Logic.Tiles
         public virtual void ExitTo(Vector position)
         {
         }
+
     }
 }

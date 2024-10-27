@@ -17,7 +17,10 @@ namespace Logic
          */
         public void SetHistory(Queue<Func<CloneCharacter, bool>> history)
         {
+            Debug.Log($"constructor count: {history.Count}");
             _history = history;
+            Debug.Log($"after constructor count: {_history.Count}");
+
         }
 
         /*
@@ -43,12 +46,14 @@ namespace Logic
          */
         public bool Step()
         {
+            Debug.Log($"History count before: {_history.Count}");
             if (_history.Count == 0)
             {
                 return true;
             }
 
             var command = _history.Dequeue();
+            Debug.Log($"History count after: {_history.Count}");
             return command.Invoke(Character);
         }
     }

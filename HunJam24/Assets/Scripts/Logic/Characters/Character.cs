@@ -24,15 +24,19 @@ namespace Logic.Characters
             {
                 foreach (var neighbour in Tile.GetNeighboursInLevel(Tile.Position.Z + zOffset))
                 {
-                    var targetTile = MapManager.Instance.GetTileAt(neighbour.Position + new Vector(0, 0, 1));
+                    var targetTile = MapManager.Instance.GetTilesAt(neighbour.Position + new Vector(0, 0, 1));
 
                     if (targetTile == null)
                     {
-                        result.Add(neighbour);
+                        if (neighbour.CanMoveOnFrom(Position)) {
+                            Debug.Log($"{neighbour.name} added from targetTile null");
+                            result.Add(neighbour);
+                        }
                     }
-                    else if (targetTile.AcceptsCharacter(this))
+                    else if (targetTile.TrueForAll(x=> x.CanMoveInFrom(Position)))
                     {
-                        result.Add(neighbour);
+                        result.AddRange(targetTile);
+                        if (targetTile.TrueForAll(x => x is not MovableTile)) result.Add(neighbour);
                     }
                 }
             }
@@ -46,41 +50,9 @@ namespace Logic.Characters
         public void SetStartingTile(TileBase t)
         {
             if (Tile == null) Tile = t;
-            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
+            GetComponentInChildren<SpriteRenderer>().sortingOrder = Position.Order;
         }
 
-        // public bool TryMoveTo(Vector position){
-        //     var current = MapManager.Instance.GetTileAt(Position);
-        //     var target = MapManager.Instance.GetTileAt(position);
-        //     bool re = false;
-        //     if (Position.HorizontalDistance(position) > 1 || Position.VerticalDistance(position) > 2) return false;
-        //     //Staying
-        //     if (position == Position) re = true;
-        //     // Nothing there
-        //     else if (target == null) {
-        //         //Only move if solid ground beneath
-        //         var ground = MapManager.Instance.GetTileAt(position + new Vector(0,0,-1));
-        //         if (ground != null && ground.CanMoveOnFrom(position)) {
-        //             //Valid ground beneath
-        //             re = true;
-        //         }
-        //         //Non valid ground beneath
-        //     }
-        //     //Has something
-        //     else {
-        //         if (target.CanMoveInFrom(position)) {
-        //             //Entering enterable object
-        //             target.EnterFrom(position);
-        //             re = true;
-        //         }
-        //         //Non-enterable object
-        //     }
-        //     if (re) {
-        //         if (current != null) current.ExitTo(position);
-        //         transform.position = position.UnityVector;
-        //     }
-        //     return re;
-        // }
 
         /*
          * Character will try to move ONTO the tile at `destination`
@@ -88,15 +60,17 @@ namespace Logic.Characters
          */
         public bool MoveOnto(TileBase destination)
         {
+            var top = MapManager.Instance.GetTilesAt(destination.Position + new Vector(0,0,1));
             if (!ValidMoveOntoDestinations().Contains(destination))
             {
+                Debug.Log("moveonto early");
                 return false;
             }
 
             var tileOnNextTile =
-                MapManager.Instance.GetTileAt(destination.Position + new Vector(0, 0, 1));
+                MapManager.Instance.GetTilesAt(destination.Position + new Vector(0, 0, 1));
             
-            if (tileOnNextTile != null && !tileOnNextTile.AcceptCharacter(this))
+            if (tileOnNextTile != null && !tileOnNextTile.TrueForAll(x=> x.CanMoveInFrom(Position)))
             {
                 return false;
             }
@@ -128,46 +102,28 @@ namespace Logic.Characters
 			Tile = destination;
             transform.position = Position.UnityVector;
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
-            MapManager.Instance.PlayerMoved(Tile);
-			//animator.ResetTrigger("jumping");
-			return true;
+            if (this is Player) MapManager.Instance.PlayerMoved(Tile);
+            if (top != null) top.ForEach(x=> x.EnterFrom(Position));
+            return true;
         }
 
-        /*
-         * Character will try to move the given `movableTile` ONTO the tile at `destination`
-         * The `movableTile` is pushed when the push is valid and returns `true`, otherwise `false`.
-         * THE CHARACTER DOES NOT MOVE !!!
-         */
-        public bool PushOnto(TileBase movableTile, TileBase destination)
-        {
-            var destinationPosition = destination.Position + new Vector(0, 0, 1);
-            var positionToDestinationDistance = Position.DistanceFrom(destinationPosition);
-            if (!(
-                    Position.DistanceFrom(movableTile.Position).Length == 1 &&
-                    positionToDestinationDistance.Length == 2 &&
-                    positionToDestinationDistance.IsPureDirectional()
-                ))
-            {
-                return false;
-            }
-
-            return movableTile.MoveTo(destinationPosition);
-        }
         
-        /*
-         * Character will try to push the given `movableTile`
-         * The `movableTile` is pushed when the push is valid and returns `true`, otherwise `false`.
-         * THE CHARACTER DOES NOT MOVE !!!
-         */
-        public bool Push(TileBase movableTile)
+        public bool Push(MovableTile movableTile)
         {
+            Debug.Log("push");
             var distance = Position.DistanceFrom(movableTile.Position);
             if (distance.Length != 1)
             {
+                Debug.Log("push early return");
                 return false;
             }
 
             var destination = movableTile.Position + distance;
+            var ground = MapManager.Instance.GetTilesAt(destination + new Vector(0,0,-1));
+            Debug.Log("asd");
+            Debug.Log($"zugugt{(destination + new Vector(0,0,-1)).ToString()}");
+            if (ground == null) Debug.Log("null");
+            if (ground == null || !ground.TrueForAll(x=> x.CanMoveOn(movableTile))) return false;
             return movableTile.MoveTo(destination);
         }
     }

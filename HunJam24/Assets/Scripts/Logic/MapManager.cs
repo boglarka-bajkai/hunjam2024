@@ -28,10 +28,9 @@ namespace Logic
         }
 
         public static MapManager Instance => _instance;
-
         // TileSet
         [SerializeField] GameObject playerPrefab;
-        public Player Player {get; private set;}
+        public Player Player { get; private set; }
         [SerializeField] GameObject clone;
         [SerializeField] TileDictionary tileDictionary;
 
@@ -41,13 +40,14 @@ namespace Logic
         }
 
         // Map
-        List<TileBase> Map = new();
+        public readonly List<TileBase> Map = new();
         public StartTile StartTile {get;private set; }= null;
 
-        public TileBase GetTileAt(Vector position)
+        public List<TileBase> GetTilesAt(Vector position)
         {
-            var t = Map.FirstOrDefault(x => x.Position.Equals(position));
+            var t = Map.Where(x => x.Position.Equals(position)).ToList();
             //Debug.Log($"found: {(t == null ? "none" : t.name)}");
+            if (t.Count <= 0) return null;
             return t;
         }
 
@@ -64,21 +64,28 @@ namespace Logic
             foreach (var (pos, tile) in map.Select(x => (x.Key, x.Value)))
             {
                 var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity);
-                var t = go.GetComponent<TileBase>();
+                var t = go.GetComponentInChildren<TileBase>();
                 t.Position = pos;
                 t.name = pos.ToString();
-                t.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
+                if (t is MovableTile) t.name = "box";
+                t.GetComponentInChildren<SpriteRenderer>().sortingOrder = pos.Order;
                 Map.Add(t);
                 if (t is StartTile)
                 {
                     StartTile = (StartTile)t;
                 }
             }
-            var playerPos = StartTile.Position + new Vector(0,0,1);
+
+            var playerPos = StartTile.Position;
             Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
             Player.SetStartingTile(StartTile);
             PlayerMoved(StartTile);
+            
+            foreach (var tile in Map)
+            {
+                tile.UpdateSprite();
+            }
         }
 
         List<TileBase> selectedTiles = new();
@@ -87,16 +94,17 @@ namespace Logic
         {
             foreach (var tile in selectedTiles)
             {
-                tile.GetComponent<SpriteRenderer>().material = baseMaterial;
+                tile.GetComponentInChildren<SpriteRenderer>().material = baseMaterial;
             }
-
+            Debug.Log("updating-----");
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
-            
+
             foreach (var t in selectedTiles)
             {
-                t.GetComponent<SpriteRenderer>().material = selectMaterial;
+                t.GetComponentInChildren<SpriteRenderer>().material = selectMaterial;
             }
+            CloneManager.Instance.Tick();
         }
     }
 }
