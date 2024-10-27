@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Controls
@@ -47,13 +48,16 @@ namespace Controls
             backgroundMusicSource.clip = backgroundMusic;
             reversedBackgroundMusicSource.clip = reversedBackgroundMusic;
 
+            backgroundMusicSource.volume = 0f;
+            reversedBackgroundMusicSource.volume = 0f;
+
             backgroundMusicSource.loop = true;
             reversedBackgroundMusicSource.loop = true;
         }
 
         private void Start()
         {
-            backgroundMusicSource.Play();
+            StartPlayingMusic(backgroundMusicSource);
         }
 
         public void PlaySoundEffect(AudioClip soundEffect)
@@ -75,14 +79,46 @@ namespace Controls
             if (!_playingReversed)
             {
                 _playingReversed = true;
-                backgroundMusicSource.Stop();
-                reversedBackgroundMusicSource.Play();
+                StopPlayingMusic(backgroundMusicSource);
+                StartPlayingMusic(reversedBackgroundMusicSource);
             }
             else
             {
                 _playingReversed = false;
-                reversedBackgroundMusicSource.Stop();
-                backgroundMusicSource.Play();
+                StopPlayingMusic(reversedBackgroundMusicSource);
+                StartPlayingMusic(backgroundMusicSource);
+            }
+        }
+
+        private void StartPlayingMusic(AudioSource source)
+        {
+            StartCoroutine(Fade(source, 1f, 1f));
+        }
+        
+        private void StopPlayingMusic(AudioSource source)
+        {
+            StartCoroutine(Fade(source, 1f, 0f));
+        }
+
+        private static IEnumerator Fade(AudioSource source, float duration, float targetVolume)
+        {
+            if (targetVolume != 0f)
+            {
+                source.Play();
+            }
+
+            var time = 0f;
+            var startVol = source.volume;
+            while (time < duration)
+            {
+                time += Time.deltaTime;
+                source.volume = Mathf.Lerp(startVol, targetVolume, time / duration);
+                yield return null;
+            }
+
+            if (targetVolume == 0f)
+            {
+                source.Stop();
             }
         }
     }
