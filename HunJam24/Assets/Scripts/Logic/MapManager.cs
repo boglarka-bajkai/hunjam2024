@@ -43,10 +43,11 @@ namespace Logic
         public readonly List<TileBase> Map = new();
         public StartTile StartTile {get;private set; }= null;
 
-        public TileBase GetTileAt(Vector position)
+        public List<TileBase> GetTilesAt(Vector position)
         {
-            var t = Map.FirstOrDefault(x => x.Position.Equals(position));
+            var t = Map.Where(x => x.Position.Equals(position)).ToList();
             //Debug.Log($"found: {(t == null ? "none" : t.name)}");
+            if (t.Count <= 0) return null;
             return t;
         }
 

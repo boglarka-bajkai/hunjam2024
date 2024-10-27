@@ -28,9 +28,9 @@ namespace Logic.Tiles{
 
         public override Func<Character, bool> Command => character =>
         {
-            var baseTile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, -1));
-            Debug.Log($"baseTile {baseTile.name}");
-            return character.MoveOnto(baseTile);
+            var baseTile = MapManager.Instance.GetTilesAt(Position + new Vector(0, 0, -1));
+            if (baseTile == null) return false;
+            return character.MoveOnto(baseTile[0]);
         };
 
         public override void UpdateSprite() { }
