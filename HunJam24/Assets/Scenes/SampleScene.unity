@@ -1868,7 +1868,7 @@ MonoBehaviour:
   - Name: Step
     Clip: {fileID: 8300000, guid: b66a4657083b5c64296328b6567bb81a, type: 3}
   - Name: PressurePlate
-    Clip: {fileID: 8300000, guid: dff8c970dbee49e4db60d6ba2b9cdb31, type: 3}
+    Clip: {fileID: 8300000, guid: 5bf32052b14c55a45a73450baba3e285, type: 3}
   backgroundMusic: {fileID: 8300000, guid: 1cff1df5ae810f14bb3653596961eeb0, type: 3}
   reversedBackgroundMusic: {fileID: 8300000, guid: 16fbe6891fd513b45bd03f5b51e8a3a5, type: 3}
 --- !u!1 &1540534521
