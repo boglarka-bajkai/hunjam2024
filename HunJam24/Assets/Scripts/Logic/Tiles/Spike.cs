@@ -40,7 +40,7 @@ namespace Logic.Tiles
          * Acceptance means the character could be moved ONTO this tile.
          * (Useful for doors, pressure plates, and other transparent objects...)
          */
-        public override bool CanMoveOn(TileBase tile) => false;
+        public override bool CanMoveOn(TileBase tile) => !_active;
 
         /*
          * Checks whether the tile is able to accept a character.

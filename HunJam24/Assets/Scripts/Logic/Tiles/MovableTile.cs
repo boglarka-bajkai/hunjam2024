@@ -36,6 +36,10 @@ namespace Logic.Tiles
             {
                 return false;
             }
+            var from = MapManager.Instance.GetTilesAt(_position);
+            if (from != null) from.ForEach(x=> x.ExitTo(destinationPosition));
+            var to = MapManager.Instance.GetTilesAt(destinationPosition);
+            if (to != null) to.ForEach(x=> x.EnterFrom(_position));
             _position = destinationPosition;
             StartCoroutine(moveSoftlyTo(destinationPosition));
             return true;

@@ -67,6 +67,7 @@ namespace Logic.Characters
          */
         public bool MoveOnto(TileBase destination)
         {
+            Debug.Log($"moveonto dest: {destination.name}");
             var top = MapManager.Instance.GetTilesAt(destination.Position + new Vector(0,0,1));
             if (!ValidMoveOntoDestinations().Contains(destination))
             {

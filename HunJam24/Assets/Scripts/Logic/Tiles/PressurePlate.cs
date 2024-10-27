@@ -22,7 +22,7 @@ namespace Logic.Tiles{
         }
         public override bool CanMoveOn(TileBase tile)
         {
-            return false;
+            return true;
         }
         public override bool CanMoveOnFrom(Vector position)
         {

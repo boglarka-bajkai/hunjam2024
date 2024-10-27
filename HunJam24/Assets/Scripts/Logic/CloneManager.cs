@@ -57,9 +57,10 @@ namespace Logic
             Debug.Log($"clonedHistory: {clonedHistory.Count}");
 
             var startingPosition = MapManager.Instance.StartTile.Position;
+            var startTile = MapManager.Instance.GetTilesAt(startingPosition + new Vector(0,0,-1))[0];
             var cloneGameObject = Instantiate(clonePrefab, startingPosition.UnityVector, Quaternion.identity);
             var cloneCharacter = cloneGameObject.GetComponent<CloneCharacter>();
-            cloneCharacter.SetStartingTile(MapManager.Instance.StartTile);
+            cloneCharacter.SetStartingTile(startTile);
             var clone = cloneGameObject.GetComponent<Clone>();
             clone.SetHistory(clonedHistory);
             clone.SetCharacter(cloneCharacter);

@@ -29,11 +29,12 @@ public class MapLoader : MonoBehaviour
             { new Vector(2, 1, 0), "Base" },
             { new Vector(2, 0, 0), "Base" },
             { new Vector(1, 0, 0), "Base" },
+            { new Vector(0, 3, 0), "Base" },
             { new Vector(0, 0, 1), "Start" },
-            //{ new Vector(2, 0, 1), "Box" },
+            { new Vector(0, 1, 1), "Box" },
             { new Vector(2, 2, 1), "Checkpoint" },
             { new Vector(0, 2, 1), "Pressureplate"},
-            { new Vector(1, 0, 1), "Spike"}
+            { new Vector(2, 0, 1), "Spike"}
         };
     Dictionary<Vector, string> Map2 =>
         new Dictionary<Vector, string>()
@@ -143,7 +144,7 @@ public class MapLoader : MonoBehaviour
     List<Dictionary<Vector, string>> maps = new();
     public void Start() {
         InvertColor.Instance.ToggleColorInversion();
-        //maps.Add(Map1);
+        maps.Add(Map1);
         maps.Add(Map2);
         //maps.Add(Map3);
         //maps.Add(Map4);
@@ -153,7 +154,7 @@ public class MapLoader : MonoBehaviour
     }
 
     List<Tuple<Vector, Vector>> Conn1 = new(){
-        new(new Vector(1, 0, 1), new Vector(0,2,1)),
+        new(new Vector(2, 0, 1), new Vector(0,2,1)),
     };
     public void TryLoadNextMap() {
         InvertColor.Instance.ToggleColorInversion();

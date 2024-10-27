@@ -89,8 +89,8 @@ namespace Logic
             var playerPos = StartTile.Position;
             Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
-            Player.SetStartingTile(StartTile);
-            PlayerMoved(StartTile);
+            Player.SetStartingTile(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
+            PlayerMoved(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
             
             foreach (var tile in Map)
             {
