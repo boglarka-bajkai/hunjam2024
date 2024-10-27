@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Logic;
 using UnityEngine;
 using Logic.Tiles;
+using System;
 public class MapLoader : MonoBehaviour
 {
 
@@ -30,8 +31,10 @@ public class MapLoader : MonoBehaviour
             { new Vector(1, 0, 0), "Base" },
             { new Vector(3, 0, 0), "Base" },
             { new Vector(0, 0, 1), "Start" },
-            { new Vector(2, 0, 1), "Box" },
-            { new Vector(2, 2, 1), "Checkpoint" }
+            //{ new Vector(2, 0, 1), "Box" },
+            { new Vector(2, 2, 1), "Checkpoint" },
+            { new Vector(0, 2, 1), "Pressureplate"},
+            { new Vector(1, 0, 1), "Spike"}
         };
     Dictionary<Vector, string> Map2 =>
         new Dictionary<Vector, string>()
@@ -90,9 +93,13 @@ public class MapLoader : MonoBehaviour
         maps.Add(Map3);
         TryLoadNextMap();
     }
+
+    List<Tuple<Vector, Vector>> Conn1 = new(){
+        new(new Vector(1, 0, 1), new Vector(0,2,1)),
+    };
     public void TryLoadNextMap() {
         if (currentMap < maps.Count){
-            MapManager.Instance.SetMap(maps[currentMap++]);
+            MapManager.Instance.SetMap(maps[currentMap++], Conn1);
         }
         else {
             //TODO: Victory screen

@@ -7,9 +7,16 @@ namespace Logic.Tiles
 {
     public class Spike : TileBase, ActivationListener
     {
-        [SerializeField] Sprite[] sprites;
-        private bool _active;
-        
+        [SerializeField] GameObject active;
+        [SerializeField] GameObject inactive;
+        private bool _active = true;
+        public bool Active => _active;
+        public override Vector Position { get => base.Position; set {
+                base.Position = value;
+                active.GetComponent<SpriteRenderer>().sortingOrder = value.Order;
+                inactive.GetComponent<SpriteRenderer>().sortingOrder = value.Order;
+            }
+        }
         public override void UpdateSprite() { }
 
         // public override Func<Character, bool> Command => character =>
@@ -33,7 +40,7 @@ namespace Logic.Tiles
          * Acceptance means the character could be moved ONTO this tile.
          * (Useful for doors, pressure plates, and other transparent objects...)
          */
-        public override bool CanMoveOn(TileBase tile) => !_active;
+        public override bool CanMoveOn(TileBase tile) => false;
 
         /*
          * Checks whether the tile is able to accept a character.
@@ -42,19 +49,28 @@ namespace Logic.Tiles
          */
         public override bool CanMoveInFrom(Vector position)
         {
-            return !_active && MapManager.Instance.GetTilesAt(Position).Count < 2;
+            return !_active;
         }
 
         public void Activate()
         {
-            _active = true;
-            GetComponentInChildren<SpriteRenderer>().sprite = sprites[1];
+            _active = false;
+            active.SetActive(false);
+            inactive.SetActive(true);
+
         }
 
         public void Deactivate()
         {
-            _active = false;
-            GetComponentInChildren<SpriteRenderer>().sprite = sprites[0];
+            _active = true;
+            inactive.SetActive(false);
+            active.SetActive(true);
+            Debug.Log($"{MapManager.Instance.Player.Position.ToString()} vs {Position.ToString()}");
+            if (MapManager.Instance.Player.Position == Position ||
+                CloneManager.Instance.GetClonesAt(Position).Count > 0){
+                    OverlayManager.Instance.ShowLoseScreen();
+                }
         }
+
     }
 }

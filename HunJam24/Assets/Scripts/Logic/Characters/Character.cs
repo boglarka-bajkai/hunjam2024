@@ -57,7 +57,7 @@ namespace Logic.Characters
         public void SetStartingTile(TileBase t)
         {
             if (Tile == null) Tile = t;
-            GetComponentInChildren<SpriteRenderer>().sortingOrder = Position.Order;
+            GetComponentInChildren<SpriteRenderer>().sortingOrder = Position.Order+1;
         }
 
 
@@ -143,15 +143,20 @@ namespace Logic.Characters
             Vector3 startPos = transform.position;
             Debug.Log($"started from {Position.ToString()}");
             if (destinationV.Order > Position.Order) 
-                GetComponent<SpriteRenderer>().sortingOrder = destinationV.Order;
+                GetComponent<SpriteRenderer>().sortingOrder = destinationV.Order+1;
             while (t <= 1f) {
                 t += Time.deltaTime * MOVE_MULTIPLIER;
                 transform.position = Vector3.Lerp(startPos, destinationV.UnityVector, t);
                 yield return new WaitForEndOfFrame();
             }
+            if (Tile != null) Tile.ExitTo(Position);
+            var oldTiles = MapManager.Instance.GetTilesAt(Tile.Position + new Vector(0,0,1));
+            if (oldTiles != null){
+                oldTiles.ForEach(x=>x.ExitTo(destination.Position));
+            }
             Tile = destination;
             transform.position = Position.UnityVector;
-            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order+1;
             
             if (top != null) top.ForEach(x=> x.EnterFrom(Position));
 			if (this is Player p)
