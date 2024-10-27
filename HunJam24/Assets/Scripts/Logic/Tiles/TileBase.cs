@@ -105,5 +105,6 @@ namespace Logic.Tiles
         public virtual void ExitTo(Vector position)
         {
         }
+
     }
 }

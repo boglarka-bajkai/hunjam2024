@@ -35,8 +35,9 @@ namespace Logic.Characters
                     }
                     else if (targetTile.CanMoveInFrom(Position))
                     {
-                        Debug.Log($"{neighbour.name} added at canmovein");
+                        Debug.Log($"{targetTile.name} added at canmovein");
                         result.Add(targetTile);
+                        if (targetTile is not MovableTile) result.Add(neighbour);
                     }
                 }
             }
@@ -50,7 +51,7 @@ namespace Logic.Characters
         public void SetStartingTile(TileBase t)
         {
             if (Tile == null) Tile = t;
-            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
+            GetComponentInChildren<SpriteRenderer>().sortingOrder = Position.Order;
         }
 
 
@@ -60,24 +61,26 @@ namespace Logic.Characters
          */
         public bool MoveOnto(TileBase destination)
         {
+            var top = MapManager.Instance.GetTileAt(destination.Position + new Vector(0,0,1));
             if (!ValidMoveOntoDestinations().Contains(destination))
             {
+                Debug.Log("moveonto early");
                 return false;
             }
 
             var tileOnNextTile =
                 MapManager.Instance.GetTileAt(destination.Position + new Vector(0, 0, 1));
             
-            if (tileOnNextTile != null && !tileOnNextTile.CanMoveOnFrom(Position))
+            if (tileOnNextTile != null && !tileOnNextTile.CanMoveInFrom(Position))
             {
                 return false;
             }
 
             Tile = destination;
+            if (top != null) top.EnterFrom(Position);
             transform.position = Position.UnityVector;
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
-            MapManager.Instance.PlayerMoved(Tile);
-
+            if (this is Player) MapManager.Instance.PlayerMoved(Tile);
             return true;
         }
 

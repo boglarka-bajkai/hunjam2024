@@ -44,15 +44,17 @@ namespace Logic
 
             if (Input.GetKeyUp(KeyCode.LeftShift))
             {
-                _clones.ForEach(clone => clone.Step());
+                Tick();
             }
         }
-
-        private void Spawn()
+        public void Tick() {
+            _clones.ForEach(clone => clone.Step());
+        }
+        public void Spawn()
         {
             var clonedHistory = new Queue<Func<CloneCharacter, bool>>(_fullHistory.Count);
-
             _fullHistory.ForEach(item => { clonedHistory.Enqueue((Func<CloneCharacter, bool>)item.Clone()); });
+            Debug.Log($"clonedHistory: {clonedHistory.Count}");
 
             var startingPosition = MapManager.Instance.StartTile.Position + new Vector(0, 0, 1);
             var cloneGameObject = Instantiate(clonePrefab, startingPosition.UnityVector, Quaternion.identity);

@@ -64,11 +64,11 @@ namespace Logic
             foreach (var (pos, tile) in map.Select(x => (x.Key, x.Value)))
             {
                 var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity);
-                var t = go.GetComponent<TileBase>();
+                var t = go.GetComponentInChildren<TileBase>();
                 t.Position = pos;
                 t.name = pos.ToString();
                 if (t is MovableTile) t.name = "box";
-                t.GetComponent<SpriteRenderer>().sortingOrder = pos.Order;
+                t.GetComponentInChildren<SpriteRenderer>().sortingOrder = pos.Order;
                 Map.Add(t);
                 if (t is StartTile)
                 {
@@ -88,7 +88,7 @@ namespace Logic
         {
             foreach (var tile in selectedTiles)
             {
-                tile.GetComponent<SpriteRenderer>().material = baseMaterial;
+                tile.GetComponentInChildren<SpriteRenderer>().material = baseMaterial;
             }
             Debug.Log("updating-----");
             //player.GetComponent<Character>().ValidMoveDestinations()
@@ -96,8 +96,9 @@ namespace Logic
             
             foreach (var t in selectedTiles)
             {
-                t.GetComponent<SpriteRenderer>().material = selectMaterial;
+                t.GetComponentInChildren<SpriteRenderer>().material = selectMaterial;
             }
+            CloneManager.Instance.Tick();
         }
     }
 }
