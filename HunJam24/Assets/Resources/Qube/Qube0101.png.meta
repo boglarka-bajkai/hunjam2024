@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Qube0101_0: -1205846691101153470
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
