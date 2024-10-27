@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Serializer;
 using UnityEngine;
 
 namespace Controls
@@ -20,6 +21,10 @@ namespace Controls
 
         [SerializeField] private AudioSource soundEffectsSource;
 
+        [Header("Audio Clip maps")]
+        [SerializeField] AudioClipDictionary normalClips;
+        [SerializeField] AudioClipDictionary reverseClips;
+
 
         [Header("Audio Clips")]
         // Header
@@ -27,10 +32,11 @@ namespace Controls
         private AudioClip backgroundMusic;
 
         [SerializeField] private AudioClip reversedBackgroundMusic;
-
-        [SerializeField] public AudioClip step;
-
-
+        
+        public AudioClip GetClip(string name) {
+            if (_playingReversed) return reverseClips[name];
+            else return normalClips[name];
+        }
         private void Awake()
         {
             if (_instance != null) Destroy(this);
