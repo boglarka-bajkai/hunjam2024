@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Controls;
 using Logic.Tiles;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -144,6 +145,7 @@ namespace Logic.Characters
             Debug.Log($"started from {Position.ToString()}");
             if (destinationV.Order > Position.Order) 
                 GetComponent<SpriteRenderer>().sortingOrder = destinationV.Order;
+            AudioManager.Instance.PlaySoundEffect("Step");
             while (t <= 1f) {
                 t += Time.deltaTime * MOVE_MULTIPLIER;
                 transform.position = Vector3.Lerp(startPos, destinationV.UnityVector, t);
