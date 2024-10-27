@@ -113,7 +113,6 @@ namespace Logic
             {
                 t.GetComponentInChildren<SpriteRenderer>().material = selectMaterial;
             }
-            CloneManager.Instance.Tick();
         }
     }
 }

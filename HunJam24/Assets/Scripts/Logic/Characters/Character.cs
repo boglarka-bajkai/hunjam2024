@@ -33,7 +33,8 @@ namespace Logic.Characters
 
                     if (targetTile == null)
                     {
-                        if (neighbour.CanMoveOnFrom(Position)) {
+                        if (neighbour.CanMoveOnFrom(Position) 
+                            && CloneManager.Instance.GetClonesAt(neighbour.Position + new Vector(0, 0, 1)).Count <= 0) {
                             Debug.Log($"{neighbour.name} added from targetTile null");
                             result.Add(neighbour);
                         }
@@ -104,27 +105,17 @@ namespace Logic.Characters
 				animator.SetInteger("dir", 3);
 			}
 
-			StartCoroutine(moveSoftlyTo(destination));
+			StartCoroutine(moveSoftlyTo(destination, top));
 
-            
-            if (top != null) top.ForEach(x=> x.EnterFrom(Position));
-			if (this is Player)
-			{
-				var p = this as Player;
-				if(p.ShouldBeDead)
-				{
-					ScreenCapture.CaptureScreenshot("Died.png");
-					SceneManager.LoadScene("LoseScreen");
-				}
-			}
             return true;
         }
         const float WAITBEFORESTART = .1f;
         const float MOVE_MULTIPLIER = 1.1f;
         bool pushing = false;
-        IEnumerator moveSoftlyTo(TileBase destination) {
+        IEnumerator moveSoftlyTo(TileBase destination, List<TileBase> top) {
             movingCount++;
             if (this is Player) MapManager.Instance.ResetTiles();
+            if (this is Player) CloneManager.Instance.Tick();
             float t = 0f;
             //Wait for jump anim
             yield return new WaitForEndOfFrame();
@@ -160,7 +151,18 @@ namespace Logic.Characters
             Tile = destination;
             transform.position = Position.UnityVector;
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
-            if (this is Player) MapManager.Instance.PlayerMoved(Tile);
+            
+            if (top != null) top.ForEach(x=> x.EnterFrom(Position));
+			if (this is Player p)
+			{
+                MapManager.Instance.PlayerMoved(Tile);
+            
+				if(p.ShouldBeDead)
+				{
+					ScreenCapture.CaptureScreenshot("Died.png");
+					SceneManager.LoadScene("LoseScreen");
+				}
+			}
             movingCount--;
             pushing = false;
         }
