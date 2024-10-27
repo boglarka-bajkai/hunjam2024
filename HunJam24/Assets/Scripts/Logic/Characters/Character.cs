@@ -159,8 +159,7 @@ namespace Logic.Characters
             
 				if(p.ShouldBeDead)
 				{
-					ScreenCapture.CaptureScreenshot("Died.png");
-					SceneManager.LoadScene("LoseScreen");
+					OverlayManager.Instance.ShowLoseScreen();
 				}
 			}
             movingCount--;

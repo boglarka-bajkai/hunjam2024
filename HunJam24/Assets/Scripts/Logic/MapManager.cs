@@ -66,7 +66,7 @@ namespace Logic
             Vector.globalOffset = new Vector3(-maxX / 2, -maxY / 2, 0);
             foreach (var (pos, tile) in map.Select(x => (x.Key, x.Value)))
             {
-                var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity);
+                var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity, transform);
                 var t = go.GetComponentInChildren<TileBase>();
                 t.Position = pos;
                 t.name = pos.ToString();
