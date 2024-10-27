@@ -23,7 +23,7 @@ namespace Logic.Tiles{
             GetComponentInChildren<SpriteRenderer>().enabled = false;
             MapManager.Instance.StartTile.CheckAllCheckpoints();
             MapManager.Instance.Map.FindAll(x => x is MovableTile).ForEach(y => (y as MovableTile).Reset());
-            _audioManager.PlayReversedMusic();
+            _audioManager.PlayReversedMusic(2f);
             _audioManager.PlaySoundEffect("Rewind", false);
             InvertColor.Instance.ToggleColorInversion();
         }

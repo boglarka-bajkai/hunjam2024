@@ -14,7 +14,8 @@ namespace Logic.Tiles{
         {
             if (MapManager.Instance.Map.FindAll(x=> x is CheckPointTile && !(x as CheckPointTile).Activated).Count > 0) return;
             Debug.Log("Happy End!");
-            AudioManager.Instance.PlayReversedMusic();
+            AudioManager.Instance.PlayReversedMusic(2f);
+            AudioManager.Instance.PlaySoundEffect("Rewind", false);
             MapLoader.Instance.TryLoadNextMap();
         }
         public override bool CanMoveInFrom(Vector position)

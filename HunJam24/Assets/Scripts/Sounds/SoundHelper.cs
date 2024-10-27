@@ -5,8 +5,13 @@ namespace Sounds
 {
     public class SoundHelper
     {
-        public static IEnumerator Fade(AudioSource source, float duration, float targetVolume)
+        public static IEnumerator Fade(AudioSource source, float duration, float delay, float targetVolume)
         {
+            if (delay != 0f)
+            {
+                yield return new WaitForSecondsRealtime(delay);
+            }
+            
             if (targetVolume != 0f)
             {
                 source.Play();

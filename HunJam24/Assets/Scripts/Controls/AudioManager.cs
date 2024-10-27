@@ -73,7 +73,7 @@ namespace Controls
 
         private void Start()
         {
-            StartPlayingMusic(backgroundMusicSource);
+            StartPlayingMusic(backgroundMusicSource, 2f);
         }
 
         public void PlaySoundEffect(string clipName, bool hasReversed = true)
@@ -93,30 +93,30 @@ namespace Controls
          * Starts playing the reversed background music if the normal background music was playing before
          * Starts playing the normal background music if the reversed background music was playing before
          */
-        public void PlayReversedMusic()
+        public void PlayReversedMusic(float delay)
         {
             if (!_playingReversed)
             {
                 _playingReversed = true;
-                StopPlayingMusic(backgroundMusicSource);
-                StartPlayingMusic(reversedBackgroundMusicSource);
+                StopPlayingMusic(backgroundMusicSource, 0.1f);
+                StartPlayingMusic(reversedBackgroundMusicSource, 2f, delay);
             }
             else
             {
                 _playingReversed = false;
-                StopPlayingMusic(reversedBackgroundMusicSource);
-                StartPlayingMusic(backgroundMusicSource);
+                StopPlayingMusic(reversedBackgroundMusicSource, 0.1f);
+                StartPlayingMusic(backgroundMusicSource, 2f, delay);
             }
         }
 
-        private void StartPlayingMusic(AudioSource source)
+        private void StartPlayingMusic(AudioSource source, float fadeDuration, float delay = 0f)
         {
-            StartCoroutine(SoundHelper.Fade(source, 5f, 1f));
+            StartCoroutine(SoundHelper.Fade(source, fadeDuration, delay, 1f));
         }
 
-        private void StopPlayingMusic(AudioSource source)
+        private void StopPlayingMusic(AudioSource source, float fadeDuration, float delay = 0f)
         {
-            StartCoroutine(SoundHelper.Fade(source, 0f, 0f));
+            StartCoroutine(SoundHelper.Fade(source, fadeDuration, delay, 0f));
         }
 
         private AudioClip GetClip(string clipName, bool hasReversed)
