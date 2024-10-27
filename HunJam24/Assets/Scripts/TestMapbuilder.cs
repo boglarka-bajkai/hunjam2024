@@ -8,6 +8,7 @@ public class TestMapbuilder : MonoBehaviour
     [SerializeField] int mapHeight = 5;
     [SerializeField] GameObject tile;
 
+    //Map1
     /*void Start(){
         Dictionary<Vector, string> map = new();
         map.Add(new Vector(0, 0, 0), "Base");
@@ -49,7 +50,8 @@ public class TestMapbuilder : MonoBehaviour
         MapManager.Instance.SetMap(map);
     }*/
     
-    void Start(){
+    //Map3
+    /*void Start(){
         Dictionary<Vector, string> map = new();
         map.Add(new Vector(3, 0, 0), "Base");
         map.Add(new Vector(0, 1, 0), "Base");
@@ -59,9 +61,9 @@ public class TestMapbuilder : MonoBehaviour
         map.Add(new Vector(1, 3, 0), "Base");
         map.Add(new Vector(2, 1, 0), "Base");
         map.Add(new Vector(2, 3, 0), "Base");
-        map.Add(new Vector(3, 1, 0), "Base");
-        map.Add(new Vector(3, 2, 0), "Base"); map.Add(new Vector(3, 2, 1), "Box");
-        map.Add(new Vector(3, 3, 0), "Base");
+        map.Add(new Vector(3, 1, 0), "Base");map.Add(new Vector(3, 1, 1), "Box");
+        map.Add(new Vector(3, 2, 0), "Base");
+        map.Add(new Vector(3, 3, 0), "Base"); 
         map.Add(new Vector(4, 1, 0), "Base");
         map.Add(new Vector(4, 3, 0), "Base");
         map.Add(new Vector(5, 1, 0), "Base");
@@ -69,6 +71,28 @@ public class TestMapbuilder : MonoBehaviour
         map.Add(new Vector(6, 1, 0), "Base");
         map.Add(new Vector(6, 2, 0), "Base");
         map.Add(new Vector(6, 3, 0), "Base"); map.Add(new Vector(6, 3, 1), "Checkpoint");
+        
+        MapManager.Instance.SetMap(map);
+    }*/
+    
+    //Map2
+    void Start(){
+        Dictionary<Vector, string> map = new();
+        map.Add(new Vector(0, 2, 0), "Base");
+        map.Add(new Vector(0, 3, 0), "Base");
+        map.Add(new Vector(0, 4, 0), "Base"); map.Add(new Vector(0, 4, 1), "Start");
+        map.Add(new Vector(1, 2, 0), "Base");
+        map.Add(new Vector(1, 4, 0), "Base");
+        map.Add(new Vector(2, 0, 0), "Base");
+        map.Add(new Vector(2, 1, 0), "Base");
+        map.Add(new Vector(2, 2, 0), "Base");
+        map.Add(new Vector(2, 3, 0), "Base");
+        map.Add(new Vector(2, 4, 0), "Base");
+        map.Add(new Vector(3, 0, 0), "Base");
+        map.Add(new Vector(3, 2, 0), "Base");
+        map.Add(new Vector(4, 0, 0), "Base"); map.Add(new Vector(4, 0, 1), "Checkpoint");
+        map.Add(new Vector(4, 1, 0), "Base");
+        map.Add(new Vector(4, 2, 0), "Base");
         
         MapManager.Instance.SetMap(map);
     }
