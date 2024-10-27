@@ -13,7 +13,8 @@ namespace Logic.Tiles{
         public override void EnterFrom(Vector pos)
         {
             Debug.Log("Happy End!");
-            AudioManager.Instance.PlayReversedMusic();
+            AudioManager.Instance.PlayReversedMusic(2f);
+            AudioManager.Instance.PlaySoundEffect("Rewind", false);
             MapLoader.Instance.TryLoadNextMap();
         }
         public override bool CanMoveInFrom(Vector position)

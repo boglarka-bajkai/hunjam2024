@@ -42,7 +42,7 @@ namespace Controls
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
-                _audioManager.PlayReversedMusic();
+                _audioManager.PlayReversedMusic(2f);
                 _audioManager.PlaySoundEffect("Rewind", false);
             }
             
