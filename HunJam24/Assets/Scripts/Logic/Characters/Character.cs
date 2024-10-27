@@ -24,7 +24,7 @@ namespace Logic.Characters
             {
                 foreach (var neighbour in Tile.GetNeighboursInLevel(Tile.Position.Z + zOffset))
                 {
-                    var targetTile = MapManager.Instance.GetTileAt(neighbour.Position + new Vector(0, 0, 1));
+                    var targetTile = MapManager.Instance.GetTilesAt(neighbour.Position + new Vector(0, 0, 1));
 
                     if (targetTile == null)
                     {
@@ -33,11 +33,10 @@ namespace Logic.Characters
                             result.Add(neighbour);
                         }
                     }
-                    else if (targetTile.CanMoveInFrom(Position))
+                    else if (targetTile.TrueForAll(x=> x.CanMoveInFrom(Position)))
                     {
-                        Debug.Log($"{targetTile.name} added at canmovein");
-                        result.Add(targetTile);
-                        if (targetTile is not MovableTile) result.Add(neighbour);
+                        result.AddRange(targetTile);
+                        if (targetTile.TrueForAll(x => x is not MovableTile)) result.Add(neighbour);
                     }
                 }
             }
@@ -61,7 +60,7 @@ namespace Logic.Characters
          */
         public bool MoveOnto(TileBase destination)
         {
-            var top = MapManager.Instance.GetTileAt(destination.Position + new Vector(0,0,1));
+            var top = MapManager.Instance.GetTilesAt(destination.Position + new Vector(0,0,1));
             if (!ValidMoveOntoDestinations().Contains(destination))
             {
                 Debug.Log("moveonto early");
@@ -69,18 +68,42 @@ namespace Logic.Characters
             }
 
             var tileOnNextTile =
-                MapManager.Instance.GetTileAt(destination.Position + new Vector(0, 0, 1));
+                MapManager.Instance.GetTilesAt(destination.Position + new Vector(0, 0, 1));
             
-            if (tileOnNextTile != null && !tileOnNextTile.CanMoveInFrom(Position))
+            if (tileOnNextTile != null && !tileOnNextTile.TrueForAll(x=> x.CanMoveInFrom(Position)))
             {
                 return false;
             }
 
-            Tile = destination;
+			var dirVec = Position.DistanceFrom(destination.Position);
+			Debug.Log(dirVec);
+			Animator animator = GetComponent<Animator>();
+			if (dirVec.Equals(new Vector(1, 0, -1)))
+			{
+				Debug.Log("UR");
+				animator.SetInteger("dir", 0);
+			}
+			if (dirVec.Equals(new Vector(0, -1, -1)))
+			{
+				Debug.Log("UL");
+				animator.SetInteger("dir", 1);
+			}
+			if (dirVec.Equals(new Vector(-1, -0, -1)))
+			{
+				Debug.Log("DL");
+				animator.SetInteger("dir", 2);
+			}
+			if (dirVec.Equals(new Vector(0, 1, -1)))
+			{
+				Debug.Log("DR");
+				animator.SetInteger("dir", 3);
+			}
+			animator.SetTrigger("jumping");
+			Tile = destination;
             transform.position = Position.UnityVector;
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
             if (this is Player) MapManager.Instance.PlayerMoved(Tile);
-            if (top != null) top.EnterFrom(Position);
+            if (top != null) top.ForEach(x=> x.EnterFrom(Position));
             return true;
         }
 
@@ -96,11 +119,11 @@ namespace Logic.Characters
             }
 
             var destination = movableTile.Position + distance;
-            var ground = MapManager.Instance.GetTileAt(destination + new Vector(0,0,-1));
+            var ground = MapManager.Instance.GetTilesAt(destination + new Vector(0,0,-1));
             Debug.Log("asd");
             Debug.Log($"zugugt{(destination + new Vector(0,0,-1)).ToString()}");
             if (ground == null) Debug.Log("null");
-            if (ground == null || !ground.CanMoveOn(movableTile)) return false;
+            if (ground == null || !ground.TrueForAll(x=> x.CanMoveOn(movableTile))) return false;
             return movableTile.MoveTo(destination);
         }
     }
