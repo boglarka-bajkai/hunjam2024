@@ -31,7 +31,7 @@ namespace Logic
 
         // TileSet
         [SerializeField] GameObject playerPrefab;
-        public Player Player {get; private set;}
+        public Player Player { get; private set; }
         [SerializeField] GameObject clone;
         [SerializeField] TileDictionary tileDictionary;
 
@@ -41,7 +41,7 @@ namespace Logic
         }
 
         // Map
-        List<TileBase> Map = new();
+        private readonly List<TileBase> Map = new();
         public StartTile StartTile {get;private set; }= null;
 
         public TileBase GetTileAt(Vector position)
@@ -75,11 +75,17 @@ namespace Logic
                     StartTile = (StartTile)t;
                 }
             }
-            var playerPos = StartTile.Position + new Vector(0,0,1);
+
+            var playerPos = StartTile.Position + new Vector(0, 0, 1);
             Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
             Player.SetStartingTile(StartTile);
             PlayerMoved(StartTile);
+            
+            foreach (var tile in Map)
+            {
+                tile.UpdateSprite();
+            }
         }
 
         List<TileBase> selectedTiles = new();
@@ -93,7 +99,7 @@ namespace Logic
             Debug.Log("updating-----");
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
-            
+
             foreach (var t in selectedTiles)
             {
                 t.GetComponentInChildren<SpriteRenderer>().material = selectMaterial;
