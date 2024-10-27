@@ -1,10 +1,19 @@
 using System;
 using System.Linq;
+using Controls;
 using Logic.Characters;
 using UnityEngine;
 
 namespace Logic.Tiles{
-    public class CheckPointTile : TileBase {
+    public class CheckPointTile : TileBase
+    {
+        private AudioManager _audioManager;
+        
+        private void Awake()
+        {
+            _audioManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<AudioManager>();
+        }
+
         public bool Activated {get; private set;} = false;
         public override void EnterFrom(Vector position)
         {
@@ -14,6 +23,7 @@ namespace Logic.Tiles{
             GetComponentInChildren<SpriteRenderer>().enabled = false;
             MapManager.Instance.StartTile.CheckAllCheckpoints();
             MapManager.Instance.Map.FindAll(x => x is MovableTile).ForEach(y => (y as MovableTile).Reset());
+            _audioManager.PlayReversedMusic();
         }
         public override bool CanMoveInFrom(Vector position)
         {
