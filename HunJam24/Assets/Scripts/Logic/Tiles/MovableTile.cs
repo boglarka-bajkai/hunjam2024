@@ -11,19 +11,24 @@ namespace Logic.Tiles
          * Tries to change the position of the tile to `destination`
          * Returns true on success
          */
+        private Vector startPosition;
+        public override Vector Position { get => base.Position; set {
+                base.Position = value;
+                if (startPosition == null) startPosition = value;
+            }
+        }
+        public void Reset(){
+            Position = startPosition;
+        }
         public override bool MoveTo(Vector destinationPosition)
         {
             var destination = MapManager.Instance.GetTilesAt(destinationPosition);
             if (destination != null && !destination.TrueForAll(x=> x.CanMoveOn(this)))
             {
-                Debug.Log("moveto early return");
                 return false;
             }
 
             Position = destinationPosition;
-            transform.position = Position.UnityVector;
-            GetComponentInChildren<SpriteRenderer>().sortingOrder = Position.Order;
-
             return true;
         }
 

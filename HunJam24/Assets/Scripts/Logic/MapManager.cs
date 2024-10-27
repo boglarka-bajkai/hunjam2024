@@ -7,6 +7,7 @@ using UnityEngine;
 using Logic.Tiles;
 using Unity.Collections;
 using UnityEngine.UIElements;
+using System;
 
 namespace Logic
 {
@@ -46,12 +47,11 @@ namespace Logic
         public List<TileBase> GetTilesAt(Vector position)
         {
             var t = Map.Where(x => x.Position.Equals(position)).ToList();
-            //Debug.Log($"found: {(t == null ? "none" : t.name)}");
             if (t.Count <= 0) return null;
             return t;
         }
-
-        public void SetMap(Dictionary<Vector, string> map)
+        // Connections maps Spike to Pressureplate
+        public void SetMap(Dictionary<Vector, string> map, List<Tuple<Vector, Vector>> connections = null)
         {
             foreach (var item in Map)
             {
@@ -70,9 +70,16 @@ namespace Logic
                 if (t is MovableTile) t.name = "box";
                 t.GetComponentInChildren<SpriteRenderer>().sortingOrder = pos.Order;
                 Map.Add(t);
-                if (t is StartTile)
+                if (t is StartTile startTile)
                 {
-                    StartTile = (StartTile)t;
+                    StartTile = startTile;
+                }
+            }
+            if (connections != null) {
+                foreach(var (fromV, toV) in connections){
+                    var from = GetTilesAt(fromV).Where(x => x is ActivationListener).ToList();
+                    var to = GetTilesAt(toV).Where(x => x is PressurePlate).ToList();
+                    from.ForEach(x=> to.ForEach(y => (y as PressurePlate).Subscribe(x as ActivationListener)));
                 }
             }
 

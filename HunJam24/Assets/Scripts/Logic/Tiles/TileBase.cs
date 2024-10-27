@@ -26,8 +26,20 @@ namespace Logic.Tiles
                 Debug.LogError("Sprite not found: " + spriteName);
             }
         }
-                
-        public Vector Position { get; set; }
+             
+        private Vector _position;
+        public virtual Vector Position
+        {
+            get => _position;
+            set
+            {
+                if (_position == value) return;
+                _position = value;
+
+                transform.position = value.UnityVector;
+                GetComponentInChildren<SpriteRenderer>().sortingOrder = value.Order;
+            }
+        }
 
         /**********
          * GETTERS

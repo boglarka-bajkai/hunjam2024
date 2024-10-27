@@ -13,6 +13,7 @@ namespace Logic.Tiles{
             Activated = true;
             GetComponentInChildren<SpriteRenderer>().enabled = false;
             MapManager.Instance.StartTile.CheckAllCheckpoints();
+            MapManager.Instance.Map.FindAll(x => x is MovableTile).ForEach(y => (y as MovableTile).Reset());
         }
         public override bool CanMoveInFrom(Vector position)
         {
