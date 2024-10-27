@@ -4,13 +4,14 @@ using UnityEngine;
 
 namespace Logic.Tiles{
     public class CheckPointTile : TileBase {
-        bool activated = false;
+        public bool Activated {get; private set;} = false;
         public override void EnterFrom(Vector position)
         {
-            if (activated) return;
+            if (Activated) return;
             CloneManager.Instance.Spawn();
-            activated = true;
+            Activated = true;
             GetComponentInChildren<SpriteRenderer>().enabled = false;
+            MapManager.Instance.StartTile.CheckAllCheckpoints();
         }
         public override bool CanMoveInFrom(Vector position)
         {
@@ -30,5 +31,6 @@ namespace Logic.Tiles{
             Debug.Log($"baseTile {baseTile.name}");
             return character.MoveOnto(baseTile);
         };
+        public override void UpdateSprite() { }
     }
 }

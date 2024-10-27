@@ -56,7 +56,7 @@ namespace Logic
             _fullHistory.ForEach(item => { clonedHistory.Enqueue((Func<CloneCharacter, bool>)item.Clone()); });
             Debug.Log($"clonedHistory: {clonedHistory.Count}");
 
-            var startingPosition = MapManager.Instance.StartTile.Position + new Vector(0, 0, 1);
+            var startingPosition = MapManager.Instance.StartTile.Position;
             var cloneGameObject = Instantiate(clonePrefab, startingPosition.UnityVector, Quaternion.identity);
             var cloneCharacter = cloneGameObject.GetComponent<CloneCharacter>();
             cloneCharacter.SetStartingTile(MapManager.Instance.StartTile);

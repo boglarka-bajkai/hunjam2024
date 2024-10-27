@@ -77,10 +77,10 @@ namespace Logic.Characters
             }
 
             Tile = destination;
-            if (top != null) top.EnterFrom(Position);
             transform.position = Position.UnityVector;
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
             if (this is Player) MapManager.Instance.PlayerMoved(Tile);
+            if (top != null) top.EnterFrom(Position);
             return true;
         }
 

@@ -28,7 +28,6 @@ namespace Logic
         }
 
         public static MapManager Instance => _instance;
-
         // TileSet
         [SerializeField] GameObject playerPrefab;
         public Player Player { get; private set; }
@@ -41,7 +40,7 @@ namespace Logic
         }
 
         // Map
-        private readonly List<TileBase> Map = new();
+        public readonly List<TileBase> Map = new();
         public StartTile StartTile {get;private set; }= null;
 
         public TileBase GetTileAt(Vector position)
@@ -76,7 +75,7 @@ namespace Logic
                 }
             }
 
-            var playerPos = StartTile.Position + new Vector(0, 0, 1);
+            var playerPos = StartTile.Position;
             Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
             Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
             Player.SetStartingTile(StartTile);
