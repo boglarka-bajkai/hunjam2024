@@ -19,14 +19,9 @@ namespace Controls
 
         private bool _playingReversed;
 
+        [SerializeField] private List<MyPair> normalClips;
 
-        [Header("Audio Clip maps")] [SerializeField]
-        private AudioClipDictionary normalClips;
-
-        [SerializeField] private AudioClipDictionary reverseClips;
-
-        private readonly Dictionary<string, AudioSource> _normalClipSources = new();
-        private readonly Dictionary<string, AudioSource> _reversedClipSources = new();
+        private readonly Dictionary<string, AudioSource> _clipSources = new();
 
 
         [Header("Audio Clips")]
@@ -60,14 +55,9 @@ namespace Controls
             backgroundMusicSource.loop = true;
             reversedBackgroundMusicSource.loop = true;
 
-            foreach (var (clipName, _) in normalClips)
+            foreach (var clipNamePair in normalClips)
             {
-                _normalClipSources[clipName] = gameObject.AddComponent<AudioSource>();
-            }
-
-            foreach (var (clipName, _) in reverseClips)
-            {
-                _reversedClipSources[clipName] = gameObject.AddComponent<AudioSource>();
+                _clipSources[clipNamePair.Name] = gameObject.AddComponent<AudioSource>();
             }
         }
 
@@ -76,10 +66,10 @@ namespace Controls
             StartPlayingMusic(backgroundMusicSource, 2f);
         }
 
-        public void PlaySoundEffect(string clipName, bool hasReversed = true)
+        public void PlaySoundEffect(string clipName)
         {
-            var clip = GetClip(clipName, hasReversed);
-            var source = GetClipSource(clipName, hasReversed);
+            var clip = GetClip(clipName);
+            var source = GetClipSource(clipName);
 
             if (source.isPlaying)
             {
@@ -119,14 +109,14 @@ namespace Controls
             StartCoroutine(SoundHelper.Fade(source, fadeDuration, delay, 0f));
         }
 
-        private AudioClip GetClip(string clipName, bool hasReversed)
+        private AudioClip GetClip(string clipName)
         {
-            return _playingReversed && hasReversed ? reverseClips[clipName] : normalClips[clipName];
+            return normalClips.Find(p => p.Name.Equals(clipName)).Clip;
         }
 
-        private AudioSource GetClipSource(string clipName, bool hasReversed)
+        private AudioSource GetClipSource(string clipName)
         {
-            return _playingReversed && hasReversed ? _reversedClipSources[clipName] : _normalClipSources[clipName];
+            return _clipSources[clipName];
         }
     }
 }

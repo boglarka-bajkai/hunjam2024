@@ -24,7 +24,6 @@ public class InvertColor : MonoBehaviour
 
     public void ToggleColorInversion()
     {
-        Debug.Log("Invert!");
         // Toggle color inversion on or off
         isColorInverted = !isColorInverted;
         if (isColorInverted)
@@ -35,5 +34,9 @@ public class InvertColor : MonoBehaviour
         {
             mainCamera.ResetReplacementShader();
         }
+    }
+    public void ResetColor() {
+        isColorInverted = false;
+        mainCamera.ResetReplacementShader();
     }
 }

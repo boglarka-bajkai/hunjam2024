@@ -32,7 +32,6 @@ namespace Logic
         // TileSet
         [SerializeField] GameObject playerPrefab;
         public Player Player { get; private set; }
-        [SerializeField] GameObject clone;
         [SerializeField] TileDictionary tileDictionary;
 
         public GameObject getTileByName(string name)

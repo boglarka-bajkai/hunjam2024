@@ -85,11 +85,8 @@ namespace Logic.Tiles
         public override bool CanMoveInFrom(Vector position)
         {
             Vector diff = position - Position;
-            Debug.Log($"diff: {diff.ToString()}");
             Vector check = Position + !diff + new Vector(0,0,-1);
-            Debug.Log($"Checked tile: {check.ToString()}");
             var t = MapManager.Instance.GetTilesAt(check);
-            if (t == null) Debug.Log("Ground NULL!");
             return t != null && t.TrueForAll(x=> x.CanMoveOn(this));
         }
         

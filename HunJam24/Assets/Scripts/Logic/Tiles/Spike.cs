@@ -7,9 +7,9 @@ namespace Logic.Tiles
 {
     public class Spike : TileBase, ActivationListener
     {
-        [SerializeField] GameObject active;
-        [SerializeField] GameObject inactive;
-        private bool _active = true;
+        [SerializeField] protected GameObject active;
+        [SerializeField] protected GameObject inactive;
+        protected bool _active = true;
         public bool Active => _active;
         public override Vector Position { get => base.Position; set {
                 base.Position = value;
@@ -52,7 +52,7 @@ namespace Logic.Tiles
             return !_active;
         }
 
-        public void Activate()
+        public virtual void Activate()
         {
             _active = false;
             active.SetActive(false);
@@ -60,16 +60,11 @@ namespace Logic.Tiles
 
         }
 
-        public void Deactivate()
+        public virtual void Deactivate()
         {
             _active = true;
             inactive.SetActive(false);
             active.SetActive(true);
-            Debug.Log($"{MapManager.Instance.Player.Position.ToString()} vs {Position.ToString()}");
-            if (MapManager.Instance.Player.Position == Position ||
-                CloneManager.Instance.GetClonesAt(Position).Count > 0){
-                    OverlayManager.Instance.ShowLoseScreen();
-                }
         }
 
     }

@@ -13,9 +13,8 @@ namespace Logic.Tiles{
         public override void EnterFrom(Vector pos)
         {
             if (MapManager.Instance.Map.FindAll(x=> x is CheckPointTile && !(x as CheckPointTile).Activated).Count > 0) return;
-            Debug.Log("Happy End!");
             AudioManager.Instance.PlayReversedMusic(2f);
-            AudioManager.Instance.PlaySoundEffect("Rewind", false);
+            AudioManager.Instance.PlaySoundEffect("Rewind");
             MapLoader.Instance.TryLoadNextMap();
         }
         public override bool CanMoveInFrom(Vector position)

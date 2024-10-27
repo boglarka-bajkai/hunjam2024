@@ -31,7 +31,6 @@ namespace Controls
                     .First();
 
             var tile = rayFirst.collider.GetComponent<TileBase>();
-            if (tile == null) Debug.Log("tile null!!!!");
             if (!CommandExecutor.Execute(tile.Command))
             {
                 Debug.Log($"Player could not execute command with tile {tile.name}");
@@ -43,12 +42,12 @@ namespace Controls
             if (Input.GetKeyDown(KeyCode.M))
             {
                 _audioManager.PlayReversedMusic(2f);
-                _audioManager.PlaySoundEffect("Rewind", false);
+                _audioManager.PlaySoundEffect("Rewind");
             }
             
             if (Input.GetKeyDown(KeyCode.R))
             {
-                _audioManager.PlaySoundEffect("Rewind", false);
+                _audioManager.PlaySoundEffect("Rewind");
             }
         }
     }

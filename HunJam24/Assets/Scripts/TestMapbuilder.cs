@@ -4,9 +4,6 @@ using UnityEngine;
 using Logic.Tiles;
 public class TestMapbuilder : MonoBehaviour
 {
-    [SerializeField] int mapWidth = 5;
-    [SerializeField] int mapHeight = 5;
-    [SerializeField] GameObject tile;
 
     //Map1
     /*void Start(){
@@ -76,24 +73,24 @@ public class TestMapbuilder : MonoBehaviour
     }*/
     
     //Map2
-    void Start(){
-        Dictionary<Vector, string> map = new();
-        map.Add(new Vector(0, 2, 0), "Base");
-        map.Add(new Vector(0, 3, 0), "Base");
-        map.Add(new Vector(0, 4, 0), "Base"); map.Add(new Vector(0, 4, 1), "Start");
-        map.Add(new Vector(1, 2, 0), "Base");
-        map.Add(new Vector(1, 4, 0), "Base");
-        map.Add(new Vector(2, 0, 0), "Base");
-        map.Add(new Vector(2, 1, 0), "Base");
-        map.Add(new Vector(2, 2, 0), "Base");
-        map.Add(new Vector(2, 3, 0), "Base");
-        map.Add(new Vector(2, 4, 0), "Base");
-        map.Add(new Vector(3, 0, 0), "Base");
-        map.Add(new Vector(3, 2, 0), "Base");
-        map.Add(new Vector(4, 0, 0), "Base"); map.Add(new Vector(4, 0, 1), "Checkpoint");
-        map.Add(new Vector(4, 1, 0), "Base");
-        map.Add(new Vector(4, 2, 0), "Base");
+    // void Start(){
+    //     Dictionary<Vector, string> map = new();
+    //     map.Add(new Vector(0, 2, 0), "Base");
+    //     map.Add(new Vector(0, 3, 0), "Base");
+    //     map.Add(new Vector(0, 4, 0), "Base"); map.Add(new Vector(0, 4, 1), "Start");
+    //     map.Add(new Vector(1, 2, 0), "Base");
+    //     map.Add(new Vector(1, 4, 0), "Base");
+    //     map.Add(new Vector(2, 0, 0), "Base");
+    //     map.Add(new Vector(2, 1, 0), "Base");
+    //     map.Add(new Vector(2, 2, 0), "Base");
+    //     map.Add(new Vector(2, 3, 0), "Base");
+    //     map.Add(new Vector(2, 4, 0), "Base");
+    //     map.Add(new Vector(3, 0, 0), "Base");
+    //     map.Add(new Vector(3, 2, 0), "Base");
+    //     map.Add(new Vector(4, 0, 0), "Base"); map.Add(new Vector(4, 0, 1), "Checkpoint");
+    //     map.Add(new Vector(4, 1, 0), "Base");
+    //     map.Add(new Vector(4, 2, 0), "Base");
         
-        MapManager.Instance.SetMap(map);
-    }
+    //     MapManager.Instance.SetMap(map);
+    // }
 }
