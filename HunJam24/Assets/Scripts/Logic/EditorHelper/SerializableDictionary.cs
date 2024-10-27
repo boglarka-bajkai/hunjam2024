@@ -740,7 +740,6 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
         if (typeof(UnityObject).IsAssignableFrom(type))
             return (T)(object)EditorGUI.ObjectField(rect, (UnityObject)(object)value, type, true);
 
-        Debug.Log("Type is not supported: " + type);
         return value;
     }
 

@@ -31,7 +31,6 @@ namespace Controls
                     .First();
 
             var tile = rayFirst.collider.GetComponent<TileBase>();
-            if (tile == null) Debug.Log("tile null!!!!");
             if (!CommandExecutor.Execute(tile.Command))
             {
                 Debug.Log($"Player could not execute command with tile {tile.name}");

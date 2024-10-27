@@ -3,6 +3,7 @@ using Logic;
 using UnityEngine;
 using Logic.Tiles;
 using System;
+using Logic.Characters;
 public class MapLoader : MonoBehaviour
 {
 
@@ -12,9 +13,6 @@ public class MapLoader : MonoBehaviour
         _instance = this;
     }
     public static MapLoader Instance => _instance;
-    [SerializeField] int mapWidth = 5;
-    [SerializeField] int mapHeight = 5;
-    [SerializeField] GameObject tile;
 
     
 
@@ -29,12 +27,10 @@ public class MapLoader : MonoBehaviour
             { new Vector(2, 1, 0), "Base" },
             { new Vector(2, 0, 0), "Base" },
             { new Vector(1, 0, 0), "Base" },
-            { new Vector(0, 3, 0), "Base" },
+            { new Vector(3, 0, 0), "Base" },
             { new Vector(0, 0, 1), "Start" },
-            { new Vector(0, 1, 1), "Box" },
+            { new Vector(1, 0, 1), "Box" },
             { new Vector(2, 2, 1), "Checkpoint" },
-            { new Vector(0, 2, 1), "Pressureplate"},
-            { new Vector(2, 0, 1), "Spike"}
         };
     Dictionary<Vector, string> Map2 =>
         new Dictionary<Vector, string>()
@@ -152,18 +148,32 @@ public class MapLoader : MonoBehaviour
         //maps.Add(Map6);
         TryLoadNextMap();
     }
-
-    List<Tuple<Vector, Vector>> Conn1 = new(){
+    //First coords is what to connect (spike, inverse spike)
+    //Second coords is where to connect (pressure plate)
+    List<Tuple<Vector, Vector>> ConnsTest = new(){
         new(new Vector(2, 0, 1), new Vector(0,2,1)),
+    };
+    List<List<Tuple<Vector, Vector>>> Conns = new() {
+        null,
+        null,
+        null,
+        null,
+        null
     };
     public void TryLoadNextMap() {
         InvertColor.Instance.ToggleColorInversion();
         if (currentMap < maps.Count){
-            MapManager.Instance.SetMap(maps[currentMap++], Conn1);
+            MapManager.Instance.SetMap(maps[currentMap], Conns[currentMap]);
+            InvertColor.Instance.ResetColor();
+            currentMap++;
         }
         else {
             //TODO: Victory screen
         }
-        
+    }
+
+    public void RestartMap() {
+        InvertColor.Instance.ResetColor();
+        MapManager.Instance.SetMap(maps[currentMap-1], Conns[currentMap-1]);
     }
 }

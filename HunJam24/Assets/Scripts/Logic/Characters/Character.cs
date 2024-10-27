@@ -10,7 +10,7 @@ namespace Logic.Characters
 {
     public class Character : MonoBehaviour
     {
-        private static int movingCount = 0;
+        public static int movingCount = 0;
         public static bool IsAnyMoving => movingCount > 0;
         private TileBase Tile { get; set; }
 
@@ -37,7 +37,6 @@ namespace Logic.Characters
                         if (neighbour.CanMoveOnFrom(Position)
                             && CloneManager.Instance.GetClonesAt(neighbour.Position + new Vector(0, 0, 1)).Count <= 0)
                         {
-                            Debug.Log($"{neighbour.name} added from targetTile null");
                             result.Add(neighbour);
                         }
                     }
@@ -69,11 +68,9 @@ namespace Logic.Characters
          */
         public bool MoveOnto(TileBase destination)
         {
-            Debug.Log($"moveonto dest: {destination.name}");
             var top = MapManager.Instance.GetTilesAt(destination.Position + new Vector(0,0,1));
             if (!ValidMoveOntoDestinations().Contains(destination))
             {
-                Debug.Log("moveonto early");
                 return false;
             }
 
@@ -86,29 +83,28 @@ namespace Logic.Characters
             }
 
             var dirVec = Position.DistanceFrom(destination.Position);
-            Debug.Log(dirVec);
             Animator animator = GetComponent<Animator>();
             if (dirVec.Equals(new Vector(1, 0, -1)))
             {
-                Debug.Log("UR");
+                //Debug.Log("UR");
                 animator.SetInteger("dir", 0);
             }
 
             if (dirVec.Equals(new Vector(0, -1, -1)))
             {
-                Debug.Log("UL");
+                //Debug.Log("UL");
                 animator.SetInteger("dir", 1);
             }
 
             if (dirVec.Equals(new Vector(-1, 0, -1)))
             {
-                Debug.Log("DL");
+                //Debug.Log("DL");
                 animator.SetInteger("dir", 2);
             }
 
             if (dirVec.Equals(new Vector(0, 1, -1)))
             {
-                Debug.Log("DR");
+                //Debug.Log("DR");
                 animator.SetInteger("dir", 3);
             }
 
@@ -163,7 +159,6 @@ namespace Logic.Characters
             t = 0f;
             Vector destinationV = destination.Position + new Vector(0, 0, 1);
             Vector3 startPos = transform.position;
-            Debug.Log($"started from {Position.ToString()}");
             if (destinationV.Order > Position.Order)
                 GetComponent<SpriteRenderer>().sortingOrder = destinationV.Order+1;
             if (!pushing) AudioManager.Instance.PlaySoundEffect("Step");
@@ -200,19 +195,14 @@ namespace Logic.Characters
 
         public bool Push(MovableTile movableTile)
         {
-            Debug.Log("push");
             var distance = Position.DistanceFrom(movableTile.Position);
             if (distance.Length != 1)
             {
-                Debug.Log("push early return");
                 return false;
             }
 
             var destination = movableTile.Position + distance;
             var ground = MapManager.Instance.GetTilesAt(destination + new Vector(0, 0, -1));
-            Debug.Log("asd");
-            Debug.Log($"zugugt{(destination + new Vector(0, 0, -1)).ToString()}");
-            if (ground == null) Debug.Log("null");
             if (ground == null || !ground.TrueForAll(x => x.CanMoveOn(movableTile))) return false;
             Animator animator = GetComponent<Animator>();
             animator.SetTrigger("pushing");

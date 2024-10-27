@@ -54,7 +54,6 @@ namespace Logic
         {
             var clonedHistory = new Queue<Func<CloneCharacter, bool>>(_fullHistory.Count);
             _fullHistory.ForEach(item => { clonedHistory.Enqueue((Func<CloneCharacter, bool>)item.Clone()); });
-            Debug.Log($"clonedHistory: {clonedHistory.Count}");
 
             var startingPosition = MapManager.Instance.StartTile.Position;
             var startTile = MapManager.Instance.GetTilesAt(startingPosition + new Vector(0,0,-1))[0];
