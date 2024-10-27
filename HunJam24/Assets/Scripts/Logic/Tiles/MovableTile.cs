@@ -42,6 +42,7 @@ namespace Logic.Tiles
             var to = MapManager.Instance.GetTilesAt(destinationPosition);
             if (to != null) to.ForEach(x=> x.EnterFrom(_position));
             _position = destinationPosition;
+            AudioManager.Instance.PlaySoundEffect("BoxSlide");
             StartCoroutine(moveSoftlyTo(destinationPosition));
             return true;
         }
@@ -61,7 +62,6 @@ namespace Logic.Tiles
             Vector3 startPos = transform.position;
             if (destination.Order > GetComponent<SpriteRenderer>().sortingOrder) 
                 GetComponent<SpriteRenderer>().sortingOrder = destination.Order;
-            AudioManager.Instance.PlaySoundEffect("BoxSlide");
             while (t <= 1f) {
                 t += Time.deltaTime * MOVE_MULTIPLIER;
                 transform.position = Vector3.Lerp(startPos, destination.UnityVector, t);

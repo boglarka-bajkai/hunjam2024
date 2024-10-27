@@ -153,6 +153,8 @@ namespace Logic.Characters
                 animator.Play(animName);
             }
 
+            if (!pushing) AudioManager.Instance.PlaySoundEffect("Step");
+            
             while (t <= WAITBEFORESTART)
             {
                 t += Time.deltaTime;
@@ -166,7 +168,6 @@ namespace Logic.Characters
             Debug.Log($"started from {Position.ToString()}");
             if (destinationV.Order > Position.Order)
                 GetComponent<SpriteRenderer>().sortingOrder = destinationV.Order+1;
-            if (!pushing) AudioManager.Instance.PlaySoundEffect("Step");
             while (t <= 1f)
             {
                 t += Time.deltaTime * MOVE_MULTIPLIER;

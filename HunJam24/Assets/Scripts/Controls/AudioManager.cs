@@ -78,15 +78,15 @@ namespace Controls
 
         public void PlaySoundEffect(string clipName, bool hasReversed = true)
         {
-            // var clip = GetClip(clipName, hasReversed);
-            // var source = GetClipSource(clipName, hasReversed);
+            var clip = GetClip(clipName, hasReversed);
+            var source = GetClipSource(clipName, hasReversed);
 
-            // if (source.isPlaying)
-            // {
-            //     source.Stop();
-            // }
+            if (source.isPlaying)
+            {
+                source.Stop();
+            }
 
-            // source.PlayOneShot(clip);
+            source.PlayOneShot(clip);
         }
 
         /*
