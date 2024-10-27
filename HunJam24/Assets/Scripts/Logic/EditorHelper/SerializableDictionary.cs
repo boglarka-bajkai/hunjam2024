@@ -578,7 +578,7 @@ namespace Serializer {
     }
     [Serializable]
     public class TileDictionary : SerializableDictionary<string, GameObject> {}
-    [Serializable] public class TileMap : SerializableDictionary<Vector3Int, string> {}
+    [Serializable] public class AudioClipDictionary : SerializableDictionary<string, AudioClip> {}
 
 
 public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
@@ -722,6 +722,9 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
             { typeof(Rect), (rect, value) => EditorGUI.RectField(rect, (Rect)value) },
             { typeof(ScriptableObject), (rect, value) =>
                 EditorGUI.ObjectField(rect, (ScriptableObject)value, typeof(ScriptableObject), false)
+            },
+            { typeof(AudioClip), (rect, value) =>
+                EditorGUI.ObjectField(rect, (AudioClip)value, typeof(AudioClip), false)
             }
         };
 
@@ -768,8 +771,8 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
 [CustomPropertyDrawer(typeof(TileDictionary))]
 public class MyDictionaryDrawer1 : DictionaryDrawer<string, GameObject> { }
 
-[CustomPropertyDrawer(typeof(TileMap))]
-public class MyDictionaryDrawer2 : DictionaryDrawer<Vector3Int, string> { }
+[CustomPropertyDrawer(typeof(AudioClipDictionary))]
+public class MyDictionaryDrawer2 : DictionaryDrawer<string, AudioClip> { }
 
 
 }
