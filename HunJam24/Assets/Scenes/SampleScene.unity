@@ -898,6 +898,7 @@ MonoBehaviour:
   musicSource: {fileID: 646548148}
   soundEffectsSource: {fileID: 974512921}
   backgroundMusic: {fileID: 8300000, guid: 1cff1df5ae810f14bb3653596961eeb0, type: 3}
+  reversedBackgroundMusic: {fileID: 8300000, guid: 16fbe6891fd513b45bd03f5b51e8a3a5, type: 3}
   step: {fileID: 0}
 --- !u!1001 &1588467499
 PrefabInstance:
