@@ -139,11 +139,11 @@ public class MapLoader : MonoBehaviour
     List<Dictionary<Vector, string>> maps = new();
     public void Start() {
         InvertColor.Instance.ToggleColorInversion();
-        //maps.Add(Map1);
-        maps.Add(Map2);
-        //maps.Add(Map3);
-        //maps.Add(Map4);
-        //maps.Add(Map5);
+        // maps.Add(Map1);
+        // maps.Add(Map2);
+        // maps.Add(Map3);
+        // maps.Add(Map4);
+        maps.Add(Map5);
         //maps.Add(Map6);
         TryLoadNextMap();
     }
