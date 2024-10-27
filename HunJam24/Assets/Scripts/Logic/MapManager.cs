@@ -57,7 +57,10 @@ namespace Logic
             {
                 Destroy(item.gameObject);
             }
-
+            StartTile = null;
+            Map.Clear();
+            if (Player != null) Destroy(Player.gameObject);
+            CloneManager.Instance.Reset();
             var maxX = map.Keys.Max(x => x.UnityVector.x);
             var maxY = map.Keys.Max(x => x.UnityVector.y);
             Vector.globalOffset = new Vector3(-maxX / 2, -maxY / 2, 0);

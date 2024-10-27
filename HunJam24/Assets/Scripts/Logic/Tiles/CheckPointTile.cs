@@ -9,9 +9,9 @@ namespace Logic.Tiles{
     {
         private AudioManager _audioManager;
         
-        private void Awake()
+        private void Start()
         {
-            _audioManager = GameObject.FindGameObjectWithTag("GameController").GetComponent<AudioManager>();
+            _audioManager = AudioManager.Instance;
         }
 
         public bool Activated {get; private set;} = false;
@@ -23,7 +23,7 @@ namespace Logic.Tiles{
             GetComponentInChildren<SpriteRenderer>().enabled = false;
             MapManager.Instance.StartTile.CheckAllCheckpoints();
             MapManager.Instance.Map.FindAll(x => x is MovableTile).ForEach(y => (y as MovableTile).Reset());
-            //_audioManager.PlayReversedMusic();
+            _audioManager.PlayReversedMusic();
         }
         public override bool CanMoveInFrom(Vector position)
         {

@@ -5,6 +5,9 @@ namespace Controls
 {
     public class AudioManager : MonoBehaviour
     {
+        private static AudioManager _instance;
+        public static AudioManager Instance => _instance;
+
         [Header("Audio Sources")]
         // Header
         [SerializeField]
@@ -29,6 +32,8 @@ namespace Controls
 
         private void Awake()
         {
+            if (_instance != null) Destroy(this);
+            _instance = this;
             if (!backgroundMusicSource || !reversedBackgroundMusicSource)
             {
                 throw new Exception("[AudioManager::Awake]: Music sources are not set properly");

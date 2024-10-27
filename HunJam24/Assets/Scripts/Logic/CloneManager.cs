@@ -17,8 +17,8 @@ namespace Logic
 
 
         [SerializeField] private GameObject clonePrefab;
-        private readonly List<Clone> _clones = new();
-        private readonly List<Func<CloneCharacter, bool>> _fullHistory = new();
+        private List<Clone> _clones = new();
+        private List<Func<CloneCharacter, bool>> _fullHistory = new();
 
         public List<Clone> GetClonesAt(Vector position)
         {
@@ -64,6 +64,14 @@ namespace Logic
             clone.SetHistory(clonedHistory);
             clone.SetCharacter(cloneCharacter);
             _clones.Add(clone);
+        }
+
+        public void Reset(){
+            _fullHistory = new();
+            foreach(var c in _clones){
+                Destroy(c.gameObject);
+            }
+            _clones.Clear();
         }
     }
 }
