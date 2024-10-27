@@ -43,6 +43,12 @@ namespace Controls
             if (Input.GetKeyDown(KeyCode.M))
             {
                 _audioManager.PlayReversedMusic();
+                _audioManager.PlaySoundEffect("Rewind", false);
+            }
+            
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                _audioManager.PlaySoundEffect("Rewind", false);
             }
         }
     }
