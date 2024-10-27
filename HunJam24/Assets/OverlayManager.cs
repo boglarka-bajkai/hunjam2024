@@ -17,7 +17,7 @@ public class OverlayManager : MonoBehaviour
 
 	public void ShowLoseScreen() {
 		loseScreen.SetActive(true);
-		Time.timeScale = 0f;
+		//Time.timeScale = 0f;
 	}
 
 }
