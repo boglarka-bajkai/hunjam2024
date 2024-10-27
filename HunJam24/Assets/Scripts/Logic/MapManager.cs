@@ -96,13 +96,15 @@ namespace Logic
         }
 
         List<TileBase> selectedTiles = new();
-
-        public void PlayerMoved(TileBase newTile)
-        {
+        public void ResetTiles() {
             foreach (var tile in selectedTiles)
             {
                 tile.GetComponentInChildren<SpriteRenderer>().material = baseMaterial;
             }
+        }
+        public void PlayerMoved(TileBase newTile)
+        {
+            ResetTiles();
             Debug.Log("updating-----");
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();

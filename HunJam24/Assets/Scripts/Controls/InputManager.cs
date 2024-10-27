@@ -1,5 +1,6 @@
 using System.Linq;
 using Logic;
+using Logic.Characters;
 using Logic.Tiles;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,7 +19,7 @@ namespace Controls
         public void OnClick(InputAction.CallbackContext context)
         {
             if (!context.started) return;
-
+            if (Character.IsAnyMoving) return; //Cant move while player or clones are moving
             var ray = Physics2D.GetRayIntersectionAll(_camera.ScreenPointToRay(Mouse.current.position.ReadValue()));
             if (ray.Length <= 0) return;
 

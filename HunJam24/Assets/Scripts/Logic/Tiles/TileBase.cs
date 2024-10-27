@@ -27,7 +27,7 @@ namespace Logic.Tiles
             }
         }
              
-        private Vector _position;
+        protected Vector _position;
         public virtual Vector Position
         {
             get => _position;
