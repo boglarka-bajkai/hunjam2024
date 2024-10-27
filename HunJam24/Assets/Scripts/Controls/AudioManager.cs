@@ -131,6 +131,7 @@ namespace Controls
 
         public void PlayGameMusic()
         {
+            _playingReversed = false;
             StopPlayingMusic(menuMusicSource, 0.1f);
             StartPlayingMusic(backgroundMusicSource, 2f);
         }
