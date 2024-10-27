@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Logic.Tiles;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Logic.Characters
 {
@@ -104,6 +105,15 @@ namespace Logic.Characters
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
             if (this is Player) MapManager.Instance.PlayerMoved(Tile);
             if (top != null) top.ForEach(x=> x.EnterFrom(Position));
+			if (this is Player)
+			{
+				var p = this as Player;
+				if(p.ShouldBeDead)
+				{
+					ScreenCapture.CaptureScreenshot("Died.png");
+					SceneManager.LoadScene("LoseScreen");
+				}
+			}
             return true;
         }
 
