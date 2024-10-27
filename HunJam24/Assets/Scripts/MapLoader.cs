@@ -27,11 +27,16 @@ public class MapLoader : MonoBehaviour
             { new Vector(2, 1, 0), "Base" },
             { new Vector(2, 0, 0), "Base" },
             { new Vector(1, 0, 0), "Base" },
-            { new Vector(3, 0, 0), "Base" },
+            { new Vector(0, 3, 0), "Base" },
             { new Vector(0, 0, 1), "Start" },
-            { new Vector(1, 0, 1), "Box" },
+            { new Vector(0, 1, 1), "Box" },
             { new Vector(2, 2, 1), "Checkpoint" },
+            { new Vector(0, 2, 1), "Pressureplate"},
+            { new Vector(2, 0, 1), "Spike"}
         };
+    List<Tuple<Vector, Vector>> Conn1 = new() {
+        new(new Vector(2,0,1), new Vector(0,2,1)),
+    };
     Dictionary<Vector, string> Map2 =>
         new Dictionary<Vector, string>()
         {
@@ -83,12 +88,12 @@ public class MapLoader : MonoBehaviour
             { new Vector(1, 0, 0), "Base" },
             { new Vector(1, 0, 1), "Checkpoint" },
             { new Vector(1, 1, 0), "Base" },
-            { new Vector(1, 2, 0), "Base" }, //map.Add(new Vector(1, 2, 1), "Spike");
+            { new Vector(1, 2, 0), "Base" }, { new Vector(1, 2, 1), "Spike"},
             { new Vector(0, 3, 0), "Base" },
             { new Vector(1, 3, 0), "Base" },
             { new Vector(2, 3, 0), "Base" },
             { new Vector(0, 4, 0), "Base" },
-            { new Vector(1, 4, 0), "Base" }, //map.Add(new Vector(1, 2, 1), "Plate");
+            { new Vector(1, 4, 0), "Base" }, { new Vector(1, 4, 1), "Pressureplate"},
             { new Vector(2, 4, 0), "Base" },
             { new Vector(0, 5, 0), "Base" },
             { new Vector(1, 5, 0), "Base" },
@@ -100,6 +105,9 @@ public class MapLoader : MonoBehaviour
             { new Vector(1, 7, 0), "Base" },
             { new Vector(1, 7, 1), "Start" }
         };
+        List<Tuple<Vector, Vector>> Conn5 = new() {
+        new(new Vector(1,2,1), new Vector(1,4,1)),
+    };
 
     Dictionary<Vector, string> Map4 =>
         new Dictionary<Vector, string>()
@@ -125,27 +133,83 @@ public class MapLoader : MonoBehaviour
             { new Vector(1, 0, 0), "Base" },
             { new Vector(1, 0, 1), "Checkpoint" },
             { new Vector(1, 1, 0), "Base" },
-            { new Vector(1, 2, 0), "Base" }, //map.Add(new Vector(1, 2, 1), "Spike");
+            { new Vector(1, 2, 0), "Base" }, { new Vector(1, 2, 1), "Spike"},
             { new Vector(0, 3, 0), "Base" },
             { new Vector(1, 3, 0), "Base" },
-            { new Vector(2, 3, 0), "Base" }, //map.Add(new Vector(1, 2, 1), "Plate");
+            { new Vector(2, 3, 0), "Base" }, { new Vector(2, 3, 1), "Pressureplate"},
             { new Vector(0, 4, 0), "Base" },
             { new Vector(1, 4, 0), "Base" }, { new Vector(1, 4, 1), "Box" },
             { new Vector(0, 5, 0), "Base" },
             { new Vector(1, 5, 0), "Base" },
             { new Vector(0, 5, 1), "Start" }
         };
+    List<Tuple<Vector, Vector>> Conn6 = new() {
+        new(new Vector(1,2,1), new Vector(2,3,1)),
+    };
+    
+    Dictionary<Vector, string> Map7 =>
+        new Dictionary<Vector, string>()
+        {
+            { new Vector(6, 0, 0), "Base" },{ new Vector(6, 0, 1), "Checkpoint" },
+            { new Vector(6, 1, 0), "Base" },
+            { new Vector(6, 2, 0), "Base" },{ new Vector(6, 2, 1), "Spike"},
+            { new Vector(6, 3, 0), "Base" },
+            { new Vector(5, 3, 0), "Base" },
+            { new Vector(4, 3, 0), "Base" },
+            { new Vector(3, 2, 0), "Base" },{ new Vector(3, 2, 1), "Pressureplate"},
+            { new Vector(3, 3, 0), "Base" },
+            { new Vector(3, 4, 0), "Base" },
+            { new Vector(2, 3, 0), "Base" },
+            { new Vector(2, 4, 0), "Base" },
+            { new Vector(1, 3, 0), "Base" },
+            { new Vector(0, 3, 0), "Base" },{ new Vector(0, 3, 1), "Start" }
+        };
+        List<Tuple<Vector, Vector>> Conn7 = new() {
+        new(new Vector(6,2,1), new Vector(3,2,1)),
+    };
+    
+    Dictionary<Vector, string> Map8 =>
+        new Dictionary<Vector, string>()
+        {
+            { new Vector(0, 4, 0), "Base" },{ new Vector(0, 4, 1), "Start" },
+            { new Vector(1 ,4, 0), "Base" },
+            { new Vector(2, 0, 0), "Base" },{ new Vector(2, 0, 1), "Pressureplate"},
+            { new Vector(2, 1, 0), "Base" },
+            { new Vector(2, 2, 0), "Base" },
+            { new Vector(2, 3, 0), "Base" },
+            { new Vector(2, 4, 0), "Base" },
+            { new Vector(3, 0, 0), "Base" },
+            { new Vector(3, 2, 0), "Base" },{ new Vector(3, 2, 1), "Spike"},
+            { new Vector(4, 0, 0), "Base" },{ new Vector(4, 0, 1), "Checkpoint" },
+            { new Vector(4, 1, 0), "Base" },{ new Vector(4, 1, 1), "Spike"},
+            { new Vector(4, 2, 0), "Base" },{ new Vector(4, 2, 1), "Spike"}
+        };
+        List<Tuple<Vector, Vector>> Conn8 = new() {
+        new(new Vector(3,2,1), new Vector(2,0,1)),
+        new(new Vector(4,1,1), new Vector(2,0,1)),
+        new(new Vector(4,2,1), new Vector(2,0,1)),
+    };
     
     int currentMap = 0;
     List<Dictionary<Vector, string>> maps = new();
-    public void Start() {
+    public void StartGame() {
         InvertColor.Instance.ToggleColorInversion();
-        // maps.Add(Map1);
-        // maps.Add(Map2);
-        //maps.Add(Map3);
-        //maps.Add(Map4);
+        maps.Add(Map1);
+        Conns.Add(Conn1);
+        maps.Add(Map2);
+        Conns.Add(null);
+        maps.Add(Map3);
+        Conns.Add(null);
+        maps.Add(Map4);
+        Conns.Add(null);
         maps.Add(Map5);
-        //maps.Add(Map6);
+        Conns.Add(Conn5);
+        maps.Add(Map6);
+        Conns.Add(Conn6);
+        maps.Add(Map7);
+        Conns.Add(Conn7);
+        maps.Add(Map8);
+        Conns.Add(Conn8);
         TryLoadNextMap();
     }
     //First coords is what to connect (spike, inverse spike)
@@ -161,14 +225,14 @@ public class MapLoader : MonoBehaviour
         null
     };
     public void TryLoadNextMap() {
-        InvertColor.Instance.ToggleColorInversion();
+        InvertColor.Instance.ResetColor();
         if (currentMap < maps.Count){
             MapManager.Instance.SetMap(maps[currentMap], Conns[currentMap]);
-            InvertColor.Instance.ResetColor();
+            
             currentMap++;
         }
         else {
-            //TODO: Victory screen
+            OverlayManager.Instance.ShowWinScreen();
         }
     }
 
