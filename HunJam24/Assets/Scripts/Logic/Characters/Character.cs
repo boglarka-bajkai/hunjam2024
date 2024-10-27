@@ -101,12 +101,36 @@ namespace Logic.Characters
                 return false;
             }
 
-            Tile = destination;
+			var dirVec = Position.DistanceFrom(destination.Position);
+			Debug.Log(dirVec);
+			Animator animator = GetComponent<Animator>();
+			if (dirVec.Equals(new Vector(1, 0, -1)))
+			{
+				Debug.Log("UR");
+				animator.SetInteger("dir", 0);
+			}
+			if (dirVec.Equals(new Vector(0, -1, -1)))
+			{
+				Debug.Log("UL");
+				animator.SetInteger("dir", 1);
+			}
+			if (dirVec.Equals(new Vector(-1, -0, -1)))
+			{
+				Debug.Log("DL");
+				animator.SetInteger("dir", 2);
+			}
+			if (dirVec.Equals(new Vector(0, 1, -1)))
+			{
+				Debug.Log("DR");
+				animator.SetInteger("dir", 3);
+			}
+			animator.SetTrigger("jumping");
+			Tile = destination;
             transform.position = Position.UnityVector;
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
             MapManager.Instance.PlayerMoved(Tile);
-
-            return true;
+			//animator.ResetTrigger("jumping");
+			return true;
         }
 
         /*
