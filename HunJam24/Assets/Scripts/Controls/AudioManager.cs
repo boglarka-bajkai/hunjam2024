@@ -11,7 +11,7 @@ namespace Controls
         [SerializeField]
         private AudioSource musicSource;
 
-        [SerializeField] private AudioSource soundEffects;
+        [SerializeField] private AudioSource soundEffectsSource;
 
 
         [Header("Audio Clips")]
@@ -28,6 +28,16 @@ namespace Controls
 
             musicSource.clip = backgroundMusic;
             musicSource.Play();
+        }
+
+        public void PlaySoundEffect(AudioClip soundEffect)
+        {
+            if (soundEffect == null)
+            {
+                Debug.Log("[AudioManager::PlaySoundEffect]: Given sound effect is null");
+            }
+            
+            soundEffectsSource.PlayOneShot(soundEffect);
         }
     }
 }
