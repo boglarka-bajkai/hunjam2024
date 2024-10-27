@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Controls
 {
@@ -9,7 +8,11 @@ namespace Controls
         [Header("Audio Sources")]
         // Header
         [SerializeField]
-        private AudioSource musicSource;
+        private AudioSource backgroundMusicSource;
+
+        [SerializeField] private AudioSource reversedBackgroundMusicSource;
+
+        private bool _playingReversed;
 
         [SerializeField] private AudioSource soundEffectsSource;
 
@@ -24,12 +27,28 @@ namespace Controls
         [SerializeField] public AudioClip step;
 
 
+        private void Awake()
+        {
+            if (!backgroundMusicSource || !reversedBackgroundMusicSource)
+            {
+                throw new Exception("[AudioManager::Awake]: Music sources are not set properly");
+            }
+
+            if (!backgroundMusic || !reversedBackgroundMusic)
+            {
+                throw new Exception("[AudioManager::Awake]: Music clips are not set properly");
+            }
+
+            backgroundMusicSource.clip = backgroundMusic;
+            reversedBackgroundMusicSource.clip = reversedBackgroundMusic;
+
+            backgroundMusicSource.loop = true;
+            reversedBackgroundMusicSource.loop = true;
+        }
+
         private void Start()
         {
-            if (!musicSource || !backgroundMusic) return;
-
-            musicSource.clip = backgroundMusic;
-            musicSource.Play();
+            backgroundMusicSource.Play();
         }
 
         public void PlaySoundEffect(AudioClip soundEffect)
@@ -48,8 +67,18 @@ namespace Controls
          */
         public void PlayReversedMusic()
         {
-            musicSource.clip = musicSource.clip == backgroundMusic ? reversedBackgroundMusic : backgroundMusic;
-            musicSource.Play();
+            if (!_playingReversed)
+            {
+                _playingReversed = true;
+                backgroundMusicSource.Stop();
+                reversedBackgroundMusicSource.Play();
+            }
+            else
+            {
+                _playingReversed = false;
+                reversedBackgroundMusicSource.Stop();
+                backgroundMusicSource.Play();
+            }
         }
     }
 }

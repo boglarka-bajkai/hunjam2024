@@ -10,10 +10,12 @@ namespace Controls
     public class InputManager : MonoBehaviour
     {
         private Camera _camera;
+        private AudioManager _audioManager;
 
         private void Awake()
         {
             _camera = Camera.main;
+            _audioManager = GetComponent<AudioManager>();
         }
 
         public void OnClick(InputAction.CallbackContext context)
@@ -33,6 +35,14 @@ namespace Controls
             if (!CommandExecutor.Execute(tile.Command))
             {
                 Debug.Log($"Player could not execute command with tile {tile.name}");
+            }
+        }
+
+        public void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                _audioManager.PlayReversedMusic();
             }
         }
     }
