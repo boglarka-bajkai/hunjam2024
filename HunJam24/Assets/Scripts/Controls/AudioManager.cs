@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using Serializer;
+using Sounds;
 using UnityEngine;
 
 namespace Controls
 {
     public class AudioManager : MonoBehaviour
     {
-        private static AudioManager _instance;
-        public static AudioManager Instance => _instance;
+        public static AudioManager Instance { get; private set; }
 
         [Header("Audio Sources")]
         // Header
@@ -19,11 +19,14 @@ namespace Controls
 
         private bool _playingReversed;
 
-        [SerializeField] private AudioSource soundEffectsSource;
 
-        [Header("Audio Clip maps")]
-        [SerializeField] AudioClipDictionary normalClips;
-        [SerializeField] AudioClipDictionary reverseClips;
+        [Header("Audio Clip maps")] [SerializeField]
+        private AudioClipDictionary normalClips;
+
+        [SerializeField] private AudioClipDictionary reverseClips;
+
+        private readonly Dictionary<string, AudioSource> _normalClipSources = new();
+        private readonly Dictionary<string, AudioSource> _reversedClipSources = new();
 
 
         [Header("Audio Clips")]
@@ -32,15 +35,12 @@ namespace Controls
         private AudioClip backgroundMusic;
 
         [SerializeField] private AudioClip reversedBackgroundMusic;
-        
-        public AudioClip GetClip(string name) {
-            if (_playingReversed) return reverseClips[name];
-            else return normalClips[name];
-        }
+
+
         private void Awake()
         {
-            if (_instance != null) Destroy(this);
-            _instance = this;
+            if (Instance != null) Destroy(this);
+            Instance = this;
             if (!backgroundMusicSource || !reversedBackgroundMusicSource)
             {
                 throw new Exception("[AudioManager::Awake]: Music sources are not set properly");
@@ -59,6 +59,16 @@ namespace Controls
 
             backgroundMusicSource.loop = true;
             reversedBackgroundMusicSource.loop = true;
+
+            foreach (var (clipName, _) in normalClips)
+            {
+                _normalClipSources[clipName] = gameObject.AddComponent<AudioSource>();
+            }
+
+            foreach (var (clipName, _) in reverseClips)
+            {
+                _reversedClipSources[clipName] = gameObject.AddComponent<AudioSource>();
+            }
         }
 
         private void Start()
@@ -66,14 +76,17 @@ namespace Controls
             StartPlayingMusic(backgroundMusicSource);
         }
 
-        public void PlaySoundEffect(AudioClip soundEffect)
+        public void PlaySoundEffect(string clipName, bool hasReversed = true)
         {
-            if (soundEffect == null)
+            var clip = GetClip(clipName, hasReversed);
+            var source = GetClipSource(clipName, hasReversed);
+
+            if (source.isPlaying)
             {
-                Debug.Log("[AudioManager::PlaySoundEffect]: Given sound effect is null");
+                source.Stop();
             }
 
-            soundEffectsSource.PlayOneShot(soundEffect);
+            source.PlayOneShot(clip);
         }
 
         /*
@@ -98,34 +111,22 @@ namespace Controls
 
         private void StartPlayingMusic(AudioSource source)
         {
-            StartCoroutine(Fade(source, 1f, 1f));
+            StartCoroutine(SoundHelper.Fade(source, 5f, 1f));
         }
-        
+
         private void StopPlayingMusic(AudioSource source)
         {
-            StartCoroutine(Fade(source, 1f, 0f));
+            StartCoroutine(SoundHelper.Fade(source, 0f, 0f));
         }
 
-        private static IEnumerator Fade(AudioSource source, float duration, float targetVolume)
+        private AudioClip GetClip(string clipName, bool hasReversed)
         {
-            if (targetVolume != 0f)
-            {
-                source.Play();
-            }
+            return _playingReversed && hasReversed ? reverseClips[clipName] : normalClips[clipName];
+        }
 
-            var time = 0f;
-            var startVol = source.volume;
-            while (time < duration)
-            {
-                time += Time.deltaTime;
-                source.volume = Mathf.Lerp(startVol, targetVolume, time / duration);
-                yield return null;
-            }
-
-            if (targetVolume == 0f)
-            {
-                source.Stop();
-            }
+        private AudioSource GetClipSource(string clipName, bool hasReversed)
+        {
+            return _playingReversed && hasReversed ? _reversedClipSources[clipName] : _normalClipSources[clipName];
         }
     }
 }

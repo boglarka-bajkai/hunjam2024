@@ -24,6 +24,8 @@ namespace Logic.Tiles{
             MapManager.Instance.StartTile.CheckAllCheckpoints();
             MapManager.Instance.Map.FindAll(x => x is MovableTile).ForEach(y => (y as MovableTile).Reset());
             _audioManager.PlayReversedMusic();
+            _audioManager.PlaySoundEffect("Rewind", false);
+            InvertColor.Instance.ToggleColorInversion();
         }
         public override bool CanMoveInFrom(Vector position)
         {

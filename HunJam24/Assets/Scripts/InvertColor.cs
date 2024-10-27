@@ -3,6 +3,15 @@ using UnityEngine.UI;
 
 public class InvertColor : MonoBehaviour
 {
+    private static InvertColor _instance;
+
+    void Awake()
+    {
+        if (_instance != null) Destroy(this);
+        _instance = this;
+    }
+
+    public static InvertColor Instance => _instance;    
     public Material invertMaterial; // Assign this in the Inspector
     private bool isColorInverted = false;
     private Camera mainCamera;
@@ -13,17 +22,9 @@ public class InvertColor : MonoBehaviour
         mainCamera = Camera.main;
     }
 
-    void Update()
+    public void ToggleColorInversion()
     {
-        // Check if the space key is pressed
-        if (Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            ToggleColorInversion();
-        }
-    }
-
-    void ToggleColorInversion()
-    {
+        Debug.Log("Invert!");
         // Toggle color inversion on or off
         isColorInverted = !isColorInverted;
         if (isColorInverted)
