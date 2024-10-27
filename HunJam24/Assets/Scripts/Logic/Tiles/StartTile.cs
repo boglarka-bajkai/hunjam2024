@@ -1,4 +1,5 @@
 using System;
+using Controls;
 using Logic.Characters;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Logic.Tiles{
         public override void EnterFrom(Vector pos)
         {
             Debug.Log("Happy End!");
+            AudioManager.Instance.PlayReversedMusic();
+            MapLoader.Instance.TryLoadNextMap();
         }
         public override bool CanMoveInFrom(Vector position)
         {

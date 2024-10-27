@@ -57,13 +57,16 @@ namespace Logic
             {
                 Destroy(item.gameObject);
             }
-
+            StartTile = null;
+            Map.Clear();
+            if (Player != null) Destroy(Player.gameObject);
+            CloneManager.Instance.Reset();
             var maxX = map.Keys.Max(x => x.UnityVector.x);
             var maxY = map.Keys.Max(x => x.UnityVector.y);
             Vector.globalOffset = new Vector3(-maxX / 2, -maxY / 2, 0);
             foreach (var (pos, tile) in map.Select(x => (x.Key, x.Value)))
             {
-                var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity);
+                var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity, transform);
                 var t = go.GetComponentInChildren<TileBase>();
                 t.Position = pos;
                 t.name = pos.ToString();
@@ -96,13 +99,15 @@ namespace Logic
         }
 
         List<TileBase> selectedTiles = new();
-
-        public void PlayerMoved(TileBase newTile)
-        {
+        public void ResetTiles() {
             foreach (var tile in selectedTiles)
             {
                 tile.GetComponentInChildren<SpriteRenderer>().material = baseMaterial;
             }
+        }
+        public void PlayerMoved(TileBase newTile)
+        {
+            ResetTiles();
             Debug.Log("updating-----");
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
@@ -111,7 +116,6 @@ namespace Logic
             {
                 t.GetComponentInChildren<SpriteRenderer>().material = selectMaterial;
             }
-            CloneManager.Instance.Tick();
         }
     }
 }

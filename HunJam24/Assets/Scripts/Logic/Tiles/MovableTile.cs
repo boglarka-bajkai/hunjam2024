@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Logic.Characters;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -20,6 +21,14 @@ namespace Logic.Tiles
         public void Reset(){
             Position = startPosition;
         }
+        public bool CouldMoveTo(Vector destinationPosition) {
+            var destination = MapManager.Instance.GetTilesAt(destinationPosition);
+            if (destination != null && !destination.TrueForAll(x=> x.CanMoveOn(this)))
+            {
+                return false;
+            }
+            return true;
+        }
         public override bool MoveTo(Vector destinationPosition)
         {
             var destination = MapManager.Instance.GetTilesAt(destinationPosition);
@@ -27,9 +36,33 @@ namespace Logic.Tiles
             {
                 return false;
             }
-
-            Position = destinationPosition;
+            _position = destinationPosition;
+            StartCoroutine(moveSoftlyTo(destinationPosition));
             return true;
+        }
+        const float WAITBEFORESTART = .1f;
+        const float MOVE_MULTIPLIER = 1.1f;
+        IEnumerator moveSoftlyTo(Vector destination) {
+            float t = 0f;
+            //Wait for jump anim
+            yield return new WaitForEndOfFrame();
+            
+            while (t <= WAITBEFORESTART) {
+                t += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+            //Move smoothly
+            t = 0f;
+            Vector3 startPos = transform.position;
+            if (destination.Order > GetComponent<SpriteRenderer>().sortingOrder) 
+                GetComponent<SpriteRenderer>().sortingOrder = destination.Order;
+            while (t <= 1f) {
+                t += Time.deltaTime * MOVE_MULTIPLIER;
+                transform.position = Vector3.Lerp(startPos, destination.UnityVector, t);
+                yield return new WaitForEndOfFrame();
+            }
+            GetComponent<SpriteRenderer>().sortingOrder = destination.Order;
+            
         }
 
         public override Func<Character, bool> Command => character =>

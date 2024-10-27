@@ -4,6 +4,6 @@
     {
         private CloneManager _cloneManager;
 
-        public bool ShouldBeDead => _cloneManager.GetClonesAt(Position).Count != 0;
+        public bool ShouldBeDead => CloneManager.Instance.GetClonesAt(Position).Count != 0;
     }
 }
