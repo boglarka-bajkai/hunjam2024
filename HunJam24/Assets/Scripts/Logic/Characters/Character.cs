@@ -39,7 +39,8 @@ namespace Logic.Characters
                             result.Add(neighbour);
                         }
                     }
-                    else if (targetTile.TrueForAll(x=> x.CanMoveInFrom(Position)))
+                    else if (targetTile.TrueForAll(x=> x.CanMoveInFrom(Position))
+                        && CloneManager.Instance.GetClonesAt(neighbour.Position + new Vector(0, 0, 1)).Count <= 0)
                     {
                         result.AddRange(targetTile);
                         if (targetTile.TrueForAll(x => x is not MovableTile)) result.Add(neighbour);
