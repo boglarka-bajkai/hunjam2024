@@ -16,6 +16,8 @@ namespace Controls
         private AudioSource backgroundMusicSource;
 
         [SerializeField] private AudioSource reversedBackgroundMusicSource;
+        [SerializeField]
+        private AudioSource menuMusicSource;
 
         private bool _playingReversed;
 
@@ -30,6 +32,8 @@ namespace Controls
         private AudioClip backgroundMusic;
 
         [SerializeField] private AudioClip reversedBackgroundMusic;
+        [SerializeField]
+        private AudioClip menuMusic;
 
 
         private void Awake()
@@ -107,6 +111,29 @@ namespace Controls
         private void StopPlayingMusic(AudioSource source, float fadeDuration, float delay = 0f)
         {
             StartCoroutine(SoundHelper.Fade(source, fadeDuration, delay, 0f));
+        }
+
+        public void PlayMenuMusic()
+        {
+            if (!_playingReversed)
+            {
+                _playingReversed = true;
+                StopPlayingMusic(backgroundMusicSource, 0.1f);
+            }
+            else
+            {
+                _playingReversed = false;
+                StopPlayingMusic(reversedBackgroundMusicSource, 0.1f);
+            }
+            
+            StartPlayingMusic(menuMusicSource, 2f);
+        }
+
+        public void PlayGameMusic()
+        {
+            _playingReversed = false;
+            StopPlayingMusic(menuMusicSource, 0.1f);
+            StartPlayingMusic(backgroundMusicSource, 2f);
         }
 
         private AudioClip GetClip(string clipName)

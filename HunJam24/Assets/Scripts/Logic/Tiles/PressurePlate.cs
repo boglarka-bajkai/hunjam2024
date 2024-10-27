@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System;
+using Controls;
 using Logic.Characters;
 using UnityEngine;
 
@@ -34,6 +35,8 @@ namespace Logic.Tiles{
             listeners.ForEach(x=>x.Activate());
             active.SetActive(true);
             inactive.SetActive(false);
+            
+            AudioManager.Instance.PlaySoundEffect("PressurePlate");
         }
 
         public override void ExitTo(Vector position)
