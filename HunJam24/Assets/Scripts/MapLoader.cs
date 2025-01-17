@@ -158,6 +158,7 @@ public class MapLoader : MonoBehaviour
             { new Vector(4, 3, 0), "Base" },
             { new Vector(3, 2, 0), "Base" },{ new Vector(3, 2, 1), "Pressureplate"},
             { new Vector(3, 3, 0), "Base" },
+            { new Vector(3, 3, 1), "Box" },
             { new Vector(3, 4, 0), "Base" },
             { new Vector(2, 3, 0), "Base" },
             { new Vector(2, 4, 0), "Base" },
