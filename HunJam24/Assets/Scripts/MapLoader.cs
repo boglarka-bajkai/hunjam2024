@@ -217,13 +217,7 @@ public class MapLoader : MonoBehaviour
     List<Tuple<Vector, Vector>> ConnsTest = new(){
         new(new Vector(2, 0, 1), new Vector(0,2,1)),
     };
-    List<List<Tuple<Vector, Vector>>> Conns = new() {
-        null,
-        null,
-        null,
-        null,
-        null
-    };
+    List<List<Tuple<Vector, Vector>>> Conns = new();
     public void TryLoadNextMap() {
         InvertColor.Instance.ResetColor();
         if (currentMap < maps.Count){

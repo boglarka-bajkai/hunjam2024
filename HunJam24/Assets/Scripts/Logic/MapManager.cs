@@ -107,7 +107,6 @@ namespace Logic
         public void PlayerMoved(TileBase newTile)
         {
             ResetTiles();
-            Debug.Log("updating-----");
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
 

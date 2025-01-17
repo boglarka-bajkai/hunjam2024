@@ -32,8 +32,7 @@ namespace Controls
         private AudioClip backgroundMusic;
 
         [SerializeField] private AudioClip reversedBackgroundMusic;
-        [SerializeField]
-        private AudioClip menuMusic;
+        [SerializeField] private AudioClip menuMusic;
 
 
         private void Awake()

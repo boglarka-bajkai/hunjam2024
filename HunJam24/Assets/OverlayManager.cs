@@ -10,6 +10,7 @@ public class OverlayManager : MonoBehaviour
 	[SerializeField] GameObject loseScreen;
 	[SerializeField] GameObject winScreen;
 	[SerializeField] GameObject menuScreen;
+	[SerializeField] GameObject gameOverlay;
 	[SerializeField] UnityEngine.UI.Button restart;
 	[SerializeField] UnityEngine.UI.Button start;
 	[SerializeField] UnityEngine.UI.Button quit;
@@ -26,6 +27,7 @@ public class OverlayManager : MonoBehaviour
 		start.onClick.AddListener(() =>{
 			MapLoader.Instance.StartGame();
 			menuScreen.SetActive(false);
+			gameOverlay.SetActive(true);
 		});
 		quit.onClick.AddListener(() =>{
 			Application.Quit();
@@ -33,7 +35,10 @@ public class OverlayManager : MonoBehaviour
 		quit2.onClick.AddListener(() =>{
 			Application.Quit();
 		});
-		
+		loseScreen.SetActive(false);
+		winScreen.SetActive(false);
+		menuScreen.SetActive(true);
+		gameOverlay.SetActive(false);
 	}
 	public static OverlayManager Instance => _instance;
 
@@ -48,5 +53,6 @@ public class OverlayManager : MonoBehaviour
 		Character.movingCount++;
 		restart.gameObject.SetActive(false);
 	}
+
 
 }

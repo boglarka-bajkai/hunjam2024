@@ -57,7 +57,6 @@ namespace Logic.Tiles
             _active = false;
             active.SetActive(false);
             inactive.SetActive(true);
-
         }
 
         public virtual void Deactivate()
