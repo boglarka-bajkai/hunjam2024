@@ -20,6 +20,8 @@ namespace Logic.Tiles
             }
         }
         public void Reset(){
+            MapManager.Instance.GetTilesAt(Position)?.ForEach(x=> x.ExitTo(startPosition));
+            MapManager.Instance.GetTilesAt(startPosition)?.ForEach(x=> x.EnterFrom(Position));
             Position = startPosition;
         }
         public bool CouldMoveTo(Vector destinationPosition) {
