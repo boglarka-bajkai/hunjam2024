@@ -36,7 +36,10 @@ namespace Logic.Tiles
             if (destination != null && !destination.TrueForAll(x=> x.CanMoveOn(this))) return false;
             if (CloneManager.Instance.GetClonesAt(destinationPosition).Count > 0) return false;
             var from = MapManager.Instance.GetTilesAt(_position);
-            if (from != null) from.ForEach(x=> x.ExitTo(destinationPosition));
+            //if (from != null) from.ForEach(x=> x.ExitTo(destinationPosition)); 
+            //Experimental: In theory, we do not need to call ExitTo here, as the only way a MovableTile moves off a tile
+            //is by being pushed off of it, but then the pushing player/clone will take its place on the tile,
+            //meaning it will stay occupied.
             var to = MapManager.Instance.GetTilesAt(destinationPosition);
             if (to != null) to.ForEach(x=> x.EnterFrom(_position));
             _position = destinationPosition;
