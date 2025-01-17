@@ -34,19 +34,6 @@ namespace Logic
 
             _clones.ForEach(clone => { clone.UpdateHistory(action); });
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyUp(KeyCode.Space))
-            {
-                Spawn();
-            }
-
-            if (Input.GetKeyUp(KeyCode.LeftShift))
-            {
-                Tick();
-            }
-        }
         public void Tick() {
             _clones.ForEach(clone => clone.Step());
         }
