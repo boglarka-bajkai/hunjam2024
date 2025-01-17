@@ -12,7 +12,10 @@ namespace Logic.Tiles{
         }
         public override void EnterFrom(Vector pos)
         {
+            // Check if all checkpoints are activated
             if (MapManager.Instance.Map.FindAll(x=> x is CheckPointTile && !(x as CheckPointTile).Activated).Count > 0) return;
+            // Check if player is on the tile, instead of clone
+            if (CloneManager.Instance.GetClonesAt(Position).Count > 0) return;
             AudioManager.Instance.PlayReversedMusic(2f);
             AudioManager.Instance.PlaySoundEffect("Rewind");
             MapLoader.Instance.TryLoadNextMap();
