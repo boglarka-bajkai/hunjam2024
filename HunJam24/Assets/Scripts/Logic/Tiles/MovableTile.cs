@@ -26,19 +26,15 @@ namespace Logic.Tiles
         }
         public bool CouldMoveTo(Vector destinationPosition) {
             var destination = MapManager.Instance.GetTilesAt(destinationPosition);
-            if (destination != null && !destination.TrueForAll(x=> x.CanMoveOn(this)))
-            {
-                return false;
-            }
+            if (destination != null && !destination.TrueForAll(x=> x.CanMoveOn(this))) return false;
+            if (CloneManager.Instance.GetClonesAt(destinationPosition).Count > 0) return false;
             return true;
         }
         public override bool MoveTo(Vector destinationPosition)
         {
             var destination = MapManager.Instance.GetTilesAt(destinationPosition);
-            if (destination != null && !destination.TrueForAll(x=> x.CanMoveOn(this)))
-            {
-                return false;
-            }
+            if (destination != null && !destination.TrueForAll(x=> x.CanMoveOn(this))) return false;
+            if (CloneManager.Instance.GetClonesAt(destinationPosition).Count > 0) return false;
             var from = MapManager.Instance.GetTilesAt(_position);
             if (from != null) from.ForEach(x=> x.ExitTo(destinationPosition));
             var to = MapManager.Instance.GetTilesAt(destinationPosition);
