@@ -1,9 +1,19 @@
 using System;
+using System.Linq;
+using Controls;
 using Logic.Characters;
 using UnityEngine;
 
 namespace Logic.Tiles{
-    public class CheckPointTile : TileBase {
+    public class CheckPointTile : TileBase
+    {
+        private AudioManager _audioManager;
+        
+        private void Start()
+        {
+            _audioManager = AudioManager.Instance;
+        }
+
         public bool Activated {get; private set;} = false;
         public override void EnterFrom(Vector position)
         {
@@ -12,6 +22,10 @@ namespace Logic.Tiles{
             Activated = true;
             GetComponentInChildren<SpriteRenderer>().enabled = false;
             MapManager.Instance.StartTile.CheckAllCheckpoints();
+            MapManager.Instance.Map.FindAll(x => x is MovableTile).ForEach(y => (y as MovableTile).Reset());
+            _audioManager.PlayReversedMusic(2f);
+            _audioManager.PlaySoundEffect("Rewind");
+            InvertColor.Instance.ToggleColorInversion();
         }
         public override bool CanMoveInFrom(Vector position)
         {
@@ -27,9 +41,9 @@ namespace Logic.Tiles{
         }
         public override Func<Character, bool> Command => character =>
         {
-            var baseTile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, -1));
-            Debug.Log($"baseTile {baseTile.name}");
-            return character.MoveOnto(baseTile);
+            var baseTile = MapManager.Instance.GetTilesAt(Position + new Vector(0, 0, -1));
+            if (baseTile == null) return false;
+            return character.MoveOnto(baseTile[0]);
         };
         public override void UpdateSprite() { }
     }

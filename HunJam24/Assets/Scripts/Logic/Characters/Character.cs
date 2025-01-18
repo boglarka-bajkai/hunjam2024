@@ -1,11 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Controls;
 using Logic.Tiles;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Logic.Characters
 {
     public class Character : MonoBehaviour
     {
+        public static int movingCount = 0;
+        public static bool IsAnyMoving => movingCount > 0;
         private TileBase Tile { get; set; }
 
         /***********
@@ -24,20 +30,21 @@ namespace Logic.Characters
             {
                 foreach (var neighbour in Tile.GetNeighboursInLevel(Tile.Position.Z + zOffset))
                 {
-                    var targetTile = MapManager.Instance.GetTileAt(neighbour.Position + new Vector(0, 0, 1));
+                    var targetTile = MapManager.Instance.GetTilesAt(neighbour.Position + new Vector(0, 0, 1));
 
                     if (targetTile == null)
                     {
-                        if (neighbour.CanMoveOnFrom(Position)) {
-                            Debug.Log($"{neighbour.name} added from targetTile null");
+                        if (neighbour.CanMoveOnFrom(Position)
+                            && CloneManager.Instance.GetClonesAt(neighbour.Position + new Vector(0, 0, 1)).Count <= 0)
+                        {
                             result.Add(neighbour);
                         }
                     }
-                    else if (targetTile.CanMoveInFrom(Position))
+                    else if (targetTile.TrueForAll(x => x.CanMoveInFrom(Position))
+                             && CloneManager.Instance.GetClonesAt(neighbour.Position + new Vector(0, 0, 1)).Count <= 0)
                     {
-                        Debug.Log($"{targetTile.name} added at canmovein");
-                        result.Add(targetTile);
-                        if (targetTile is not MovableTile) result.Add(neighbour);
+                        result.AddRange(targetTile);
+                        if (targetTile.TrueForAll(x => x is not MovableTile)) result.Add(neighbour);
                     }
                 }
             }
@@ -51,7 +58,7 @@ namespace Logic.Characters
         public void SetStartingTile(TileBase t)
         {
             if (Tile == null) Tile = t;
-            GetComponentInChildren<SpriteRenderer>().sortingOrder = Position.Order;
+            GetComponentInChildren<SpriteRenderer>().sortingOrder = Position.Order+1;
         }
 
 
@@ -61,46 +68,146 @@ namespace Logic.Characters
          */
         public bool MoveOnto(TileBase destination)
         {
-            var top = MapManager.Instance.GetTileAt(destination.Position + new Vector(0,0,1));
+            var top = MapManager.Instance.GetTilesAt(destination.Position + new Vector(0,0,1));
             if (!ValidMoveOntoDestinations().Contains(destination))
             {
-                Debug.Log("moveonto early");
                 return false;
             }
 
             var tileOnNextTile =
-                MapManager.Instance.GetTileAt(destination.Position + new Vector(0, 0, 1));
-            
-            if (tileOnNextTile != null && !tileOnNextTile.CanMoveInFrom(Position))
+                MapManager.Instance.GetTilesAt(destination.Position + new Vector(0, 0, 1));
+
+            if (tileOnNextTile != null && !tileOnNextTile.TrueForAll(x => x.CanMoveInFrom(Position)))
             {
                 return false;
             }
 
-            Tile = destination;
-            transform.position = Position.UnityVector;
-            GetComponent<SpriteRenderer>().sortingOrder = Position.Order;
-            if (this is Player) MapManager.Instance.PlayerMoved(Tile);
-            if (top != null) top.EnterFrom(Position);
+            var dirVec = Position.DistanceFrom(destination.Position);
+            Animator animator = GetComponent<Animator>();
+            if (dirVec.Equals(new Vector(1, 0, -1)))
+            {
+                //Debug.Log("UR");
+                animator.SetInteger("dir", 0);
+            }
+
+            if (dirVec.Equals(new Vector(0, -1, -1)))
+            {
+                //Debug.Log("UL");
+                animator.SetInteger("dir", 1);
+            }
+
+            if (dirVec.Equals(new Vector(-1, 0, -1)))
+            {
+                //Debug.Log("DL");
+                animator.SetInteger("dir", 2);
+            }
+
+            if (dirVec.Equals(new Vector(0, 1, -1)))
+            {
+                //Debug.Log("DR");
+                animator.SetInteger("dir", 3);
+            }
+
+            StartCoroutine(moveSoftlyTo(destination, top));
+
             return true;
         }
 
-        
+        const float WAITBEFORESTART = .1f;
+        const float MOVE_MULTIPLIER = 1.1f;
+        bool pushing = false;
+
+        IEnumerator moveSoftlyTo(TileBase destination, List<TileBase> top)
+        {
+            movingCount++;
+            if (this is Player) MapManager.Instance.ResetTiles();
+            if (this is Player) CloneManager.Instance.Tick();
+            float t = 0f;
+            //Wait for jump anim
+            yield return new WaitForEndOfFrame();
+            Animator animator = GetComponent<Animator>();
+            string animName = "";
+            switch (animator.GetInteger("dir"))
+            {
+                case 0:
+                    animName = pushing ? "player_push_UR" : "player_jump_UR";
+                    break;
+                case 1:
+                    animName = pushing ? "player_push_UL" : "player_jump_UL";
+                    break;
+                case 2:
+                    animName = pushing ? "player_push_DL" : "player_jump_DL";
+                    break;
+                case 3:
+                    animName = pushing ? "player_push_DR" : "player_jump_DR";
+                    break;
+                default: break;
+            }
+
+            if (animName != "")
+            {
+                animator.Play(animName);
+            }
+
+            if (!pushing) AudioManager.Instance.PlaySoundEffect("Step");
+            
+            while (t <= WAITBEFORESTART)
+            {
+                t += Time.deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
+
+            //Move smoothly
+            t = 0f;
+            Vector destinationV = destination.Position + new Vector(0, 0, 1);
+            Vector3 startPos = transform.position;
+            if (destinationV.Order > Position.Order)
+                GetComponent<SpriteRenderer>().sortingOrder = destinationV.Order+1;
+            while (t <= 1f)
+            {
+                t += Time.deltaTime * MOVE_MULTIPLIER;
+                transform.position = Vector3.Lerp(startPos, destinationV.UnityVector, t);
+                yield return new WaitForEndOfFrame();
+            }
+            if (Tile != null) Tile.ExitTo(Position);
+            var oldTiles = MapManager.Instance.GetTilesAt(Tile.Position + new Vector(0,0,1));
+            if (oldTiles != null){
+                oldTiles.ForEach(x=>x.ExitTo(destination.Position));
+            }
+            Tile = destination;
+            transform.position = Position.UnityVector;
+            GetComponent<SpriteRenderer>().sortingOrder = Position.Order+1;
+            
+            if (top != null) top.ForEach(x=> x.EnterFrom(Position));
+			if (this is Player p)
+			{
+                MapManager.Instance.PlayerMoved(Tile);
+
+                if (p.ShouldBeDead)
+                {
+                    OverlayManager.Instance.ShowLoseScreen();
+                }
+            }
+
+            movingCount--;
+            pushing = false;
+        }
+
+
         public bool Push(MovableTile movableTile)
         {
-            Debug.Log("push");
             var distance = Position.DistanceFrom(movableTile.Position);
             if (distance.Length != 1)
             {
-                Debug.Log("push early return");
                 return false;
             }
 
             var destination = movableTile.Position + distance;
-            var ground = MapManager.Instance.GetTileAt(destination + new Vector(0,0,-1));
-            Debug.Log("asd");
-            Debug.Log($"zugugt{(destination + new Vector(0,0,-1)).ToString()}");
-            if (ground == null) Debug.Log("null");
-            if (ground == null || !ground.CanMoveOn(movableTile)) return false;
+            var ground = MapManager.Instance.GetTilesAt(destination + new Vector(0, 0, -1));
+            if (ground == null || !ground.TrueForAll(x => x.CanMoveOn(movableTile))) return false;
+            Animator animator = GetComponent<Animator>();
+            animator.SetTrigger("pushing");
+            pushing = true;
             return movableTile.MoveTo(destination);
         }
     }

@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054b8f71f7ea48343beee0ee77b9bb66, type: 3}
+  m_Name: Box
+  m_EditorClassIdentifier: 
+  Name: Box
+  Prefab: {fileID: 2650201492633923541, guid: 10c6e1440bbc7cb4e8e9b6ee69bfde98, type: 3}

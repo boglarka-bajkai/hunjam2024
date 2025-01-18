@@ -9,10 +9,10 @@ namespace Logic.Tiles
     {
         public virtual void UpdateSprite()
         {
-            String i1 = (MapManager.Instance.GetTileAt(new Vector(Position.X,Position.Y-1,Position.Z)) == null)?"0":"1";
-            String i2 = (MapManager.Instance.GetTileAt(new Vector(Position.X+1,Position.Y,Position.Z)) == null)?"0":"1";
-            String i3 = (MapManager.Instance.GetTileAt(new Vector(Position.X-1,Position.Y,Position.Z)) == null)?"0":"1";
-            String i4 = (MapManager.Instance.GetTileAt(new Vector(Position.X,Position.Y+1,Position.Z)) == null)?"0":"1";
+            String i1 = (MapManager.Instance.GetTilesAt(new Vector(Position.X,Position.Y-1,Position.Z)) == null)?"0":"1";
+            String i2 = (MapManager.Instance.GetTilesAt(new Vector(Position.X+1,Position.Y,Position.Z)) == null)?"0":"1";
+            String i3 = (MapManager.Instance.GetTilesAt(new Vector(Position.X-1,Position.Y,Position.Z)) == null)?"0":"1";
+            String i4 = (MapManager.Instance.GetTilesAt(new Vector(Position.X,Position.Y+1,Position.Z)) == null)?"0":"1";
 
             String spriteName = "Qube/Qube" + i1 + i2 + i3 + i4;
             Sprite newSprite = Resources.Load<Sprite>(spriteName);
@@ -26,8 +26,20 @@ namespace Logic.Tiles
                 Debug.LogError("Sprite not found: " + spriteName);
             }
         }
-                
-        public Vector Position { get; set; }
+             
+        protected Vector _position;
+        public virtual Vector Position
+        {
+            get => _position;
+            set
+            {
+                if (_position == value) return;
+                _position = value;
+
+                transform.position = value.UnityVector;
+                GetComponentInChildren<SpriteRenderer>().sortingOrder = value.Order;
+            }
+        }
 
         /**********
          * GETTERS
@@ -71,14 +83,14 @@ namespace Logic.Tiles
 
             var zOffset = z - Position.Z;
 
-            var neighbour = MapManager.Instance.GetTileAt(Position + new Vector(1, 0, zOffset));
-            if (neighbour != null) result.Add(neighbour);
-            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(0, 1, zOffset));
-            if (neighbour != null) result.Add(neighbour);
-            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(-1, 0, zOffset));
-            if (neighbour != null) result.Add(neighbour);
-            neighbour = MapManager.Instance.GetTileAt(Position + new Vector(0, -1, zOffset));
-            if (neighbour != null) result.Add(neighbour);
+            var neighbour = MapManager.Instance.GetTilesAt(Position + new Vector(1, 0, zOffset));
+            if (neighbour != null) result.AddRange(neighbour);
+            neighbour = MapManager.Instance.GetTilesAt(Position + new Vector(0, 1, zOffset));
+            if (neighbour != null) result.AddRange(neighbour);
+            neighbour = MapManager.Instance.GetTilesAt(Position + new Vector(-1, 0, zOffset));
+            if (neighbour != null) result.AddRange(neighbour);
+            neighbour = MapManager.Instance.GetTilesAt(Position + new Vector(0, -1, zOffset));
+            if (neighbour != null) result.AddRange(neighbour);
 
             return result;
         }

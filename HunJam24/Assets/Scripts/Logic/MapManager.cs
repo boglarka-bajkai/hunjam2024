@@ -1,19 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
-using Serializer;
 using JetBrains.Annotations;
 using Logic.Characters;
 using UnityEngine;
 using Logic.Tiles;
 using Unity.Collections;
 using UnityEngine.UIElements;
+using System;
 
 namespace Logic
 {
     public class MapManager : MonoBehaviour
     {
         [SerializeField] Material selectMaterial, baseMaterial;
-
+        [SerializeField] List<Tile> tiles;
         //Singleton Pattern
         static MapManager _instance;
 
@@ -31,55 +31,59 @@ namespace Logic
         // TileSet
         [SerializeField] GameObject playerPrefab;
         public Player Player { get; private set; }
-        [SerializeField] GameObject clone;
-        [SerializeField] TileDictionary tileDictionary;
 
         public GameObject getTileByName(string name)
         {
-            return tileDictionary[name];
+            return tiles.Find(x => x.name == name)?.Prefab ?? null;
         }
 
         // Map
         public readonly List<TileBase> Map = new();
         public StartTile StartTile {get;private set; }= null;
 
-        public TileBase GetTileAt(Vector position)
+        public List<TileBase> GetTilesAt(Vector position)
         {
-            var t = Map.FirstOrDefault(x => x.Position.Equals(position));
-            //Debug.Log($"found: {(t == null ? "none" : t.name)}");
+            var t = Map.Where(x => x.Position.Equals(position)).ToList();
+            if (t.Count <= 0) return null;
             return t;
         }
-
-        public void SetMap(Dictionary<Vector, string> map)
+        // Connections maps Spike to Pressureplate
+        public void SetMap(Map map)
         {
             foreach (var item in Map)
             {
                 Destroy(item.gameObject);
             }
-
-            var maxX = map.Keys.Max(x => x.UnityVector.x);
-            var maxY = map.Keys.Max(x => x.UnityVector.y);
+            StartTile = null;
+            Map.Clear();
+            if (Player != null) Destroy(Player.gameObject);
+            CloneManager.Instance.Reset();
+            var maxX = map.Tiles.Max(x => x.Vector.UnityVector.x);
+            var maxY = map.Tiles.Max(x => x.Vector.UnityVector.y);
             Vector.globalOffset = new Vector3(-maxX / 2, -maxY / 2, 0);
-            foreach (var (pos, tile) in map.Select(x => (x.Key, x.Value)))
+            foreach (var tile in map.Tiles)
             {
-                var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity);
+                var go = Instantiate(getTileByName(tile.TileName), tile.Vector.UnityVector, Quaternion.identity, transform);
                 var t = go.GetComponentInChildren<TileBase>();
-                t.Position = pos;
-                t.name = pos.ToString();
+                t.Position = tile.Vector;
+                t.name = $"{tile.TileName} - {t.Position.ToString()}";
                 if (t is MovableTile) t.name = "box";
-                t.GetComponentInChildren<SpriteRenderer>().sortingOrder = pos.Order;
+                t.GetComponentInChildren<SpriteRenderer>().sortingOrder = t.Position.Order;
                 Map.Add(t);
-                if (t is StartTile)
+                if (t is StartTile startTile)
                 {
-                    StartTile = (StartTile)t;
+                    StartTile = startTile;
                 }
+            }
+            foreach (var connection in map.Connections){
+                var from = GetTilesAt(connection.PressurePlateVector).Where(x => x is PressurePlate).ToList().First() as PressurePlate;
+                connection.ConnectedVectors.ForEach(x=> GetTilesAt(x).ForEach(y=> from.Subscribe(y as ActivationListener)));
             }
 
             var playerPos = StartTile.Position;
             Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
-            Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
-            Player.SetStartingTile(StartTile);
-            PlayerMoved(StartTile);
+            Player.SetStartingTile(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
+            PlayerMoved(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
             
             foreach (var tile in Map)
             {
@@ -88,14 +92,15 @@ namespace Logic
         }
 
         List<TileBase> selectedTiles = new();
-
-        public void PlayerMoved(TileBase newTile)
-        {
+        public void ResetTiles() {
             foreach (var tile in selectedTiles)
             {
                 tile.GetComponentInChildren<SpriteRenderer>().material = baseMaterial;
             }
-            Debug.Log("updating-----");
+        }
+        public void PlayerMoved(TileBase newTile)
+        {
+            ResetTiles();
             //player.GetComponent<Character>().ValidMoveDestinations()
             selectedTiles = Player.ValidMoveOntoDestinations();
 
@@ -103,7 +108,6 @@ namespace Logic
             {
                 t.GetComponentInChildren<SpriteRenderer>().material = selectMaterial;
             }
-            CloneManager.Instance.Tick();
         }
     }
 }

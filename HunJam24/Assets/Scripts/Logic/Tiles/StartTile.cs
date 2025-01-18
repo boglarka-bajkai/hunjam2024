@@ -1,4 +1,5 @@
 using System;
+using Controls;
 using Logic.Characters;
 using UnityEngine;
 
@@ -11,7 +12,13 @@ namespace Logic.Tiles{
         }
         public override void EnterFrom(Vector pos)
         {
-            Debug.Log("Happy End!");
+            // Check if all checkpoints are activated
+            if (MapManager.Instance.Map.FindAll(x=> x is CheckPointTile && !(x as CheckPointTile).Activated).Count > 0) return;
+            // Check if player is on the tile, instead of clone
+            if (CloneManager.Instance.GetClonesAt(Position).Count > 0) return;
+            AudioManager.Instance.PlayReversedMusic(2f);
+            AudioManager.Instance.PlaySoundEffect("Rewind");
+            MapLoader.Instance.TryLoadNextMap();
         }
         public override bool CanMoveInFrom(Vector position)
         {
@@ -28,9 +35,9 @@ namespace Logic.Tiles{
 
         public override Func<Character, bool> Command => character =>
         {
-            var baseTile = MapManager.Instance.GetTileAt(Position + new Vector(0, 0, -1));
-            Debug.Log($"baseTile {baseTile.name}");
-            return character.MoveOnto(baseTile);
+            var baseTile = MapManager.Instance.GetTilesAt(Position + new Vector(0, 0, -1));
+            if (baseTile == null) return false;
+            return character.MoveOnto(baseTile[0]);
         };
 
         public override void UpdateSprite() { }
