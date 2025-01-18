@@ -374,6 +374,7 @@ MonoBehaviour:
   loseScreen: {fileID: 1233333799}
   winScreen: {fileID: 1540534521}
   menuScreen: {fileID: 264079397}
+  gameOverlay: {fileID: 1632299051}
   restart: {fileID: 1858394581}
   start: {fileID: 780508240}
   quit: {fileID: 2011618504}
@@ -571,15 +572,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5481250045399553479, guid: 1c58ebfe6e919d14da92b324efd993c2, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.59
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 5481250045399553479, guid: 1c58ebfe6e919d14da92b324efd993c2, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.59
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 5481250045399553479, guid: 1c58ebfe6e919d14da92b324efd993c2, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.59
+      value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 5481250045399553479, guid: 1c58ebfe6e919d14da92b324efd993c2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -659,10 +660,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -864,6 +865,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55ad0703869ee7640853d83dd1a8b86f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maps:
+  - {fileID: 11400000, guid: 504388d600ee8ab409d9f98a5959d686, type: 2}
+  - {fileID: 11400000, guid: 5daa2d8cb4cc0a049b2d8a01a11b8d55, type: 2}
+  - {fileID: 11400000, guid: 6e7f9185ff3dcfa4090bf808d2fcfa78, type: 2}
+  - {fileID: 11400000, guid: 5ff1aded6b46525488efcae55f56823a, type: 2}
+  - {fileID: 11400000, guid: c4e03d3426d13324489cf79d4adde849, type: 2}
+  - {fileID: 11400000, guid: c6c0e280ee9893a4891f8e6b4722cb7d, type: 2}
+  - {fileID: 11400000, guid: 4ccc2b5c42588d444ae89d3af7a3b9e9, type: 2}
+  - {fileID: 11400000, guid: 946cf6080566d8a49964db094fd2f396, type: 2}
 --- !u!1 &620338667
 GameObject:
   m_ObjectHideFlags: 0
@@ -972,10 +982,10 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1589,7 +1599,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2176,31 +2186,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectMaterial: {fileID: 2100000, guid: 22da0f19207374e47a25cd1355ca4cc0, type: 2}
   baseMaterial: {fileID: 2100000, guid: 4e421a8a69a94cd4cb026371e138ba1c, type: 2}
+  tiles:
+  - {fileID: 11400000, guid: 9041b5858329d53488fdc45bba7ec4b8, type: 2}
+  - {fileID: 11400000, guid: 9d2004c037e97da4dab9365d7820feec, type: 2}
+  - {fileID: 11400000, guid: d71534debffc2a44a81fca1fec73b581, type: 2}
+  - {fileID: 11400000, guid: 6a3e1452c2700384699d1905f7514d78, type: 2}
+  - {fileID: 11400000, guid: 3f478ddc479e9ec4189eea647819ac78, type: 2}
+  - {fileID: 11400000, guid: 0306e6d5ffb91bd418f897570f1c58ec, type: 2}
+  - {fileID: 11400000, guid: 7ac703537a8916b4e9a8bbced24b9813, type: 2}
   playerPrefab: {fileID: 8494429758245100336, guid: 8bd130173ad818c42bcdd9bae0e0110c, type: 3}
-  tileDictionary:
-    _Buckets: 01000000ffffffff0300000006000000ffffffff0200000005000000
-    _HashCodes: b9d0c50a722f652a71d98f5918e00475c114a963b096012fc0bba742
-    _Next: ffffffff00000000ffffffffffffffffffffffffffffffff04000000
-    _Count: 7
-    _Version: 141
-    _FreeList: -1
-    _FreeCount: 0
-    _Keys:
-    - Base
-    - Start
-    - Box
-    - Checkpoint
-    - Pressureplate
-    - Spike
-    - InverseSpike
-    _Values:
-    - {fileID: 4137797853078752787, guid: 752296bdc22d434438e97fd48c50a81e, type: 3}
-    - {fileID: 7220321218007110503, guid: 2ecdd3ef8b6e53c41bc934c66b20b083, type: 3}
-    - {fileID: 2650201492633923541, guid: 10c6e1440bbc7cb4e8e9b6ee69bfde98, type: 3}
-    - {fileID: 7220321218007110503, guid: d24609bcb3ecba84480bf1a4883a41bd, type: 3}
-    - {fileID: 7065812797026859160, guid: 5385dc9eb08d0be4ca4fc725dbe5569e, type: 3}
-    - {fileID: 7647007676249176381, guid: d327d36bb0130d04e9adbdb4ab0de673, type: 3}
-    - {fileID: 7647007676249176381, guid: 7118892cd3879ff4f8f31a7953b2c754, type: 3}
 --- !u!114 &1496808414
 MonoBehaviour:
   m_ObjectHideFlags: 0

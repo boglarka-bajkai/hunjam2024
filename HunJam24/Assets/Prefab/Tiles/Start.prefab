@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 246219625058438978}
   - component: {fileID: -7926997151946900580}
   m_Layer: 0
-  m_Name: Goal
+  m_Name: Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

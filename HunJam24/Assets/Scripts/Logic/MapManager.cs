@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Serializer;
 using JetBrains.Annotations;
 using Logic.Characters;
 using UnityEngine;
@@ -14,7 +13,7 @@ namespace Logic
     public class MapManager : MonoBehaviour
     {
         [SerializeField] Material selectMaterial, baseMaterial;
-
+        [SerializeField] List<Tile> tiles;
         //Singleton Pattern
         static MapManager _instance;
 
@@ -32,11 +31,10 @@ namespace Logic
         // TileSet
         [SerializeField] GameObject playerPrefab;
         public Player Player { get; private set; }
-        [SerializeField] TileDictionary tileDictionary;
 
         public GameObject getTileByName(string name)
         {
-            return tileDictionary[name];
+            return tiles.Find(x => x.name == name)?.Prefab ?? null;
         }
 
         // Map
@@ -50,7 +48,7 @@ namespace Logic
             return t;
         }
         // Connections maps Spike to Pressureplate
-        public void SetMap(Dictionary<Vector, string> map, List<Tuple<Vector, Vector>> connections = null)
+        public void SetMap(Map map)
         {
             foreach (var item in Map)
             {
@@ -60,34 +58,30 @@ namespace Logic
             Map.Clear();
             if (Player != null) Destroy(Player.gameObject);
             CloneManager.Instance.Reset();
-            var maxX = map.Keys.Max(x => x.UnityVector.x);
-            var maxY = map.Keys.Max(x => x.UnityVector.y);
+            var maxX = map.Tiles.Max(x => x.Vector.UnityVector.x);
+            var maxY = map.Tiles.Max(x => x.Vector.UnityVector.y);
             Vector.globalOffset = new Vector3(-maxX / 2, -maxY / 2, 0);
-            foreach (var (pos, tile) in map.Select(x => (x.Key, x.Value)))
+            foreach (var tile in map.Tiles)
             {
-                var go = Instantiate(getTileByName(tile), pos.UnityVector, Quaternion.identity, transform);
+                var go = Instantiate(getTileByName(tile.TileName), tile.Vector.UnityVector, Quaternion.identity, transform);
                 var t = go.GetComponentInChildren<TileBase>();
-                t.Position = pos;
-                t.name = pos.ToString();
+                t.Position = tile.Vector;
+                t.name = $"{tile.TileName} - {t.Position.ToString()}";
                 if (t is MovableTile) t.name = "box";
-                t.GetComponentInChildren<SpriteRenderer>().sortingOrder = pos.Order;
+                t.GetComponentInChildren<SpriteRenderer>().sortingOrder = t.Position.Order;
                 Map.Add(t);
                 if (t is StartTile startTile)
                 {
                     StartTile = startTile;
                 }
             }
-            if (connections != null) {
-                foreach(var (fromV, toV) in connections){
-                    var from = GetTilesAt(fromV).Where(x => x is ActivationListener).ToList();
-                    var to = GetTilesAt(toV).Where(x => x is PressurePlate).ToList();
-                    from.ForEach(x=> to.ForEach(y => (y as PressurePlate).Subscribe(x as ActivationListener)));
-                }
+            foreach (var connection in map.Connections){
+                var from = GetTilesAt(connection.PressurePlateVector).Where(x => x is PressurePlate).ToList().First() as PressurePlate;
+                connection.ConnectedVectors.ForEach(x=> GetTilesAt(x).ForEach(y=> from.Subscribe(y as ActivationListener)));
             }
 
             var playerPos = StartTile.Position;
             Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
-            Debug.Log($"Spawning player @ {playerPos.X} {playerPos.Y} {playerPos.Z}");
             Player.SetStartingTile(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
             PlayerMoved(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
             
