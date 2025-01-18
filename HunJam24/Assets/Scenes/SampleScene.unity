@@ -771,7 +771,6 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  - component: {fileID: 519420033}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -853,27 +852,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &519420033
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55ad0703869ee7640853d83dd1a8b86f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maps:
-  - {fileID: 11400000, guid: 504388d600ee8ab409d9f98a5959d686, type: 2}
-  - {fileID: 11400000, guid: 5daa2d8cb4cc0a049b2d8a01a11b8d55, type: 2}
-  - {fileID: 11400000, guid: 6e7f9185ff3dcfa4090bf808d2fcfa78, type: 2}
-  - {fileID: 11400000, guid: 5ff1aded6b46525488efcae55f56823a, type: 2}
-  - {fileID: 11400000, guid: c4e03d3426d13324489cf79d4adde849, type: 2}
-  - {fileID: 11400000, guid: c6c0e280ee9893a4891f8e6b4722cb7d, type: 2}
-  - {fileID: 11400000, guid: 4ccc2b5c42588d444ae89d3af7a3b9e9, type: 2}
-  - {fileID: 11400000, guid: 946cf6080566d8a49964db094fd2f396, type: 2}
 --- !u!1 &620338667
 GameObject:
   m_ObjectHideFlags: 0
@@ -2049,6 +2027,7 @@ GameObject:
   - component: {fileID: 1496808413}
   - component: {fileID: 1496808414}
   - component: {fileID: 1496808415}
+  - component: {fileID: 1496808416}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -2235,6 +2214,27 @@ MonoBehaviour:
   backgroundMusic: {fileID: 8300000, guid: 1cff1df5ae810f14bb3653596961eeb0, type: 3}
   reversedBackgroundMusic: {fileID: 8300000, guid: 16fbe6891fd513b45bd03f5b51e8a3a5, type: 3}
   menuMusic: {fileID: 8300000, guid: d56c6bf519cbd1c43b5c54bb8892f50b, type: 3}
+--- !u!114 &1496808416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1496808409}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55ad0703869ee7640853d83dd1a8b86f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maps:
+  - {fileID: 11400000, guid: 504388d600ee8ab409d9f98a5959d686, type: 2}
+  - {fileID: 11400000, guid: 5daa2d8cb4cc0a049b2d8a01a11b8d55, type: 2}
+  - {fileID: 11400000, guid: 6e7f9185ff3dcfa4090bf808d2fcfa78, type: 2}
+  - {fileID: 11400000, guid: 5ff1aded6b46525488efcae55f56823a, type: 2}
+  - {fileID: 11400000, guid: c4e03d3426d13324489cf79d4adde849, type: 2}
+  - {fileID: 11400000, guid: c6c0e280ee9893a4891f8e6b4722cb7d, type: 2}
+  - {fileID: 11400000, guid: 4ccc2b5c42588d444ae89d3af7a3b9e9, type: 2}
+  - {fileID: 11400000, guid: 946cf6080566d8a49964db094fd2f396, type: 2}
 --- !u!1 &1540534521
 GameObject:
   m_ObjectHideFlags: 0
@@ -2373,7 +2373,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -350}
+  m_AnchoredPosition: {x: 0, y: -500}
   m_SizeDelta: {x: 452, y: 275}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1562559660
