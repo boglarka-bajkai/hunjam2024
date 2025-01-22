@@ -36,19 +36,5 @@ namespace Controls
                 Debug.Log($"Player could not execute command with tile {tile.name}");
             }
         }
-
-        public void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.M))
-            {
-                _audioManager.PlayReversedMusic(2f);
-                _audioManager.PlaySoundEffect("Rewind");
-            }
-            
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                _audioManager.PlaySoundEffect("Rewind");
-            }
-        }
     }
 }
