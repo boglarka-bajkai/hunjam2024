@@ -1,0 +1,8 @@
+G:/hunjam2024/HunJam24/.utmp/Debug/4v5x485k/arm64-v8a/CMakeFiles/edit_cache.dir
+G:/hunjam2024/HunJam24/.utmp/Debug/4v5x485k/arm64-v8a/CMakeFiles/rebuild_cache.dir
+G:/hunjam2024/HunJam24/.utmp/Debug/4v5x485k/arm64-v8a/GameActivity/CMakeFiles/game.dir
+G:/hunjam2024/HunJam24/.utmp/Debug/4v5x485k/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+G:/hunjam2024/HunJam24/.utmp/Debug/4v5x485k/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
+G:/hunjam2024/HunJam24/.utmp/Debug/4v5x485k/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+G:/hunjam2024/HunJam24/.utmp/Debug/4v5x485k/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+G:/hunjam2024/HunJam24/.utmp/Debug/4v5x485k/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

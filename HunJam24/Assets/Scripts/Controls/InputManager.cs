@@ -17,7 +17,24 @@ namespace Controls
             _camera = Camera.main;
             _audioManager = GetComponent<AudioManager>();
         }
+        public void OnTouch(InputAction.CallbackContext context) {
+            //Do the same as OnClick but with touch
+            if (!context.started) return;
+            if (Character.IsAnyMoving) return; //Cant move while player or clones are moving
+            var ray = Physics2D.GetRayIntersectionAll(_camera.ScreenPointToRay(Touchscreen.current.primaryTouch.position.ReadValue()));
+            if (ray.Length <= 0) return;
 
+            var rayFirst =
+                ray
+                    .OrderByDescending(x => x.collider.GetComponentInChildren<SpriteRenderer>().sortingOrder)
+                    .First();
+
+            var tile = rayFirst.collider.GetComponent<TileBase>();
+            if (!CommandExecutor.Execute(tile.Command))
+            {
+                Debug.Log($"Player could not execute command with tile {tile.name}");
+            }
+        }
         public void OnClick(InputAction.CallbackContext context)
         {
             if (!context.started) return;
