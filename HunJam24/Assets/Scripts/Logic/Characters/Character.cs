@@ -119,6 +119,7 @@ namespace Logic.Characters
 
         IEnumerator moveSoftlyTo(TileBase destination, List<TileBase> top)
         {
+            if (this is Player && movingCount > 0) yield break;
             movingCount++;
             if (this is Player) MapManager.Instance.ResetTiles();
             if (this is Player) CloneManager.Instance.Tick();
