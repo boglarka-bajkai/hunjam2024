@@ -60,7 +60,6 @@ namespace Logic
             CloneManager.Instance.Reset();
             var maxX = map.Tiles.Max(x => x.Vector.UnityVector.x);
             var maxY = map.Tiles.Max(x => x.Vector.UnityVector.y);
-            Vector.globalOffset = new Vector3(-maxX / 2, -maxY / 2, 0);
             foreach (var tile in map.Tiles)
             {
                 var go = Instantiate(getTileByName(tile.TileName), tile.Vector.UnityVector, Quaternion.identity, transform);
@@ -81,7 +80,7 @@ namespace Logic
             }
 
             var playerPos = StartTile.Position;
-            Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity).GetComponent<Player>();
+            Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity, transform).GetComponent<Player>();
             Player.SetStartingTile(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
             PlayerMoved(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
             
