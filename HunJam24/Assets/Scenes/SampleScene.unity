@@ -2300,6 +2300,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f478ddc479e9ec4189eea647819ac78, type: 2}
   - {fileID: 11400000, guid: 0306e6d5ffb91bd418f897570f1c58ec, type: 2}
   - {fileID: 11400000, guid: 7ac703537a8916b4e9a8bbced24b9813, type: 2}
+  - {fileID: 11400000, guid: 600b07f663231e44dbca3d6b26458fbe, type: 2}
+  - {fileID: 11400000, guid: 968c71dc3794e9e48bf6978a8aaab725, type: 2}
   playerPrefab: {fileID: 8494429758245100336, guid: 8bd130173ad818c42bcdd9bae0e0110c, type: 3}
 --- !u!114 &1496808414
 MonoBehaviour:

@@ -34,7 +34,7 @@ namespace Logic
 
         public GameObject getTileByName(string name)
         {
-            return tiles.Find(x => x.name == name)?.Prefab ?? null;
+            return tiles.Find(x => x.Name == name)?.Prefab ?? null;
         }
 
         // Map
@@ -62,6 +62,7 @@ namespace Logic
             var maxY = map.Tiles.Max(x => x.Vector.UnityVector.y);
             foreach (var tile in map.Tiles)
             {
+                Debug.Log(tile.TileName);
                 var go = Instantiate(getTileByName(tile.TileName), tile.Vector.UnityVector, Quaternion.identity, transform);
                 var t = go.GetComponentInChildren<TileBase>();
                 t.Position = tile.Vector;
