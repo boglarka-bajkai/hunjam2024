@@ -12,7 +12,7 @@ namespace Logic.Characters
     {
         public static int movingCount = 0;
         public static bool IsAnyMoving => movingCount > 0;
-        private TileBase Tile { get; set; }
+        protected TileBase Tile { get; set; }
 
         /***********
          * GETTERS
