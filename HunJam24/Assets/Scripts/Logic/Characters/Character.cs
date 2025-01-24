@@ -130,17 +130,29 @@ namespace Logic.Characters
             switch (animator.GetInteger("dir"))
             {
                 case 0:
-                    animName = pushing ? "player_push_UR" : "player_jump_UR";
-                    break;
+					if(this is Player)
+						animName = pushing ? "player_push_UR" : "player_jump_UR";
+					else if (this is CloneCharacter)
+						animName = pushing ? "alterego_push_UR" : "alterego_jump_UR";
+					break;
                 case 1:
-                    animName = pushing ? "player_push_UL" : "player_jump_UL";
-                    break;
+					if (this is Player)
+						animName = pushing ? "player_push_UL" : "player_jump_UL";
+					else if (this is CloneCharacter)
+						animName = pushing ? "alterego_push_UL" : "alterego_jump_UL";
+					break;
                 case 2:
-                    animName = pushing ? "player_push_DL" : "player_jump_DL";
-                    break;
+					if (this is Player)
+						animName = pushing ? "player_push_DL" : "player_jump_DL";
+					else if (this is CloneCharacter)
+						animName = pushing ? "alterego_push_UL" : "alterego_jump_UL";
+					break;
                 case 3:
-                    animName = pushing ? "player_push_DR" : "player_jump_DR";
-                    break;
+					if (this is Player)
+						animName = pushing ? "player_push_DR" : "player_jump_DR";
+					else if (this is CloneCharacter)
+						animName = pushing ? "alterego_push_UL" : "alterego_jump_UL";
+					break;
                 default: break;
             }
 
