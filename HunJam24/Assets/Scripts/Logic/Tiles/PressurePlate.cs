@@ -11,8 +11,8 @@ namespace Logic.Tiles{
         public override void UpdateSprite() { }
          public override Vector Position { get => base.Position; set {
                 base.Position = value;
-                active.GetComponent<SpriteRenderer>().sortingOrder = value.Order;
-                inactive.GetComponent<SpriteRenderer>().sortingOrder = value.Order;
+                active.GetComponent<SpriteRenderer>().sortingOrder = value.Order-1;
+                inactive.GetComponent<SpriteRenderer>().sortingOrder = value.Order-1;
             }
         }
         List<ActivationListener> listeners = new();
