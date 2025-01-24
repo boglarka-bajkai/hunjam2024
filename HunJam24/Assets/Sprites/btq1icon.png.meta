@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5de9c684318a09b46aa2d43a1fb54960
+guid: bcd7d1b4c5baff649a84740e70e7ba0a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4128757348417728627
-    second: INVQube0000_0
+      213: -2980269458108203808
+    second: btq1icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: INVQube0000_0
+      name: btq1icon_0
       rect:
         serializedVersion: 2
-        x: 24
+        x: 0
         y: 0
-        width: 453
-        height: 500
+        width: 1000
+        height: 1000
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d8f07c31115b3b6c0800000000000000
-      internalID: -4128757348417728627
+      spriteID: 0ecb38ec7b4f3a6d0800000000000000
+      internalID: -2980269458108203808
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      INVQube0000_0: -4128757348417728627
+      btq1icon_0: -2980269458108203808
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

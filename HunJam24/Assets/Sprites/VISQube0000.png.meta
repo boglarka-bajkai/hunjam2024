@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      VISQube0000_0: -4871580775505002808
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
