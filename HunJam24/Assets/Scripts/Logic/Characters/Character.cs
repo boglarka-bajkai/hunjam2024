@@ -12,7 +12,7 @@ namespace Logic.Characters
     {
         public static int movingCount = 0;
         public static bool IsAnyMoving => movingCount > 0;
-        private TileBase Tile { get; set; }
+        protected TileBase Tile { get; set; }
 
         /***********
          * GETTERS
@@ -119,6 +119,7 @@ namespace Logic.Characters
 
         IEnumerator moveSoftlyTo(TileBase destination, List<TileBase> top)
         {
+            if (this is Player && movingCount > 0) yield break;
             movingCount++;
             if (this is Player) MapManager.Instance.ResetTiles();
             if (this is Player) CloneManager.Instance.Tick();

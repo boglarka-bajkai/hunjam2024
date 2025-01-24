@@ -28,7 +28,7 @@ MonoBehaviour:
   - Position: {x: 2, y: 0, z: 0}
     TileName: Base
   - Position: {x: 1, y: 0, z: 0}
-    TileName: Base
+    TileName: Box
   - Position: {x: 0, y: 3, z: 0}
     TileName: Base
   - Position: {x: 0, y: 0, z: 1}
