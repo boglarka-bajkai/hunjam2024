@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: InverseSpike
   Prefab: {fileID: 7647007676249176381, guid: 7118892cd3879ff4f8f31a7953b2c754, type: 3}
+  isHeightened: 1

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Checkpoint
   Prefab: {fileID: 7220321218007110503, guid: d24609bcb3ecba84480bf1a4883a41bd, type: 3}
+  isHeightened: 1

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Box
   Prefab: {fileID: 2650201492633923541, guid: 10c6e1440bbc7cb4e8e9b6ee69bfde98, type: 3}
+  isHeightened: 1

@@ -2,6 +2,7 @@ using System.Linq;
 using Logic;
 using Logic.Characters;
 using Logic.Tiles;
+using Mono.Cecil.Cil;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -41,17 +42,28 @@ namespace Controls
             if (!context.started) return;
             if (Character.IsAnyMoving) return; //Cant move while player or clones are moving
             var ray = Physics2D.GetRayIntersectionAll(_camera.ScreenPointToRay(Mouse.current.position.ReadValue()));
-            if (ray.Length <= 0) return;
+            if (ray.Length <= 0) {
+                if (MapLoader.Instance.state == MapState.EditorConnecting){
+                    TilePlacer.Instance.FinishConnect(null);
+                }
+                return;
+            }
 
             var rayFirst =
                 ray
                     .OrderByDescending(x => x.collider.GetComponentInChildren<SpriteRenderer>().sortingOrder)
                     .First();
 
-            var tile = rayFirst.collider.GetComponent<TileBase>();
-            if (!CommandExecutor.Execute(tile.Command))
-            {
-                Debug.Log($"Player could not execute command with tile {tile.name}");
+            if (MapLoader.Instance.state == MapState.Playing || MapLoader.Instance.state == MapState.EditorTesting){
+                var tile = rayFirst.collider.GetComponent<TileBase>();
+                if (!CommandExecutor.Execute(tile.Command))
+                {
+                    Debug.Log($"Player could not execute command with tile {tile.name}");
+                }
+            }
+            else if (MapLoader.Instance.state == MapState.EditorConnecting){
+                var tile = ray.First(x=>x.collider.GetComponent<PressurePlate>() != null).collider.GetComponent<PressurePlate>();
+                TilePlacer.Instance.FinishConnect(tile);
             }
         }
 
@@ -75,6 +87,48 @@ namespace Controls
                 }
                 Camera.main.transform.position += move;
             }
+        }
+
+        public void Left(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            if (MapLoader.Instance.state != MapState.InEditor) return;
+            TilePlacer.Instance.Move(new Vector(0, -1, 0));
+        }
+
+        public void Right(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            if (MapLoader.Instance.state != MapState.InEditor) return;
+            TilePlacer.Instance.Move(new Vector(0, 1, 0));
+        }
+
+        public void Up(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            if (MapLoader.Instance.state != MapState.InEditor) return;
+            TilePlacer.Instance.Move(new Vector(1, 0, 0));
+        }
+
+        public void Down(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            if (MapLoader.Instance.state != MapState.InEditor) return;
+            TilePlacer.Instance.Move(new Vector(-1, 0, 0));
+        }
+
+        public void Place(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            if (MapLoader.Instance.state != MapState.InEditor) return;
+            TilePlacer.Instance.PlaceTile();
+        }
+
+        public void Remove(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            if (MapLoader.Instance.state != MapState.InEditor) return;
+            TilePlacer.Instance.RemoveTile();
         }
     }
 }

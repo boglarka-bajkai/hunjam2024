@@ -6,4 +6,5 @@ public class Tile : ScriptableObject
 {
     public string Name;
     public GameObject Prefab;
+    public bool isHeightened;
 }

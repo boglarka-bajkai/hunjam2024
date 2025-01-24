@@ -11,10 +11,15 @@ public class OverlayManager : MonoBehaviour
 	[SerializeField] GameObject winScreen;
 	[SerializeField] GameObject menuScreen;
 	[SerializeField] GameObject gameOverlay;
+	[SerializeField] GameObject buildOverlay;
+	[SerializeField] GameObject uploadOverlay;
 	[SerializeField] UnityEngine.UI.Button restart;
 	[SerializeField] UnityEngine.UI.Button start;
 	[SerializeField] UnityEngine.UI.Button quit;
 	[SerializeField] UnityEngine.UI.Button quit2;
+	[SerializeField] UnityEngine.UI.Button buildMap;
+	[SerializeField] UnityEngine.UI.Button testBuild;
+	[SerializeField] UnityEngine.UI.Button quitBuild;
 	static OverlayManager _instance;
 	void Awake() {
 		if (_instance != null) Destroy(this);
@@ -35,6 +40,16 @@ public class OverlayManager : MonoBehaviour
 		quit2.onClick.AddListener(() =>{
 			Application.Quit();
 		});
+		buildMap.onClick.AddListener(() => {
+			MapLoader.Instance.StartMapEditor();
+			menuScreen.SetActive(false);
+			buildOverlay.SetActive(true);
+		});
+		testBuild.onClick.AddListener(() => {
+			buildOverlay.SetActive(false);
+			gameOverlay.SetActive(true);
+			TilePlacer.Instance.TestMap();
+		});
 		loseScreen.SetActive(false);
 		winScreen.SetActive(false);
 		menuScreen.SetActive(true);
@@ -54,5 +69,15 @@ public class OverlayManager : MonoBehaviour
 		restart.gameObject.SetActive(false);
 	}
 
+	public void BackToEditor(){
+		buildOverlay.SetActive(true);
+		gameOverlay.SetActive(false);
+	}
+
+	public void ShowUploadOverlay() {
+		gameOverlay.SetActive(false);
+		buildOverlay.SetActive(false);
+
+	}
 
 }

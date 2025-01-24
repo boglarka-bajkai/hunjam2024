@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Spike
   Prefab: {fileID: 7647007676249176381, guid: d327d36bb0130d04e9adbdb4ab0de673, type: 3}
+  isHeightened: 1

@@ -16,6 +16,7 @@ namespace Logic
         [SerializeField] List<Tile> tiles;
         //Singleton Pattern
         static MapManager _instance;
+        public static List<Tile> Tiles => _instance.tiles;
 
         void Awake()
         {
@@ -32,9 +33,9 @@ namespace Logic
         [SerializeField] GameObject playerPrefab;
         public Player Player { get; private set; }
 
-        public GameObject getTileByName(string name)
+        public Tile getTileByName(string name)
         {
-            return tiles.Find(x => x.Name == name)?.Prefab ?? null;
+            return tiles.Find(x => x.Name == name);
         }
 
         // Map
@@ -47,23 +48,27 @@ namespace Logic
             if (t.Count <= 0) return null;
             return t;
         }
-        // Connections maps Spike to Pressureplate
-        public void SetMap(Map map)
-        {
+
+        public void DestroyMap() {
             foreach (var item in Map)
             {
                 Destroy(item.gameObject);
             }
-            StartTile = null;
+            selectedTiles.Clear();
             Map.Clear();
+
             if (Player != null) Destroy(Player.gameObject);
             CloneManager.Instance.Reset();
-            var maxX = map.Tiles.Max(x => x.Vector.UnityVector.x);
-            var maxY = map.Tiles.Max(x => x.Vector.UnityVector.y);
+        }
+        // Connections maps Spike to Pressureplate
+        public void SetMap(Map map)
+        {
+            DestroyMap();
+            CloneManager.Instance.Reset();
             foreach (var tile in map.Tiles)
             {
                 Debug.Log(tile.TileName);
-                var go = Instantiate(getTileByName(tile.TileName), tile.Vector.UnityVector, Quaternion.identity, transform);
+                var go = Instantiate(getTileByName(tile.TileName).Prefab, tile.Vector.UnityVector, Quaternion.identity, transform);
                 var t = go.GetComponentInChildren<TileBase>();
                 t.Position = tile.Vector;
                 t.name = $"{tile.TileName} - {t.Position.ToString()}";

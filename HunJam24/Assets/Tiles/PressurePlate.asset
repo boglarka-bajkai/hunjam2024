@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: PressurePlate
   Prefab: {fileID: 7065812797026859160, guid: 5385dc9eb08d0be4ca4fc725dbe5569e, type: 3}
+  isHeightened: 1

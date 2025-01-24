@@ -35,7 +35,7 @@ namespace Logic
 
             return false;
         }
-
+        public Vector3Int AsVInt3 => new Vector3Int(X, Y, Z);
         /*
          * Returns how much you would have to step from one position to another if you could not move diagonally
          */
