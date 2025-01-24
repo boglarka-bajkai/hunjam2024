@@ -145,13 +145,13 @@ namespace Logic.Characters
 					if (this is Player)
 						animName = pushing ? "player_push_DL" : "player_jump_DL";
 					else if (this is CloneCharacter)
-						animName = pushing ? "alterego_push_UL" : "alterego_jump_UL";
+						animName = pushing ? "alterego_push_DL" : "alterego_jump_DL";
 					break;
                 case 3:
 					if (this is Player)
 						animName = pushing ? "player_push_DR" : "player_jump_DR";
 					else if (this is CloneCharacter)
-						animName = pushing ? "alterego_push_UL" : "alterego_jump_UL";
+						animName = pushing ? "alterego_push_DR" : "alterego_jump_DR";
 					break;
                 default: break;
             }
