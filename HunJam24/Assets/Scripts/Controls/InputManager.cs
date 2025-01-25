@@ -19,6 +19,7 @@ namespace Controls
         }
         public void OnTouch(InputAction.CallbackContext context)
         {
+            if (!MapLoader.playing) return;
             //Do the same as OnClick but with touch
             if (!context.started) return;
             if (Character.IsAnyMoving) return; //Cant move while player or clones are moving
@@ -38,6 +39,7 @@ namespace Controls
         }
         public void OnClick(InputAction.CallbackContext context)
         {
+            if (!MapLoader.playing) return;
             if (!context.started) return;
             if (Character.IsAnyMoving) return; //Cant move while player or clones are moving
             var ray = Physics2D.GetRayIntersectionAll(_camera.ScreenPointToRay(Mouse.current.position.ReadValue()));

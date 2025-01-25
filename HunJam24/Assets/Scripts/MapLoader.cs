@@ -13,7 +13,7 @@ public class MapLoader : MonoBehaviour
         _instance = this;
     }
     public static MapLoader Instance => _instance;
-
+    public static bool playing = false;
     
 
     // Dictionary<Vector, string> Map1 =>
@@ -213,14 +213,10 @@ public class MapLoader : MonoBehaviour
     [SerializeField] List<Map> maps;
     public void StartGame() {
         InvertColor.Instance.ToggleColorInversion();
+        currentMap = 0;
+        playing = true;
         TryLoadNextMap();
     }
-    //First coords is what to connect (spike, inverse spike)
-    //Second coords is where to connect (pressure plate)
-    List<Tuple<Vector, Vector>> ConnsTest = new(){
-        new(new Vector(2, 0, 1), new Vector(0,2,1)),
-    };
-    List<List<Tuple<Vector, Vector>>> Conns = new();
     public void TryLoadNextMap() {
         InvertColor.Instance.ResetColor();
         if (currentMap < maps.Count){
@@ -233,8 +229,14 @@ public class MapLoader : MonoBehaviour
         }
     }
 
+    public void BackToMenu() {
+        MapManager.Instance.DestroyMap();
+        playing = false;
+    }
+
     public void RestartMap() {
         InvertColor.Instance.ResetColor();
         MapManager.Instance.SetMap(maps[currentMap-1]);
+        playing = true;
     }
 }

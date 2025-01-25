@@ -48,18 +48,20 @@ namespace Logic
             return t;
         }
         // Connections maps Spike to Pressureplate
-        public void SetMap(Map map)
-        {
+
+        public void DestroyMap(){
             foreach (var item in Map)
             {
                 Destroy(item.gameObject);
             }
-            StartTile = null;
             Map.Clear();
+            selectedTiles.Clear();
             if (Player != null) Destroy(Player.gameObject);
             CloneManager.Instance.Reset();
-            var maxX = map.Tiles.Max(x => x.Vector.UnityVector.x);
-            var maxY = map.Tiles.Max(x => x.Vector.UnityVector.y);
+        }
+        public void SetMap(Map map)
+        {
+            DestroyMap();
             foreach (var tile in map.Tiles)
             {
                 Debug.Log(tile.TileName);
