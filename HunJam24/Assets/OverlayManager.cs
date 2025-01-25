@@ -36,10 +36,13 @@ public class OverlayManager : MonoBehaviour
 		backToMenu.onClick.AddListener(() =>{
 			MapLoader.Instance.BackToMenu();
 			loseScreen.SetActive(false);
+			winScreen.SetActive(false);
 			menuScreen.SetActive(true);
+			gameOverlay.SetActive(false);
 		});
 		backToMenu2.onClick.AddListener(() =>{
 			MapLoader.Instance.BackToMenu();
+			loseScreen.SetActive(false);
 			winScreen.SetActive(false);
 			gameOverlay.SetActive(false);
 			menuScreen.SetActive(true);
