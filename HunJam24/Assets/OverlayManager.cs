@@ -64,7 +64,7 @@ public class OverlayManager : MonoBehaviour
 	public void ShowWinScreen() { 
 		winScreen.SetActive(true);
 		MapLoader.playing = false;
-		restart.gameObject.SetActive(false);
+		gameOverlay.SetActive(false);
 	}
 
 
