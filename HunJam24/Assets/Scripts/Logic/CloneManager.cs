@@ -44,7 +44,7 @@ namespace Logic
 
             var startingPosition = MapManager.Instance.StartTile.Position;
             var startTile = MapManager.Instance.GetTilesAt(startingPosition + new Vector(0,0,-1))[0];
-            var cloneGameObject = Instantiate(clonePrefab, startingPosition.UnityVector, Quaternion.identity);
+            var cloneGameObject = Instantiate(clonePrefab, startingPosition.UnityVector, Quaternion.identity, transform);
             var cloneCharacter = cloneGameObject.GetComponent<CloneCharacter>();
             cloneCharacter.SetStartingTile(startTile);
             var clone = cloneGameObject.GetComponent<Clone>();

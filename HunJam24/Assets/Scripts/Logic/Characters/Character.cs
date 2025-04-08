@@ -12,7 +12,7 @@ namespace Logic.Characters
     {
         public static int movingCount = 0;
         public static bool IsAnyMoving => movingCount > 0;
-        private TileBase Tile { get; set; }
+        protected TileBase Tile { get; set; }
 
         /***********
          * GETTERS
@@ -119,6 +119,7 @@ namespace Logic.Characters
 
         IEnumerator moveSoftlyTo(TileBase destination, List<TileBase> top)
         {
+            if (this is Player && movingCount > 0) yield break;
             movingCount++;
             if (this is Player) MapManager.Instance.ResetTiles();
             if (this is Player) CloneManager.Instance.Tick();
@@ -130,17 +131,29 @@ namespace Logic.Characters
             switch (animator.GetInteger("dir"))
             {
                 case 0:
-                    animName = pushing ? "player_push_UR" : "player_jump_UR";
-                    break;
+					if(this is Player)
+						animName = pushing ? "player_push_UR" : "player_jump_UR";
+					else if (this is CloneCharacter)
+						animName = pushing ? "alterego_push_UR" : "alterego_jump_UR";
+					break;
                 case 1:
-                    animName = pushing ? "player_push_UL" : "player_jump_UL";
-                    break;
+					if (this is Player)
+						animName = pushing ? "player_push_UL" : "player_jump_UL";
+					else if (this is CloneCharacter)
+						animName = pushing ? "alterego_push_UL" : "alterego_jump_UL";
+					break;
                 case 2:
-                    animName = pushing ? "player_push_DL" : "player_jump_DL";
-                    break;
+					if (this is Player)
+						animName = pushing ? "player_push_DL" : "player_jump_DL";
+					else if (this is CloneCharacter)
+						animName = pushing ? "alterego_push_DL" : "alterego_jump_DL";
+					break;
                 case 3:
-                    animName = pushing ? "player_push_DR" : "player_jump_DR";
-                    break;
+					if (this is Player)
+						animName = pushing ? "player_push_DR" : "player_jump_DR";
+					else if (this is CloneCharacter)
+						animName = pushing ? "alterego_push_DR" : "alterego_jump_DR";
+					break;
                 default: break;
             }
 

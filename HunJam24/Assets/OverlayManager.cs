@@ -14,14 +14,15 @@ public class OverlayManager : MonoBehaviour
 	[SerializeField] UnityEngine.UI.Button restart;
 	[SerializeField] UnityEngine.UI.Button start;
 	[SerializeField] UnityEngine.UI.Button quit;
-	[SerializeField] UnityEngine.UI.Button quit2;
+	[SerializeField] UnityEngine.UI.Button backToMenu;
+	[SerializeField] UnityEngine.UI.Button backToMenu2;
+
 	static OverlayManager _instance;
 	void Awake() {
 		if (_instance != null) Destroy(this);
 		_instance = this;
 		restart.onClick.AddListener(() =>{
 			MapLoader.Instance.RestartMap();
-			Character.movingCount--;
 			loseScreen.SetActive(false);
 		});
 		start.onClick.AddListener(() =>{
@@ -32,8 +33,19 @@ public class OverlayManager : MonoBehaviour
 		quit.onClick.AddListener(() =>{
 			Application.Quit();
 		});
-		quit2.onClick.AddListener(() =>{
-			Application.Quit();
+		backToMenu.onClick.AddListener(() =>{
+			MapLoader.Instance.BackToMenu();
+			loseScreen.SetActive(false);
+			winScreen.SetActive(false);
+			menuScreen.SetActive(true);
+			gameOverlay.SetActive(false);
+		});
+		backToMenu2.onClick.AddListener(() =>{
+			MapLoader.Instance.BackToMenu();
+			loseScreen.SetActive(false);
+			winScreen.SetActive(false);
+			gameOverlay.SetActive(false);
+			menuScreen.SetActive(true);
 		});
 		loseScreen.SetActive(false);
 		winScreen.SetActive(false);
@@ -42,16 +54,17 @@ public class OverlayManager : MonoBehaviour
 	}
 	public static OverlayManager Instance => _instance;
 
+	
 
 	public void ShowLoseScreen() {
 		loseScreen.SetActive(true);
-		Character.movingCount++;
+		MapLoader.playing = false;
 	}
 
 	public void ShowWinScreen() { 
 		winScreen.SetActive(true);
-		Character.movingCount++;
-		restart.gameObject.SetActive(false);
+		MapLoader.playing = false;
+		gameOverlay.SetActive(false);
 	}
 
 
