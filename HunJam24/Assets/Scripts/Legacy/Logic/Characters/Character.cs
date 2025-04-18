@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 namespace Logic.Characters
 {
-    public class Character : MonoBehaviour
+    public class CharacterLegacy : MonoBehaviour
     {
         public static int movingCount = 0;
         public static bool IsAnyMoving => movingCount > 0;

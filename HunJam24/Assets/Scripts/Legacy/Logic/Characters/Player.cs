@@ -4,7 +4,7 @@ using Unity.Collections;
 
 namespace Logic.Characters
 {
-    public class Player : Character
+    public class Player : CharacterLegacy
     {
         private CloneManager _cloneManager;
 

@@ -3,7 +3,7 @@ using Logic;
 using UnityEngine;
 
 [Serializable]
-public class TileEntry
+public class TileEntryLegacy
 {
     public Vector3Int Position;
     public string TileName;

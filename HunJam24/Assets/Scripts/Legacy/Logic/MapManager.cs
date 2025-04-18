@@ -13,7 +13,7 @@ namespace Logic
     public class MapManager : MonoBehaviour
     {
         [SerializeField] Material selectMaterial, baseMaterial;
-        [SerializeField] List<Tile> tiles;
+        //[SerializeField] List<TileDataSO> tiles;
         //Singleton Pattern
         static MapManager _instance;
 
@@ -34,7 +34,8 @@ namespace Logic
 
         public GameObject getTileByName(string name)
         {
-            return tiles.Find(x => x.Name == name)?.Prefab ?? null;
+            return null;
+            //return tiles.Find(x => x.Name == name)?.Prefab ?? null;
         }
 
         // Map
