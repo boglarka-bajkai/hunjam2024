@@ -5,7 +5,7 @@ using Model.Tiles.Data;
 using UnityEngine;
 namespace Model.Tiles.Helpers
 {
-    public class TileFactory
+    public static class TileFactory
     {
         public static Tile CreateTile(TilePlacement placement, Transform parent = null)
         {

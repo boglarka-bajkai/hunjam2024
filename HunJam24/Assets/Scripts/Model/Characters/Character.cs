@@ -22,8 +22,9 @@ namespace Model.Characters
         {
             // Check if can move
             if (!CanMoveTo(newPosition)) return false;
-            // Tick the game manager
-            GameManager.InvokeTick();
+            // Tick the game manager (only if player character, ugly solution 
+            // but no clean way to place it in the middle of the control loop)
+            if (this is PlayerCharacter) GameManager.InvokeTick(newPosition);
             // Leave old position
             LevelManager.Instance.GetTilesAt(position).ForEach(x => x.ExitTo(this, newPosition));
             LevelManager.Instance.GetTilesAt(position.Below).ForEach(x => x.ExitTo(this, position));

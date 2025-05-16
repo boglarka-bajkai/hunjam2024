@@ -29,6 +29,8 @@ namespace Model.Tiles
             tileGroup = connectedTileData.TileGroup;
             TileConnectionHelper.Instance.OnActivatorActivated += Activate;
             TileConnectionHelper.Instance.OnActivatorDeactivated += Deactivate;
+            activeSelf.SetActive(false);
+            inactiveSelf.SetActive(true);
         }
 
         public virtual void Activate(TileConnectionGroup connectionGroup) {

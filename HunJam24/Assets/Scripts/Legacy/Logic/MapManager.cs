@@ -13,7 +13,6 @@ namespace Logic
     public class MapManager : MonoBehaviour
     {
         [SerializeField] Material selectMaterial, baseMaterial;
-        //[SerializeField] List<TileDataSO> tiles;
         //Singleton Pattern
         static MapManager _instance;
 
