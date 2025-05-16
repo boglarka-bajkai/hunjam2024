@@ -18,18 +18,21 @@ namespace Model.Tiles
         /// <summary>
         /// The position of the tile in isometric coordinates.
         /// </summary>
-        Coordinate _position;
+        protected Coordinate _position;
         /// <summary>
         /// The position of the tile in isometric coordinates.
         /// </summary>
-        public Coordinate Position 
+        virtual public Coordinate Position 
         {
             get => _position;
             set {
-                if (_position == value) return;
+                if (_position != null && _position == value) return;
                 _position = value;
                 transform.position = Position.AsUnityVector;
-                GetComponentInChildren<SpriteRenderer>().sortingOrder = Position.RenderOrder;
+                foreach (var item in GetComponentsInChildren<SpriteRenderer>(true))
+                {
+                    item.sortingOrder = Position.RenderOrder;
+                }
             }
         }
         /// <summary>

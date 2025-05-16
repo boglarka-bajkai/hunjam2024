@@ -1,14 +1,18 @@
 using System;
 using Model.Data;
 using Model.Level;
+using Model.Other;
 using UnityEngine;
 
 namespace Model.Characters
 {
-    public abstract class Character : MonoBehaviour
+    public abstract class Character : MonoBehaviour, IMoveNotifier
     {
         Coordinate position;
         public Coordinate Position => position;
+
+        public event Action<Coordinate, Coordinate> OnMove;
+
         /// <summary>
         /// Initializes the character with a starting position.
         /// </summary>
@@ -17,6 +21,7 @@ namespace Model.Characters
         {
             position = startPosition;
             transform.position = startPosition.AsUnityVector;
+            GetComponentInChildren<SpriteRenderer>().sortingOrder = startPosition.RenderOrder + 1;
         }
         public virtual bool Move(Coordinate newPosition)
         {
@@ -32,14 +37,18 @@ namespace Model.Characters
             LevelManager.Instance.GetTilesAt(newPosition).ForEach(x => x.Enter(this));
             LevelManager.Instance.GetTilesAt(newPosition.Below).ForEach(x => x.StepOn(this));
             //Finally set the new position
+            OnMove?.Invoke(position, newPosition);
             position = newPosition;
             return true;
         }
 
-        bool CanMoveTo(Coordinate newPosition)
+        protected bool CanMoveTo(Coordinate newPosition)
         {
+            int xDiff = Math.Abs(newPosition.X - position.X);
+            int yDiff = Math.Abs(newPosition.Y - position.Y);
+            Debug.Log($"Moving from {position} to {newPosition} with diff {xDiff}, {yDiff}");
             // If the position is not next to the current position, return false
-            if (Math.Abs(newPosition.X - position.X) > 1 || Math.Abs(newPosition.Y - position.Y) > 1)
+            if (!((xDiff <= 1 && yDiff == 0) || (xDiff == 0 && yDiff <= 1)))
             {
                 return false;
             }

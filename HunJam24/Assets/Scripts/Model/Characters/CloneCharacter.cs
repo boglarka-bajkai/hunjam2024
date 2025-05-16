@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Model.Data;
 using UnityEngine;
+using View.Animated;
 
 namespace Model.Characters
 {
+    [RequireComponent(typeof(CharacterAnimation))]
     public sealed class CloneCharacter : Character
     {
         /// <summary>
@@ -12,6 +14,23 @@ namespace Model.Characters
         /// </summary>
         public Coordinate PreviousPosition { get; private set; }
         readonly Queue<Coordinate> path = new Queue<Coordinate>();
+        void Start()
+        {
+            GameManager.OnTick += Tick;
+        }
+        void OnDestroy()
+        {
+            GameManager.OnTick -= Tick;
+        }
+
+        void Tick(Coordinate newPostion)
+        {
+            path.Enqueue(newPostion);
+            if (CanMoveTo(path.Peek()))
+            {
+                Move(path.Dequeue());
+            }
+        }
         public override void Initialize(Coordinate startPosition)
         {
             base.Initialize(startPosition);
