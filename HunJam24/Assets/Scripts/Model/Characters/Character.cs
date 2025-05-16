@@ -31,13 +31,13 @@ namespace Model.Characters
             // but no clean way to place it in the middle of the control loop)
             if (this is PlayerCharacter) GameManager.InvokeTick(newPosition);
             // Leave old position
+            OnMove?.Invoke(position, newPosition);
             LevelManager.Instance.GetTilesAt(position).ForEach(x => x.ExitTo(this, newPosition));
             LevelManager.Instance.GetTilesAt(position.Below).ForEach(x => x.ExitTo(this, position));
             // Enter new position
             LevelManager.Instance.GetTilesAt(newPosition).ForEach(x => x.Enter(this));
             LevelManager.Instance.GetTilesAt(newPosition.Below).ForEach(x => x.StepOn(this));
             //Finally set the new position
-            OnMove?.Invoke(position, newPosition);
             position = newPosition;
             return true;
         }
