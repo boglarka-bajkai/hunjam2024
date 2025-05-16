@@ -1,6 +1,6 @@
 ﻿namespace Logic.Characters
 {
-    public class CloneCharacter : Character
+    public class CloneCharacterLegacy : CharacterLegacy
     {
     }
 }

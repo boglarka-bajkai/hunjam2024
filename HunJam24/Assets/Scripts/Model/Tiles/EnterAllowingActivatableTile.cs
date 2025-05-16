@@ -1,13 +1,14 @@
 using Logic.Characters;
 using Model.Characters;
 using Model.Data;
+using Model.Tiles.Interfaces;
 
 namespace Model.Tiles
 {
     /// <summary>
     /// A tile that you can only enter when it is activated.
     /// </summary>
-    class EnterAllowingAtivatableTile : ActivatableTile
+    public sealed class EnterAllowingAtivatableTile : ActivatableTile, ITopTile
     {
         public override bool CanEnter(Character character) => IsActive;
         public override bool CanEnter(Tile tile) => IsActive;

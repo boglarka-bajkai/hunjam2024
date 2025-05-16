@@ -5,7 +5,7 @@ namespace Logic
 {
     public static class CommandExecutor
     {
-        public static bool Execute(Func<Character, bool> action)
+        public static bool Execute(Func<CharacterLegacy, bool> action)
         {
             if (!action.Invoke(MapManager.Instance.Player))
             {

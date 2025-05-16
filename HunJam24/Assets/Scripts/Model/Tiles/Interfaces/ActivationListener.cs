@@ -1,4 +1,6 @@
-namespace Model.Tiles
+using Model.Tiles.Data;
+
+namespace Model.Tiles.Interfaces
 {
     /// <summary>
     /// Interface for tiles that can be activated or deactivated by activatable tiles.
@@ -8,12 +10,12 @@ namespace Model.Tiles
         /// <summary>
         /// Called when the tile is activated.
         /// </summary>
-        void Activate();
+        void Activate(TileConnectionGroup connectionGroup);
         
         /// <summary>
         /// Called when the tile is deactivated.
         /// </summary>
-        void Deactivate();
+        void Deactivate(TileConnectionGroup connectionGroup);
 
         /// <summary>
         /// Checks if the tile is active.

@@ -4,6 +4,7 @@ using Model.Characters;
 using Model.Data;
 using Model.Tiles.Data;
 using Model.Tiles.Helpers;
+using Model.Tiles.Interfaces;
 using UnityEngine;
 
 namespace Model.Tiles
@@ -13,16 +14,16 @@ namespace Model.Tiles
     /// This tile notifies listeners when it is activated or deactivated.
     /// </summary>
     [TileDataType(typeof(ConnectedTileData))]
-    class StepInActivatorTile : Tile
+    public sealed class StepInActivatorTile : Tile, ITopTile
     {
         /// <summary>
         /// List of characters on this tile.
         /// </summary>
-        List<Character> charactersOnTile = new List<Character>();
+        readonly List<Character> charactersOnTile = new List<Character>();
         /// <summary>
         /// List of tiles on this tile.
         /// </summary>
-        List<Tile> tilesOnTile = new List<Tile>();
+        readonly List<Tile> tilesOnTile = new List<Tile>();
 
         /// <summary>
         /// The group this tile activates.
@@ -47,7 +48,15 @@ namespace Model.Tiles
         public bool Active => _active;
 
         public override int RenderOrder => Position.RenderOrder - 1;
-        
+
+        public override void Initialize(Coordinate position, TileData data)
+        {
+            if (data is not ConnectedTileData connectedTileData)
+                throw new System.ArgumentException($"Invalid tile data type: {data.GetType()}");
+            base.Initialize(position, data);
+            tileGroup = connectedTileData.TileGroup;
+        }
+
         /// <summary>
         /// Activates the tile.
         /// </summary>
@@ -56,6 +65,7 @@ namespace Model.Tiles
             _active = true;
             activeSelf.SetActive(true);
             inactiveSelf.SetActive(false);
+            TileConnectionHelper.Instance.ActivatorActivated(tileGroup);
         }
         /// <summary>
         /// Deactivates the tile.
@@ -65,6 +75,7 @@ namespace Model.Tiles
             _active = false;
             inactiveSelf.SetActive(true);
             activeSelf.SetActive(false);
+            TileConnectionHelper.Instance.ActivatorDeactivated(tileGroup);
         }
 
         public override bool CanEnter(Character character) => true;

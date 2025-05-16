@@ -11,7 +11,7 @@
                     "id": "76819249-f614-4700-8321-3de3f7bf1f36",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Tap",
                     "initialStateCheck": false
                 },
                 {
@@ -56,8 +56,8 @@
                 },
                 {
                     "name": "",
-                    "id": "bff587e8-10f8-471b-a6e1-8016e65709fe",
-                    "path": "<Touchscreen>/Press",
+                    "id": "7bd617b7-fcd4-4cf1-8fc3-9d38b108ec94",
+                    "path": "<Touchscreen>/primaryTouch/tap",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

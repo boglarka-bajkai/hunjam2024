@@ -66,6 +66,10 @@ namespace Model
         /// An event that is triggered when the player makes a valid move.
         /// </summary>
         public static event System.Action OnTick;
+
+        public static void InvokeTick() {
+            OnTick?.Invoke();
+        }
         
         #endregion
         

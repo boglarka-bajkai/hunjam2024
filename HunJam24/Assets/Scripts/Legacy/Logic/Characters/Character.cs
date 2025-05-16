@@ -119,10 +119,10 @@ namespace Logic.Characters
 
         IEnumerator moveSoftlyTo(TileBase destination, List<TileBase> top)
         {
-            if (this is Player && movingCount > 0) yield break;
+            if (this is PlayerLegacy && movingCount > 0) yield break;
             movingCount++;
-            if (this is Player) MapManager.Instance.ResetTiles();
-            if (this is Player) CloneManager.Instance.Tick();
+            if (this is PlayerLegacy) MapManager.Instance.ResetTiles();
+            if (this is PlayerLegacy) CloneManager.Instance.Tick();
             float t = 0f;
             //Wait for jump anim
             yield return new WaitForEndOfFrame();
@@ -131,27 +131,27 @@ namespace Logic.Characters
             switch (animator.GetInteger("dir"))
             {
                 case 0:
-					if(this is Player)
+					if(this is PlayerLegacy)
 						animName = pushing ? "player_push_UR" : "player_jump_UR";
-					else if (this is CloneCharacter)
+					else if (this is CloneCharacterLegacy)
 						animName = pushing ? "alterego_push_UR" : "alterego_jump_UR";
 					break;
                 case 1:
-					if (this is Player)
+					if (this is PlayerLegacy)
 						animName = pushing ? "player_push_UL" : "player_jump_UL";
-					else if (this is CloneCharacter)
+					else if (this is CloneCharacterLegacy)
 						animName = pushing ? "alterego_push_UL" : "alterego_jump_UL";
 					break;
                 case 2:
-					if (this is Player)
+					if (this is PlayerLegacy)
 						animName = pushing ? "player_push_DL" : "player_jump_DL";
-					else if (this is CloneCharacter)
+					else if (this is CloneCharacterLegacy)
 						animName = pushing ? "alterego_push_DL" : "alterego_jump_DL";
 					break;
                 case 3:
-					if (this is Player)
+					if (this is PlayerLegacy)
 						animName = pushing ? "player_push_DR" : "player_jump_DR";
-					else if (this is CloneCharacter)
+					else if (this is CloneCharacterLegacy)
 						animName = pushing ? "alterego_push_DR" : "alterego_jump_DR";
 					break;
                 default: break;
@@ -192,7 +192,7 @@ namespace Logic.Characters
             GetComponent<SpriteRenderer>().sortingOrder = Position.Order+1;
             
             if (top != null) top.ForEach(x=> x.EnterFrom(Position));
-			if (this is Player p)
+			if (this is PlayerLegacy p)
 			{
                 MapManager.Instance.PlayerMoved(Tile);
 

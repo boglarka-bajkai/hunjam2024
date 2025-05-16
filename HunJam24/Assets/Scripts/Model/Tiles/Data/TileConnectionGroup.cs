@@ -1,4 +1,4 @@
-namespace Model.Tiles.Helpers
+namespace Model.Tiles.Data
 {
     /// <summary>
     /// A color that identifies all the tiles that are connected to each other.

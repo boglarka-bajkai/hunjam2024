@@ -7,15 +7,15 @@ namespace Logic
 {
     public class Clone : MonoBehaviour
     {
-        private Queue<Func<CloneCharacter, bool>> _history;
+        private Queue<Func<CloneCharacterLegacy, bool>> _history;
 
-        public CloneCharacter Character { get; private set; }
+        public CloneCharacterLegacy Character { get; private set; }
 
 
         /*
          * Call this once after instantiating
          */
-        public void SetHistory(Queue<Func<CloneCharacter, bool>> history)
+        public void SetHistory(Queue<Func<CloneCharacterLegacy, bool>> history)
         {
             _history = history;
 
@@ -24,7 +24,7 @@ namespace Logic
         /*
          * Call this once after instantiating
          */
-        public void SetCharacter(CloneCharacter character)
+        public void SetCharacter(CloneCharacterLegacy character)
         {
             Character = character;
         }
@@ -33,7 +33,7 @@ namespace Logic
         /*
          * Adds fresh action to local history of the clone
          */
-        public void UpdateHistory(Func<CloneCharacter, bool> action)
+        public void UpdateHistory(Func<CloneCharacterLegacy, bool> action)
         {
             _history.Enqueue(action);
         }

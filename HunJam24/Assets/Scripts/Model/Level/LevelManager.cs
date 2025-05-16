@@ -84,6 +84,7 @@ namespace Model.Level
                 Destroy(tile.gameObject);
             }
             loadedTiles.Clear();
+            CheckpointHelper.Instance.ResetCheckpointCount();
         }
 
         public List<Tile> GetTilesAt(Coordinate coordinate) {

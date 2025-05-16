@@ -1,5 +1,5 @@
 using System;
-namespace Model.Tiles.Helpers
+namespace Model.Tiles.Data
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false )]
     /// <summary>

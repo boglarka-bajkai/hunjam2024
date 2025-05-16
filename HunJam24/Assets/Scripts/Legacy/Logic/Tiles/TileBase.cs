@@ -95,7 +95,7 @@ namespace Logic.Tiles
             return result;
         }
 
-        public virtual Func<Character, bool> Command => character => character.MoveOnto(this);
+        public virtual Func<CharacterLegacy, bool> Command => character => character.MoveOnto(this);
 
         /**********
          * ACTIONS

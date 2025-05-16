@@ -1,10 +1,11 @@
 using Logic.Characters;
 using Model.Characters;
 using Model.Data;
+using Model.Tiles.Interfaces;
 
 namespace Model.Tiles
 {
-    class GroundTile : Tile
+    public sealed class GroundTile : Tile, IGroundTile
     {
         public override bool CanEnter(Character character) => false;
 

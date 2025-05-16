@@ -1,7 +1,7 @@
-using Logic.Characters;
-using Logic.Tiles;
+using Model.Data;
 using Model.Tiles.Data;
 using Model.Tiles.Helpers;
+using Model.Tiles.Interfaces;
 using UnityEngine;
 
 namespace Model.Tiles
@@ -19,17 +19,37 @@ namespace Model.Tiles
 
         public bool IsActive => _active;
 
-        public virtual void Activate() {
+        TileConnectionGroup tileGroup;
+
+        public override void Initialize(Coordinate position, TileData data)
+        {
+            if (data is not ConnectedTileData connectedTileData)
+                throw new System.ArgumentException($"Invalid tile data type: {data.GetType()}");
+            base.Initialize(position, data);
+            tileGroup = connectedTileData.TileGroup;
+            TileConnectionHelper.Instance.OnActivatorActivated += Activate;
+            TileConnectionHelper.Instance.OnActivatorDeactivated += Deactivate;
+        }
+
+        public virtual void Activate(TileConnectionGroup connectionGroup) {
+            if (connectionGroup != tileGroup) return; // Only activate if the group matches
             if (_active) return; // Avoid double activation
             _active = true;
             activeSelf.SetActive(true);
             inactiveSelf.SetActive(false);
         }
-        public virtual void Deactivate() {
+        public virtual void Deactivate(TileConnectionGroup connectionGroup) {
+            if (connectionGroup != tileGroup) return; // Only deactivate if the group matches
             if (!_active) return; // Avoid double deactivation
             _active = false;
             activeSelf.SetActive(false);
             inactiveSelf.SetActive(true);
+        }
+
+        void OnDestroy()
+        {
+            TileConnectionHelper.Instance.OnActivatorActivated -= Activate;
+            TileConnectionHelper.Instance.OnActivatorDeactivated -= Deactivate;            
         }
     }
 }

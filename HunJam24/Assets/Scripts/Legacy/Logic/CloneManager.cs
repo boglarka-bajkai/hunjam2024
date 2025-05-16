@@ -18,7 +18,7 @@ namespace Logic
 
         [SerializeField] private GameObject clonePrefab;
         private List<Clone> _clones = new();
-        private List<Func<CloneCharacter, bool>> _fullHistory = new();
+        private List<Func<CloneCharacterLegacy, bool>> _fullHistory = new();
 
         public List<Clone> GetClonesAt(Vector position)
         {
@@ -28,7 +28,7 @@ namespace Logic
         /*
          * Call this only as the player's character acts
          */
-        public void UpdateHistory(Func<CloneCharacter, bool> action)
+        public void UpdateHistory(Func<CloneCharacterLegacy, bool> action)
         {
             _fullHistory.Add(action);
 
@@ -39,13 +39,13 @@ namespace Logic
         }
         public void Spawn()
         {
-            var clonedHistory = new Queue<Func<CloneCharacter, bool>>(_fullHistory.Count);
-            _fullHistory.ForEach(item => { clonedHistory.Enqueue((Func<CloneCharacter, bool>)item.Clone()); });
+            var clonedHistory = new Queue<Func<CloneCharacterLegacy, bool>>(_fullHistory.Count);
+            _fullHistory.ForEach(item => { clonedHistory.Enqueue((Func<CloneCharacterLegacy, bool>)item.Clone()); });
 
             var startingPosition = MapManager.Instance.StartTile.Position;
             var startTile = MapManager.Instance.GetTilesAt(startingPosition + new Vector(0,0,-1))[0];
             var cloneGameObject = Instantiate(clonePrefab, startingPosition.UnityVector, Quaternion.identity, transform);
-            var cloneCharacter = cloneGameObject.GetComponent<CloneCharacter>();
+            var cloneCharacter = cloneGameObject.GetComponent<CloneCharacterLegacy>();
             cloneCharacter.SetStartingTile(startTile);
             var clone = cloneGameObject.GetComponent<Clone>();
             clone.SetHistory(clonedHistory);

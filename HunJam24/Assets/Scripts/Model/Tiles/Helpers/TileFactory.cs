@@ -1,6 +1,7 @@
 using System;
 using Model.Level.Data;
 using Model.Tiles;
+using Model.Tiles.Data;
 using UnityEngine;
 namespace Model.Tiles.Helpers
 {

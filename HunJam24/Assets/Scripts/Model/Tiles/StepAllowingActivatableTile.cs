@@ -1,13 +1,14 @@
 using Logic.Characters;
 using Model.Characters;
 using Model.Data;
+using Model.Tiles.Interfaces;
 
 namespace Model.Tiles
 {
     /// <summary>
     /// A tile that you can only step on when it is activated.
     /// </summary>
-    class StepAllowingActivatableTile : ActivatableTile
+    public sealed class StepAllowingActivatableTile : ActivatableTile, IGroundTile
     {
         public override bool CanEnter(Character character) => false;
         public override bool CanEnter(Tile tile) => false;

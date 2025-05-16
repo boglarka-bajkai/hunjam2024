@@ -22,7 +22,7 @@ namespace Logic.Tiles
         // public override Func<Character, bool> Command => character =>
         //     AcceptsCharacter(character) &&
         //     character.MoveOnto(MapManager.Instance.GetTilesAt(Position + new Vector(0, 0, -1)).First());
-        public override Func<Character, bool> Command => character =>
+        public override Func<CharacterLegacy, bool> Command => character =>
         {
             var baseTile = MapManager.Instance.GetTilesAt(Position + new Vector(0, 0, -1));
             if (baseTile == null || _active) return false;

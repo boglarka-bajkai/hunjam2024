@@ -72,7 +72,7 @@ namespace Logic.Tiles
             
         }
 
-        public override Func<Character, bool> Command => character =>
+        public override Func<CharacterLegacy, bool> Command => character =>
         {
             var baseTile = MapManager.Instance.GetTilesAt(Position + new Vector(0, 0, -1));
             if (baseTile == null) return false;

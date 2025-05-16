@@ -30,7 +30,7 @@ namespace Logic
         public static MapManager Instance => _instance;
         // TileSet
         [SerializeField] GameObject playerPrefab;
-        public Player Player { get; private set; }
+        public PlayerLegacy Player { get; private set; }
 
         public GameObject getTileByName(string name)
         {
@@ -40,7 +40,7 @@ namespace Logic
 
         // Map
         public readonly List<TileBase> Map = new();
-        public StartTile StartTile {get;private set; }= null;
+        public StartTileLegacy StartTile {get;private set; }= null;
 
         public List<TileBase> GetTilesAt(Vector position)
         {
@@ -73,7 +73,7 @@ namespace Logic
                 if (t is MovableTile) t.name = "box";
                 t.GetComponentInChildren<SpriteRenderer>().sortingOrder = t.Position.Order;
                 Map.Add(t);
-                if (t is StartTile startTile)
+                if (t is StartTileLegacy startTile)
                 {
                     StartTile = startTile;
                 }
@@ -84,7 +84,7 @@ namespace Logic
             }
 
             var playerPos = StartTile.Position;
-            Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity, transform).GetComponent<Player>();
+            Player = Instantiate(playerPrefab, playerPos.UnityVector, Quaternion.identity, transform).GetComponent<PlayerLegacy>();
             Player.SetStartingTile(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
             PlayerMoved(GetTilesAt(playerPos + new Vector(0,0,-1))[0]);
             
