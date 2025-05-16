@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Model.Tiles;
-using Model.Tiles.Helpers;
 using Model.Tiles.Data;
 using Model.Level.Data;
 
@@ -13,13 +12,13 @@ public class TileEntryDrawer : PropertyDrawer
 {
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        // Dynamic height based on prefab, tileData, and coordinate
         var prefabProp = property.FindPropertyRelative("tilePrefab");
         var dataProp = property.FindPropertyRelative("tileData");
 
-        float height = EditorGUI.GetPropertyHeight(prefabProp);
-        height += EditorGUIUtility.singleLineHeight + 20; // coordinate
-        height += EditorGUI.GetPropertyHeight(dataProp) + 5;
+        float height = EditorGUI.GetPropertyHeight(prefabProp) + 20;
+        height += EditorGUIUtility.singleLineHeight + 20; // for coordinate
+        if (dataProp != null && dataProp.managedReferenceValue != null)
+            height += EditorGUI.GetPropertyHeight(dataProp, true) + 20;
 
         return height;
     }
@@ -32,46 +31,107 @@ public class TileEntryDrawer : PropertyDrawer
         var dataProp = property.FindPropertyRelative("tileData");
         var coordinateProp = property.FindPropertyRelative("coordinate");
 
-        // Draw tilePrefab
         float yOffset = position.y;
+
+        // --- Draw tilePrefab ---
         var prefabHeight = EditorGUI.GetPropertyHeight(prefabProp);
         var prefabRect = new Rect(position.x, yOffset, position.width, prefabHeight);
+
+        EditorGUI.BeginChangeCheck();
         EditorGUI.PropertyField(prefabRect, prefabProp);
-        yOffset += prefabHeight + 5;
-
-        // --- Draw Coordinate as Vector3Int ---
-        object targetObject = property.serializedObject.targetObject;
-        TilePlacement placement = GetTargetObjectOfProperty(property) as TilePlacement;
-
-        if (placement != null && placement.Coordinate != null)
+        if (EditorGUI.EndChangeCheck())
         {
-            Vector3Int current = new Vector3Int(placement.Coordinate.X, placement.Coordinate.Y, placement.Coordinate.Z);
-            var coordRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
-            Vector3Int edited = EditorGUI.Vector3IntField(coordRect, "Coordinate", current);
-            yOffset += EditorGUIUtility.singleLineHeight + 20;
-
-            // If changed, update the private readonly properties
-            if (edited != current)
-            {
-                var coord = placement.Coordinate;
-                SetReadonlyProperty(coord, "x", edited.x);
-                SetReadonlyProperty(coord, "y", edited.y);
-                SetReadonlyProperty(coord, "z", edited.z);
-            }
+            property.serializedObject.ApplyModifiedProperties(); // Needed to get updated object reference
+            UpdateTileDataFromPrefab(property, prefabProp, dataProp);
         }
 
-        // --- Draw TileData ---
-        if (dataProp.managedReferenceValue != null)
+        yOffset += prefabHeight + 10;
+
+        // --- Draw coordinate as Vector3Int ---
+        var xProp = coordinateProp.FindPropertyRelative("x");
+        var yProp = coordinateProp.FindPropertyRelative("y");
+        var zProp = coordinateProp.FindPropertyRelative("z");
+
+        if (xProp != null && yProp != null && zProp != null)
         {
-            var dataHeight = EditorGUI.GetPropertyHeight(dataProp);
-            var dataRect = new Rect(position.x, yOffset, position.width, dataHeight);
-            EditorGUI.PropertyField(dataRect, dataProp, new GUIContent("Tile Data"), true);
+            var coordRect = new Rect(position.x, yOffset, position.width, EditorGUIUtility.singleLineHeight);
+            Vector3Int current = new Vector3Int(xProp.intValue, yProp.intValue, zProp.intValue);
+            Vector3Int edited = EditorGUI.Vector3IntField(coordRect, "Coordinate", current);
+            if (edited != current)
+            {
+                xProp.intValue = edited.x;
+                yProp.intValue = edited.y;
+                zProp.intValue = edited.z;
+            }
+            yOffset += EditorGUIUtility.singleLineHeight + 20;
+        }
+
+        // --- Draw tileData ---
+        GameObject prefab = prefabProp.objectReferenceValue as GameObject;
+        if (prefab != null)
+        {
+            Tile tile = prefab.GetComponent<Tile>();
+            if (tile != null)
+            {
+                var tileType = tile.GetType();
+                var attr = tileType.GetCustomAttribute<TileDataTypeAttribute>();
+                if (attr != null && typeof(TileData).IsAssignableFrom(attr.DataType))
+                {
+                    // Tile uses a valid TileDataType — show the field
+                    if (dataProp.managedReferenceValue == null || dataProp.managedReferenceValue.GetType() != attr.DataType)
+                    {
+                        var instance = Activator.CreateInstance(attr.DataType);
+                        dataProp.managedReferenceValue = instance;
+                        property.serializedObject.ApplyModifiedProperties();
+                    }
+
+                    var dataHeight = EditorGUI.GetPropertyHeight(dataProp, true);
+                    var dataRect = new Rect(position.x, yOffset, position.width, dataHeight);
+                    EditorGUI.PropertyField(dataRect, dataProp, new GUIContent("Tile Data"), true);
+                    yOffset += dataHeight + 5;
+                }
+                else
+                {
+                    // No TileDataType — clear tileData
+                    if (dataProp.managedReferenceValue != null)
+                    {
+                        dataProp.managedReferenceValue = null;
+                        property.serializedObject.ApplyModifiedProperties();
+                    }
+                }
+            }
         }
 
         EditorGUI.EndProperty();
     }
 
-    // Helper to get the actual object instance behind a SerializedProperty
+    /// <summary>
+    /// Creates or updates the tileData based on the selected prefab type.
+    /// </summary>
+    private void UpdateTileDataFromPrefab(SerializedProperty parentProperty, SerializedProperty prefabProp, SerializedProperty dataProp)
+    {
+        GameObject prefab = prefabProp.objectReferenceValue as GameObject;
+        if (prefab == null) return;
+
+        var tile = prefab.GetComponent<Tile>();
+        if (tile == null) return;
+
+        // Get custom TileDataTypeAttribute
+        var tileType = tile.GetType();
+        var attr = tileType.GetCustomAttribute<TileDataTypeAttribute>();
+        if (attr == null || !typeof(TileData).IsAssignableFrom(attr.DataType)) return;
+
+        // If current data type doesn't match, create a new one
+        if (dataProp.managedReferenceValue == null || dataProp.managedReferenceValue.GetType() != attr.DataType)
+        {
+            var instance = Activator.CreateInstance(attr.DataType);
+            dataProp.managedReferenceValue = instance;
+            parentProperty.serializedObject.ApplyModifiedProperties();
+        }
+    }
+
+
+    // ----- Reflection helpers -----
     private static object GetTargetObjectOfProperty(SerializedProperty prop)
     {
         string path = prop.propertyPath.Replace(".Array.data[", "[");
@@ -124,15 +184,5 @@ public class TileEntryDrawer : PropertyDrawer
             if (!enm.MoveNext()) return null;
         }
         return enm.Current;
-    }
-
-    // Helper to update readonly auto-properties using reflection
-    private void SetReadonlyProperty(object target, string propertyName, int value)
-    {
-        var backingField = target.GetType().GetField($"<{propertyName}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-        if (backingField != null)
-        {
-            backingField.SetValue(target, value);
-        }
     }
 }

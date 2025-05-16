@@ -1,6 +1,6 @@
 using UnityEngine;
 using Model;
-[CreateAssetMenu(fileName = "StartButtonAction", menuName = "CommonButtonActions")]
+[CreateAssetMenu(fileName = "RestartButtonAction", menuName = "CommonButtonActions/Restart")]
 public class RestartButtonAction : CommonButtonAction
 {
     public override void Execute()

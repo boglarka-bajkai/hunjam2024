@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Model.Characters.Helpers;
 using Model.Data;
 using Model.Level.Data;
 using Model.Tiles;
@@ -15,7 +16,7 @@ namespace Model.Level
     /// It loads the levels, and keeps track of the currently loaded level, its tiles and characters.
     /// It also handles cleaning up after a level is completed.
     /// </remarks>
-    class LevelManager : MonoBehaviour 
+    public class LevelManager : MonoBehaviour 
     {
         #region Singleton Management
         /// <summary>
@@ -72,12 +73,20 @@ namespace Model.Level
         /// The currently loaded level.
         /// </summary>
         /// <param name="levelData">The level to load</param>
-        public void LoadLevel(LevelData levelData) {
+        public void LoadLevel(LevelData levelData)
+        {
             UnloadLevel();
-            foreach (TilePlacement tilePlacement in levelData.TilePlacements){
+            foreach (TilePlacement tilePlacement in levelData.TilePlacements)
+            {
                 Tile tile = TileFactory.CreateTile(tilePlacement, transform);
                 loadedTiles.Add(tile);
             }
+            if (StartTile.Instance == null)
+            {
+                Debug.LogError("No StartTile found in the loaded level.");
+                return;
+            }
+            CharacterFactory.Instance.CreatePlayer();
         }
         public void UnloadLevel() {
             foreach (Tile tile in loadedTiles) {

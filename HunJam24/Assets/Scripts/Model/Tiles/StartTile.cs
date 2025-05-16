@@ -57,7 +57,7 @@ namespace Model.Tiles
         {
             if (CanEnter(character))
             {
-                if (CheckpointHelper.Instance.AllCheckpointsActivated)
+                if (CheckpointHelper.Instance.AllCheckpointsActivated && character is PlayerCharacter)
                 {
                     GameManager.Instance.LevelCompleted();
                 }

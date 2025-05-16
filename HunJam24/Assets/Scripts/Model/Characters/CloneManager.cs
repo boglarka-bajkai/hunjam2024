@@ -63,7 +63,7 @@ namespace Model.Characters
         /// <returns>The clones that are currently in the level.</returns>
 
         /// <summary>
-        /// The steps that the clones have taken.
+        /// The steps the player has taken, cached for new clones to use.
         /// </summary>
         public List<Coordinate> Steps { get; private set; } = new List<Coordinate>();
         /// <summary>
@@ -73,7 +73,6 @@ namespace Model.Characters
         public void AddStep(Coordinate position)
         {
             Steps.Add(position);
-            clones.ForEach(clone => clone.AddStep(position));
         }
 
         /// <summary>
@@ -82,6 +81,7 @@ namespace Model.Characters
         void AddClone()
         {
             CloneCharacter clone = CharacterFactory.Instance.CreateClone();
+            Debug.Log($"Clone created: {clone}");
             if (clone == null) return;
             clones.Add(clone);
         }
@@ -89,10 +89,12 @@ namespace Model.Characters
         void Start()
         {
             CheckpointHelper.OnCheckpointActivated += AddClone;
+            GameManager.OnTick += AddStep;
         }
         void OnDestroy()
         {
             CheckpointHelper.OnCheckpointActivated -= AddClone;
+            GameManager.OnTick -= AddStep;
         }
         #endregion
     }

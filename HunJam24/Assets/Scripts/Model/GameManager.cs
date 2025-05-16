@@ -70,9 +70,9 @@ namespace Model
         public static void InvokeTick(Coordinate coordinate) {
             OnTick?.Invoke(coordinate);
         }
-        
+
         #endregion
-        
+
         #region Game State Management
         /// <summary>
         /// Starts the game with the given map.
@@ -81,17 +81,26 @@ namespace Model
         /// <remarks>
         /// This method loads the map, sets the game state to InGame and triggers the OnGameStateChanged event.
         /// </remarks>
-        public void StartGame(int mapIndex) {
-            currentMapIndex = mapIndex;
-            LevelManager.Instance.LoadLevel(LevelManager.Instance.LevelSets[mapIndex].Levels[0]);
+        // public void StartGame(int mapIndex) {
+        //     currentMapIndex = mapIndex;
+        //     LevelManager.Instance.LoadLevel(LevelManager.Instance.LevelSets[mapIndex].Levels[0]);
+        //     currentGameState = GameState.InGame;
+        //     OnGameStateChanged?.Invoke(currentGameState);
+        // }
+        //Temp startgame without mapIndex
+        public void StartGame()
+        {
+            LevelManager.Instance.LoadLevel(LevelManager.Instance.LevelSets[0].Levels[currentMapIndex]);
             currentGameState = GameState.InGame;
             OnGameStateChanged?.Invoke(currentGameState);
+            //TODO: level select based startgame
         }
 
         /// <summary>
         /// Pauses the game.
         /// </summary>
-        public void PauseGame() {
+        public void PauseGame()
+        {
             currentGameState = GameState.PauseMenu;
             OnGameStateChanged?.Invoke(currentGameState);
         }
@@ -107,8 +116,10 @@ namespace Model
         /// <summary>
         /// Restarts the game.
         /// </summary>
-        public void RestartGame() {
-            StartGame(currentMapIndex);
+        public void RestartGame()
+        {
+            //StartGame(currentMapIndex);
+            StartGame();
         }
 
         /// <summary>
@@ -122,9 +133,17 @@ namespace Model
         /// <summary>
         /// Signals that the played has completed the level.
         /// </summary>
-        public void LevelCompleted() {
+        public void LevelCompleted()
+        {
             currentGameState = GameState.Victory;
+            currentMapIndex++;
             OnGameStateChanged?.Invoke(currentGameState);
+            //If we run out of levels, go back to the first level for testing
+            //TODO: level select based level completion
+            if (currentMapIndex >= LevelManager.Instance.LevelSets[0].Levels.Length)
+            {
+                currentMapIndex = 0;
+            }
         }
         
         /// <summary>
@@ -149,7 +168,7 @@ namespace Model
         /// <summary>
         /// The currently loaded map index, -1 indicates no map is loaded.
         /// </summary>
-        int currentMapIndex = -1; 
+        int currentMapIndex = 0; 
 
         /// <summary>
         /// Gets the currently loaded map index.

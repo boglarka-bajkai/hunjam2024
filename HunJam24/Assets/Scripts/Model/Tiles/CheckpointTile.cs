@@ -5,6 +5,7 @@ using Model.Data;
 using Model.Tiles.Data;
 using Model.Tiles.Helpers;
 using Model.Tiles.Interfaces;
+using UnityEngine;
 
 namespace Model.Tiles
 {
@@ -32,6 +33,7 @@ namespace Model.Tiles
             {
                 if (activated) return true; //Do nothing if already activated
                 activated = true;
+                GetComponentInChildren<SpriteRenderer>().enabled = false; //Disable the sprite renderer
                 CheckpointHelper.Instance.CheckpointActivated();
                 return true;
             }

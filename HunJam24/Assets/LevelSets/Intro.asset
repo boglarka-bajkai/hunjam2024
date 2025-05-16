@@ -10,17 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7dede94c34656ce4eaab079068b7d94b, type: 3}
-  m_Name: Basics
+  m_Name: Intro
   m_EditorClassIdentifier: 
   levelSetName: Basics
   levels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 4e057d2b68c2fa548bd4d89b2356980e, type: 2}
   starsRequired: 0

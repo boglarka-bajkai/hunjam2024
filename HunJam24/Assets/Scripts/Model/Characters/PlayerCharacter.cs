@@ -1,8 +1,10 @@
 using Model.Characters;
 using Model.Data;
 using UnityEngine;
+using View.Animated;
 namespace Model.Characters
 {
+    [RequireComponent(typeof(PlayerAnimation))]
     public class PlayerCharacter : Character
     {
         #region Singleton Management
@@ -14,11 +16,15 @@ namespace Model.Characters
         /// Gets the singleton instance of the PlayerCharacter.
         /// </summary>
         /// <returns>The singleton instance of the PlayerCharacter.</returns>
-        public static PlayerCharacter Instance {
-            get {
-                if (_instance == null) {
+        public static PlayerCharacter Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
                     _instance = FindFirstObjectByType<PlayerCharacter>();
-                    if (_instance == null) {
+                    if (_instance == null)
+                    {
                         Debug.LogError("PlayerCharacter instance is null. Make sure to create one.");
                     }
                 }
@@ -28,16 +34,22 @@ namespace Model.Characters
         /// <summary>
         /// Awake method to ensure the singleton instance is set up correctly.
         /// </summary>
-        private void Awake() {
-            if (_instance == null) {
+        private void Awake()
+        {
+            if (_instance == null)
+            {
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
-            } else if (_instance != this) {
+            }
+            else if (_instance != this)
+            {
                 Destroy(gameObject);
             }
         }
-        private void OnDestroy() {
-            if (_instance == this) {
+        private void OnDestroy()
+        {
+            if (_instance == this)
+            {
                 _instance = null;
             }
         }
@@ -46,9 +58,8 @@ namespace Model.Characters
         public override bool Move(Coordinate newPosition)
         {
             if (!base.Move(newPosition)) return false;
-            CloneManager.Instance.AddStep(newPosition);
             return true;
         }
-    
+
     }
 }

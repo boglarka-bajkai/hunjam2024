@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8632445761697499382}
   - component: {fileID: 7193638170223225555}
   m_Layer: 0
-  m_Name: PressurePlate
+  m_Name: PressurePlateLegacy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

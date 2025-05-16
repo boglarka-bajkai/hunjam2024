@@ -20,11 +20,11 @@ namespace Model.Data
         private const float Y_RATIO = 0.37f;
 
         [Tooltip("Isometric X coordinate, going from top left to bottom right.")]
-        [SerializeField] readonly int x; public int X => x;
+        [SerializeField] int x; public int X => x;
         [Tooltip("Isometric Y coordinate, going from top right to bottom left.")]
-        [SerializeField] readonly int y; public int Y => y;
+        [SerializeField] int y; public int Y => y;
         [Tooltip("Isometric Z coordinate, going from bottom to top.")]
-        [SerializeField] readonly int z; public int Z => z;
+        [SerializeField] int z; public int Z => z;
         /// <summary>
         /// Creates a new Coordinate object with the specified x, y, and z values.
         /// </summary>
@@ -105,7 +105,7 @@ namespace Model.Data
         /// <param name="a">The first coordinate</param>
         /// <param name="b">The second coordinate</param>
         /// <returns>>A new coordinate with the summed x, y, and z values</returns>
-        public static Coordinate operator+(Coordinate a, Coordinate b)
+        public static Coordinate operator +(Coordinate a, Coordinate b)
         {
             return new Coordinate(a.x + b.x, a.y + b.y, a.z + b.z);
         }
@@ -115,7 +115,7 @@ namespace Model.Data
         /// <param name="a">The first coordinate to subtract from</param>
         /// <param name="b">>The second coordinate to subtract</param>
         /// <returns>>A new coordinate with the difference of the x, y, and z values</returns>
-        public static Coordinate operator-(Coordinate a, Coordinate b)
+        public static Coordinate operator -(Coordinate a, Coordinate b)
         {
             return new Coordinate(a.x - b.x, a.y - b.y, a.z - b.z);
         }
@@ -127,8 +127,13 @@ namespace Model.Data
         public Coordinate Below => new Coordinate(x, y, z - 1);
         public Coordinate Above => new Coordinate(x, y, z + 1);
 
+        public override string ToString()
+        {
+            return $"Coordinate({x}, {y}, {z})";
+        }
+
         #endregion
-        
+
     }
 
 }
