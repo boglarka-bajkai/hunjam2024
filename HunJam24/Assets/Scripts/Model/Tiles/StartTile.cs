@@ -31,19 +31,15 @@ namespace Model.Tiles
         public override void Initialize(Coordinate position, TileData data)
         {
             base.Initialize(position, data);
-            if (_instance != null)
-            {
-                Debug.LogError("StartTile instance already exists. Only one StartTile is allowed.");
-                return;
-            }
             _instance = this;
         }
-        void OnDestroy()
+        protected override void OnDestroy()
         {
             if (_instance == this)
             {
                 _instance = null;
             }
+            Destroy(gameObject);
         }
 
         public override bool CanEnter(Character character) => true;

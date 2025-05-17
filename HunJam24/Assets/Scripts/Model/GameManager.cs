@@ -47,6 +47,10 @@ namespace Model
         #endregion
 
         #region State Event Management
+
+        void Start() {
+            MainMenu();
+        }
         /// <summary>
         /// The current game state.
         /// </summary>
@@ -125,7 +129,8 @@ namespace Model
         /// <summary>
         /// Ends the game and returns to the main menu.
         /// </summary>
-        public void QuitGame() {
+        public void MainMenu() {
+            LevelManager.Instance.UnloadLevel();
             currentGameState = GameState.MainMenu;
             OnGameStateChanged?.Invoke(currentGameState);
         }
@@ -159,6 +164,12 @@ namespace Model
         /// </summary>
         public void Settings() {
             currentGameState = GameState.Settings;
+            OnGameStateChanged?.Invoke(currentGameState);
+        }
+
+        public void LevelLost()
+        {
+            currentGameState = GameState.GameOver;
             OnGameStateChanged?.Invoke(currentGameState);
         }
 

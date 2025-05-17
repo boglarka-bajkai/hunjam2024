@@ -86,6 +86,19 @@ namespace Model.Characters
             clones.Add(clone);
         }
 
+        public List<CloneCharacter> GetClonesAt(Coordinate coordinate)
+        {
+            List<CloneCharacter> clonesAt = new List<CloneCharacter>();
+            foreach (var clone in clones)
+            {
+                if (clone.Position == coordinate)
+                {
+                    clonesAt.Add(clone);
+                }
+            }
+            return clonesAt;
+        }
+
         void Start()
         {
             CheckpointHelper.OnCheckpointActivated += AddClone;
@@ -95,6 +108,16 @@ namespace Model.Characters
         {
             CheckpointHelper.OnCheckpointActivated -= AddClone;
             GameManager.OnTick -= AddStep;
+        }
+
+        public void ClearClones()
+        {
+            foreach (var clone in clones)
+            {
+                Destroy(clone.gameObject);
+            }
+            clones.Clear();
+            Steps.Clear();
         }
         #endregion
     }

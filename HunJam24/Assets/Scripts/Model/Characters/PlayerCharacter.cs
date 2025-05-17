@@ -1,3 +1,5 @@
+using System.Linq;
+using Logic;
 using Model.Characters;
 using Model.Data;
 using UnityEngine;
@@ -23,10 +25,6 @@ namespace Model.Characters
                 if (_instance == null)
                 {
                     _instance = FindFirstObjectByType<PlayerCharacter>();
-                    if (_instance == null)
-                    {
-                        Debug.LogError("PlayerCharacter instance is null. Make sure to create one.");
-                    }
                 }
                 return _instance;
             }
@@ -36,28 +34,40 @@ namespace Model.Characters
         /// </summary>
         private void Awake()
         {
-            if (_instance == null)
-            {
-                _instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else if (_instance != this)
-            {
-                Destroy(gameObject);
-            }
+            _instance = this;
+            DontDestroyOnLoad(gameObject);   
         }
-        private void OnDestroy()
+        void OnDestroy()
         {
             if (_instance == this)
             {
                 _instance = null;
             }
+            Destroy(gameObject);
         }
         #endregion
 
         public override bool Move(Coordinate newPosition)
         {
+            // Save clones that are at the new position when starting to move
+            var clonesToCheck = CloneManager.Instance.GetClonesAt(newPosition);
+            var oldPos = Position;
             if (!base.Move(newPosition)) return false;
+            // If any clones are at the new position, game over
+            if (CloneManager.Instance.GetClonesAt(newPosition).Count > 0)
+            {
+                GameManager.Instance.LevelLost();
+                Debug.LogWarning("Lost because of clone at new position");
+                return false;
+            }
+            if (clonesToCheck.Union(CloneManager.Instance.GetClonesAt(oldPos)).Any())
+            {
+                // If any clones are at the old position, game over
+                GameManager.Instance.LevelLost();
+                Debug.LogWarning("Lost because of jumping over clone");
+                return false;
+            }
+            
             return true;
         }
 

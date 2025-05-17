@@ -14,7 +14,6 @@ namespace View.Tiles
         GroundTile groundTile;
         void Awake()
         {
-            Debug.Log("GroundTileRenderer Awake");
             GameManager.OnGameStateChanged += OnGameStateChanged;
             groundTile = GetComponent<GroundTile>();
         }
@@ -25,7 +24,6 @@ namespace View.Tiles
 
         void OnGameStateChanged(GameState gameState)
         {
-            Debug.Log("Game state changed to: " + gameState);
             Coordinate c = groundTile.Position;
             string i1 = (LevelManager.Instance.GetTilesAt(new Coordinate(c.X, c.Y - 1, c.Z)).Count == 0) ? "0" : "1";
             string i2 = (LevelManager.Instance.GetTilesAt(new Coordinate(c.X + 1, c.Y, c.Z)).Count == 0) ? "0" : "1";

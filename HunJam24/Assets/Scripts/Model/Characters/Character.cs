@@ -46,7 +46,6 @@ namespace Model.Characters
         {
             int xDiff = Math.Abs(newPosition.X - position.X);
             int yDiff = Math.Abs(newPosition.Y - position.Y);
-            Debug.Log($"Moving from {position} to {newPosition} with diff {xDiff}, {yDiff}");
             // If the position is not next to the current position, return false
             if (!((xDiff <= 1 && yDiff == 0) || (xDiff == 0 && yDiff <= 1)))
             {

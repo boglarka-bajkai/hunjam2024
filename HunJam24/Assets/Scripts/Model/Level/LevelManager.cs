@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Model.Characters;
 using Model.Characters.Helpers;
 using Model.Data;
 using Model.Level.Data;
@@ -75,7 +76,9 @@ namespace Model.Level
         /// <param name="levelData">The level to load</param>
         public void LoadLevel(LevelData levelData)
         {
+            Debug.Log($"Loading level: {levelData.LevelName}");
             UnloadLevel();
+            Debug.Log("Spawning tiles...");
             foreach (TilePlacement tilePlacement in levelData.TilePlacements)
             {
                 Tile tile = TileFactory.CreateTile(tilePlacement, transform);
@@ -88,12 +91,18 @@ namespace Model.Level
             }
             CharacterFactory.Instance.CreatePlayer();
         }
-        public void UnloadLevel() {
-            foreach (Tile tile in loadedTiles) {
+        public void UnloadLevel()
+        {
+            Debug.Log("Unloading level...");
+            foreach (Tile tile in loadedTiles)
+            {
+                Debug.Log($"Destroying tile: {tile.name}");
                 Destroy(tile.gameObject);
             }
             loadedTiles.Clear();
             CheckpointHelper.Instance.ResetCheckpointCount();
+            CloneManager.Instance.ClearClones();
+            if (PlayerCharacter.Instance != null) Destroy(PlayerCharacter.Instance);
         }
 
         public List<Tile> GetTilesAt(Coordinate coordinate) {

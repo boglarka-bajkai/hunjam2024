@@ -33,7 +33,6 @@ namespace Control.Input
                 return; // Return if the player character is not initialized
             }
             Coordinate position = tile is ITopTile ? tile.Position : tile.Position.Above;
-            Debug.Log($"Player moved to tile {tile.name} at position {position.X}, {position.Y}");
             if (!PlayerCharacter.Instance.Move(position))
             {
                 Debug.Log($"Player could not move to tile {tile.name}");

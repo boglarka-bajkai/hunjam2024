@@ -98,6 +98,10 @@ namespace Model.Tiles
             return CanEnter(character);
         }
 
+        protected virtual void OnDestroy()
+        {
+            Destroy(gameObject);
+        }
 
         /// <summary>
         /// Tells the tile that the player has exited it or stepped off it.
@@ -107,7 +111,7 @@ namespace Model.Tiles
         /// Stepping off or leaving the tile is the same in this context, and is used to let
         /// reacting tiles (e.g. pressure plates) know that the player has left the tile.
         /// </remarks>
-        public virtual void ExitTo(Character character, Coordinate destination) {}
+        public virtual void ExitTo(Character character, Coordinate destination) { }
         #endregion
         #region Tile Movement Callbacks
         /// <summary>
