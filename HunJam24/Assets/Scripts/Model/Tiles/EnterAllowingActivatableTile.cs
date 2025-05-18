@@ -8,7 +8,7 @@ namespace Model.Tiles
     /// <summary>
     /// A tile that you can only enter when it is activated.
     /// </summary>
-    public sealed class EnterAllowingAtivatableTile : ActivatableTile, ITopTile
+    public sealed class EnterAllowingActivatableTile : ActivatableTile, ITopTile
     {
         public override bool CanEnter(Character character) => IsActive;
         public override bool CanEnter(Tile tile) => IsActive;

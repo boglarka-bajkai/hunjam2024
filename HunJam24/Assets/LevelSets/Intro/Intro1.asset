@@ -139,14 +139,14 @@ MonoBehaviour:
       z: 1
     tilePrefab: {fileID: 5069148515102972730, guid: fffdbc40b53e2be448dbcdc459f88f1b, type: 3}
     tileData:
-      rid: 2000890538451796031
+      rid: 2000890555733115461
   - coordinate:
       x: 0
       y: 3
       z: 1
     tilePrefab: {fileID: 7647007676249176381, guid: 57cf7b046f538eb48a523fdf3ad10be5, type: 3}
     tileData:
-      rid: 2000890538451796031
+      rid: 2000890555733115463
   - coordinate:
       x: 4
       y: 0
@@ -168,7 +168,11 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 2000890538451796031
+    - rid: 2000890555733115461
       type: {class: ConnectedTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
       data:
-        tileGroup: 0
+        tileGroup: 3
+    - rid: 2000890555733115463
+      type: {class: ConnectedTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
+      data:
+        tileGroup: 2

@@ -11,7 +11,7 @@ namespace Model.Tiles.Interfaces
         /// Called when the tile is activated.
         /// </summary>
         void Activate(TileConnectionGroup connectionGroup);
-        
+
         /// <summary>
         /// Called when the tile is deactivated.
         /// </summary>

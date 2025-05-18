@@ -3,11 +3,13 @@ using Model.Tiles.Data;
 using Model.Tiles.Helpers;
 using Model.Tiles.Interfaces;
 using UnityEngine;
+using View.Tiles;
 
 namespace Model.Tiles
 {
     [TileDataType(typeof(ConnectedTileData))]
-    public abstract class ActivatableTile : Tile, IActivationListener
+    [RequireComponent(typeof(ActivatableTileRenderer))]
+    public abstract class ActivatableTile : Tile, IActivationListener, IConnectedTile
     {
         [SerializeField]
         [Tooltip("The tile is active when this GameObject is active.")]
@@ -18,6 +20,8 @@ namespace Model.Tiles
         protected bool _active = false;
 
         public bool IsActive => _active;
+
+        public TileConnectionGroup TileGroup => tileGroup;
 
         TileConnectionGroup tileGroup;
 
@@ -33,14 +37,16 @@ namespace Model.Tiles
             inactiveSelf.SetActive(true);
         }
 
-        public virtual void Activate(TileConnectionGroup connectionGroup) {
+        public virtual void Activate(TileConnectionGroup connectionGroup)
+        {
             if (connectionGroup != tileGroup) return; // Only activate if the group matches
             if (_active) return; // Avoid double activation
             _active = true;
             activeSelf.SetActive(true);
             inactiveSelf.SetActive(false);
         }
-        public virtual void Deactivate(TileConnectionGroup connectionGroup) {
+        public virtual void Deactivate(TileConnectionGroup connectionGroup)
+        {
             if (connectionGroup != tileGroup) return; // Only deactivate if the group matches
             if (!_active) return; // Avoid double deactivation
             _active = false;
@@ -48,10 +54,10 @@ namespace Model.Tiles
             inactiveSelf.SetActive(true);
         }
 
-        void OnDestroy()
+        override protected void OnDestroy()
         {
             TileConnectionHelper.Instance.OnActivatorActivated -= Activate;
-            TileConnectionHelper.Instance.OnActivatorDeactivated -= Deactivate;            
+            TileConnectionHelper.Instance.OnActivatorDeactivated -= Deactivate;
         }
     }
 }

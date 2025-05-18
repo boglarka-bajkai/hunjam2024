@@ -49,8 +49,8 @@ namespace Model.Characters
 
         public override bool Move(Coordinate newPosition)
         {
-            // Save clones that are at the new position when starting to move
-            var clonesToCheck = CloneManager.Instance.GetClonesAt(newPosition);
+            // Save clones that are at the new position where the player is trying to move (before moving)
+            var clonesAtNewPos = CloneManager.Instance.GetClonesAt(newPosition);
             var oldPos = Position;
             if (!base.Move(newPosition)) return false;
             // If any clones are at the new position, game over
@@ -60,14 +60,16 @@ namespace Model.Characters
                 Debug.LogWarning("Lost because of clone at new position");
                 return false;
             }
-            if (clonesToCheck.Union(CloneManager.Instance.GetClonesAt(oldPos)).Any())
+            // Save clones that are now at the position where the player was (after moving)
+            var clonesAtOldPos = CloneManager.Instance.GetClonesAt(oldPos);
+            // If there is an intersection, that clone and the player jumped over each other
+            if (clonesAtNewPos.Intersect(clonesAtOldPos).Any())
             {
                 // If any clones are at the old position, game over
                 GameManager.Instance.LevelLost();
                 Debug.LogWarning("Lost because of jumping over clone");
                 return false;
             }
-            
             return true;
         }
 

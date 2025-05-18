@@ -7,11 +7,11 @@ namespace Model.Tiles.Data
     /// </summary>
     public enum TileConnectionGroup 
     {
+        CYAN,
         RED,
         PURPLE,
         BLUE,
         ORANGE,
-        YELLOW,
         GREEN
     }
 }

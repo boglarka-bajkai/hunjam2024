@@ -6,15 +6,39 @@ using Model.Tiles;
 using Model.Tiles.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using View.Animated;
 
 namespace Control.Input
 {
     public class InputSystem : MonoBehaviour
     {
+        bool canMove = true;
+        void Awake()
+        {
+            GameManager.OnTick += OnTick;
+            GameManager.OnGameStateChanged += OnGameStateChanged;
+            PlayerAnimation.OnAnimationFinished += OnPlayerAnimationFinished;
+        }
+
+        void OnTick(Coordinate _)
+        {
+            canMove = false;
+        }
+
+        void OnPlayerAnimationFinished()
+        {
+            canMove = true;
+        }
+
+        void OnGameStateChanged(GameState gameState)
+        {
+            canMove = gameState == GameState.InGame;
+        }
         public void OnTap(InputAction.CallbackContext context)
         {
             if (!context.started) return; // Return if the input is not initialized
             if (GameManager.Instance.CurrentGameState != GameState.InGame) return; // Return if the game is not in the InGame state
+            if (!canMove) return; // Return if the player is not allowed to move (currently in animation)
             Vector2 screenPosition = Mouse.current != null && Mouse.current.leftButton.isPressed
                 ? Mouse.current.position.ReadValue()
                 : Touchscreen.current?.primaryTouch.position.ReadValue() ?? Vector2.zero;

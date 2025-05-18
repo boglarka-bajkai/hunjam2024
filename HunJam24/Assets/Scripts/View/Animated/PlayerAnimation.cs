@@ -6,7 +6,7 @@ namespace View.Animated
 {
     public class PlayerAnimation : CharacterAnimation
     {
-        public static Action OnAnimationFinished;
+        public static event Action OnAnimationFinished;
         protected override IEnumerator moveSoftlyTo(Coordinate from, Coordinate to, bool pushing)
         {
             yield return base.moveSoftlyTo(from, to, pushing);

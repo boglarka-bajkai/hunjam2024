@@ -6,6 +6,7 @@ using Model.Tiles.Data;
 using Model.Tiles.Helpers;
 using Model.Tiles.Interfaces;
 using UnityEngine;
+using View.Tiles;
 
 namespace Model.Tiles
 {
@@ -14,7 +15,8 @@ namespace Model.Tiles
     /// This tile notifies listeners when it is activated or deactivated.
     /// </summary>
     [TileDataType(typeof(ConnectedTileData))]
-    public sealed class StepInActivatorTile : Tile, ITopTile
+    [RequireComponent(typeof(StepInActivatorTileRenderer))]
+    public sealed class StepInActivatorTile : Tile, ITopTile, IConnectedTile
     {
         /// <summary>
         /// List of characters on this tile.
@@ -30,11 +32,11 @@ namespace Model.Tiles
         /// </summary>
         TileConnectionGroup tileGroup;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("The gameobject that is active when the tile is activated.")]
         private GameObject activeSelf;
 
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("The gameobject that is active when the tile is deactivated.")]
         private GameObject inactiveSelf;
 
@@ -49,6 +51,8 @@ namespace Model.Tiles
 
         public override int RenderOrder => Position.RenderOrder - 1;
 
+        public TileConnectionGroup TileGroup => tileGroup;
+
         public override void Initialize(Coordinate position, TileData data)
         {
             if (data is not ConnectedTileData connectedTileData)
@@ -60,7 +64,8 @@ namespace Model.Tiles
         /// <summary>
         /// Activates the tile.
         /// </summary>
-        void Activate() {
+        void Activate()
+        {
             if (_active) return; //Avoid double activation
             _active = true;
             activeSelf.SetActive(true);
@@ -70,7 +75,8 @@ namespace Model.Tiles
         /// <summary>
         /// Deactivates the tile.
         /// </summary>
-        void Deactivate() {
+        void Deactivate()
+        {
             if (!_active) return; //Avoid double deactivation
             _active = false;
             inactiveSelf.SetActive(true);
