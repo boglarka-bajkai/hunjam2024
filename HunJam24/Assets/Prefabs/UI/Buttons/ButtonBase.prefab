@@ -66,9 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Button
-
-'
+  m_text: Start
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 33f698b9ca8e1d349873f46131581591, type: 2}
   m_sharedMaterial: {fileID: -4760749146752734986, guid: 33f698b9ca8e1d349873f46131581591, type: 2}
@@ -393,11 +391,11 @@ MonoBehaviour:
     Unit: 0
   _direction: 0
   _flexDirection: 0
-  _flexWrap: 1
+  _flexWrap: 0
   _flexBasis:
     Value: NaN
-    Unit: 3
-  _flexGrow: 1
+    Unit: 0
+  _flexGrow: 0
   _flexShrink: 1
   _justifyContent: 1
   _alignItems: 2
@@ -405,19 +403,19 @@ MonoBehaviour:
   _alignContent: 0
   _width:
     Value: NaN
-    Unit: 3
-  _height:
-    Value: NaN
-    Unit: 3
-  _minWidth:
-    Value: NaN
     Unit: 0
+  _height:
+    Value: 25
+    Unit: 2
+  _minWidth:
+    Value: 30
+    Unit: 2
   _minHeight:
     Value: NaN
     Unit: 0
   _maxWidth:
-    Value: NaN
-    Unit: 0
+    Value: 45
+    Unit: 2
   _maxHeight:
     Value: NaN
     Unit: 0
