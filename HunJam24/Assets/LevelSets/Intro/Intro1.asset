@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2ceccad985721f4d80fb3fd7360cada, type: 3}
   m_Name: Intro1
   m_EditorClassIdentifier: 
-  levelName: 
+  levelName: GW-1
   tilePlacements:
   - coordinate:
       x: 0
@@ -134,47 +134,12 @@ MonoBehaviour:
     tileData:
       rid: -2
   - coordinate:
-      x: 1
-      y: 4
-      z: 1
-    tilePrefab: {fileID: 5069148515102972730, guid: fffdbc40b53e2be448dbcdc459f88f1b, type: 3}
-    tileData:
-      rid: 2000890555733115461
-  - coordinate:
-      x: 4
-      y: 3
-      z: 1
-    tilePrefab: {fileID: 7647007676249176381, guid: 57cf7b046f538eb48a523fdf3ad10be5, type: 3}
-    tileData:
-      rid: 2000890555733115463
-  - coordinate:
       x: 4
       y: 0
       z: 1
     tilePrefab: {fileID: 7220321218007110503, guid: ac914cf5fd6e6db4497ec9b4fd447556, type: 3}
     tileData:
       rid: -2
-  - coordinate:
-      x: 1
-      y: 4
-      z: 1
-    tilePrefab: {fileID: 2650201492633923541, guid: cc4e42c816730a3438af37a7b67d30f6, type: 3}
-    tileData:
-      rid: -2
-  - coordinate:
-      x: -1
-      y: 4
-      z: 0
-    tilePrefab: {fileID: 324425694912583516, guid: 18bf2f822a2abc444b6e5c5a2080c949, type: 3}
-    tileData:
-      rid: -2
-  - coordinate:
-      x: -5
-      y: 4
-      z: 1
-    tilePrefab: {fileID: 5069148515102972730, guid: d1b35c1f35292744b99b0789da27afe5, type: 3}
-    tileData:
-      rid: 2000890720181289023
   threeStarThreshold: 0
   twoStarThreshold: 0
   references:
@@ -182,17 +147,3 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 2000890555733115461
-      type: {class: ConnectedTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
-      data:
-        tileGroup: 3
-    - rid: 2000890555733115463
-      type: {class: ConnectedTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
-      data:
-        tileGroup: 2
-    - rid: 2000890720181289023
-      type: {class: TimerTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
-      data:
-        tileGroup: 2
-        activeByDefault: 1
-        tickDuration: 2

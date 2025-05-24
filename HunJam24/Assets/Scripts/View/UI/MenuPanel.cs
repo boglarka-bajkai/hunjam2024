@@ -20,7 +20,18 @@ namespace View.UI
 
         void OnGameStateChanged(GameState gameState)
         {
-            gameObject.SetActive(gameState == activeGameState); 
+            if (gameState == activeGameState) Show();
+            else Hide();
+        }
+
+        protected virtual void Show()
+        {
+            gameObject.SetActive(true);
+        }
+
+        protected virtual void Hide()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

@@ -94,7 +94,7 @@ namespace Model
         //Temp startgame without mapIndex
         public void StartGame()
         {
-            LevelManager.Instance.LoadLevel(LevelManager.Instance.LevelSets[0].Levels[currentMapIndex]);
+            LevelManager.Instance.LoadLevel();
             currentGameState = GameState.InGame;
             OnGameStateChanged?.Invoke(currentGameState);
             //TODO: level select based startgame
@@ -141,14 +141,8 @@ namespace Model
         public void LevelCompleted()
         {
             currentGameState = GameState.Victory;
-            currentMapIndex++;
             OnGameStateChanged?.Invoke(currentGameState);
-            //If we run out of levels, go back to the first level for testing
-            //TODO: level select based level completion
-            if (currentMapIndex >= LevelManager.Instance.LevelSets[0].Levels.Length)
-            {
-                currentMapIndex = 0;
-            }
+            LevelManager.Instance.CompleteLevel();
         }
         
         /// <summary>
@@ -158,11 +152,20 @@ namespace Model
             currentGameState = GameState.LevelSelect;
             OnGameStateChanged?.Invoke(currentGameState);
         }
+        /// <summary>
+        /// Signals that the player is selecting the level set to play.
+        /// </summary>
+        public void LevelSetSelect()
+        {
+            currentGameState = GameState.LevelSetSelect;
+            OnGameStateChanged?.Invoke(currentGameState);
+        }
 
         /// <summary>
         /// Signals that the player has entered settings.
         /// </summary>
-        public void Settings() {
+        public void Settings()
+        {
             currentGameState = GameState.Settings;
             OnGameStateChanged?.Invoke(currentGameState);
         }
@@ -173,19 +176,6 @@ namespace Model
             OnGameStateChanged?.Invoke(currentGameState);
         }
 
-        #endregion
-
-        #region Map Management
-        /// <summary>
-        /// The currently loaded map index, -1 indicates no map is loaded.
-        /// </summary>
-        int currentMapIndex = 0; 
-
-        /// <summary>
-        /// Gets the currently loaded map index.
-        /// </summary>
-        public int CurrentMapIndex => currentMapIndex;
-        
         #endregion
     }
 }

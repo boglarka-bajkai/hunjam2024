@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace View
+namespace View.UI
 {
     [RequireComponent(typeof(UnityEngine.UI.Button))]
     [AddComponentMenu("UI/Action Button")]

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Model.Characters;
 using Model.Characters.Helpers;
 using Model.Data;
@@ -64,9 +65,52 @@ namespace Model.Level
         }
         #endregion
 
-        #region Level Set Management
+        #region Level Selection
         [Tooltip("The level sets in game, should be in the order they are unlocked (with star requirements ascending).")]
         [SerializeField] List<LevelSet> levelSets = new List<LevelSet>(); public List<LevelSet> LevelSets => levelSets;
+
+        LevelSet currentLevelSet; public LevelSet CurrentLevelSet => currentLevelSet;
+        public void SelectLevelSet(LevelSet levelSet)
+        {
+            if (!levelSet.IsUnlocked) return;
+            Debug.Log($"Selected level set: {levelSet.LevelSetName}");
+            currentLevelSet = levelSet;
+        }
+
+        public int StarsBefore(LevelSet levelSet)
+        {
+            int index = levelSets.IndexOf(levelSet);
+            if (index == 0) return 0; // No stars before the first level set
+            if (index < 0 || index >= levelSets.Count)
+            {
+                Debug.LogError($"Level set {levelSet.LevelSetName} is not part of the game.");
+                return 0;
+            }
+            return levelSets.Take(index - 1).Sum(ls => ls.TotalStars);
+        }
+
+        LevelData currentLevel; public LevelData CurrentLevel => currentLevel;
+        public void SelectLevel(LevelData levelData)
+        {
+            int index = currentLevelSet.Levels.IndexOf(levelData);
+            if (index < 0 || index >= currentLevelSet.Levels.Count)
+            {
+                Debug.LogError($"Level {levelData.LevelName} is not part of the selected level set {currentLevelSet.LevelSetName}.");
+                return;
+            }
+            if (index > 0 && currentLevelSet.Levels[index - 1].CollectedStars == 0)
+            {
+                Debug.LogError($"Level {levelData.LevelName} is not unlocked yet. Please complete the previous level first.");
+                return;
+            }
+            Debug.Log($"Selected level: {levelData.LevelName}");
+            currentLevel = levelData;
+        }
+
+        public LevelData NextLevel =>
+            currentLevelSet.Levels.ElementAtOrDefault(currentLevelSet.Levels.IndexOf(currentLevel) + 1);
+        public LevelData PreviousLevel =>
+            currentLevelSet.Levels.ElementAtOrDefault(currentLevelSet.Levels.IndexOf(currentLevel) - 1);
 
         #endregion
 
@@ -74,7 +118,7 @@ namespace Model.Level
         /// <summary>
         /// The tiles that are currently loaded in the level.
         /// </summary>
-        List<Tile> loadedTiles = new List<Tile>();
+        readonly List<Tile> loadedTiles = new List<Tile>();
         /// <summary>
         /// The tiles that are currently loaded in the level.
         /// </summary>
@@ -83,13 +127,13 @@ namespace Model.Level
         /// <summary>
         /// The currently loaded level.
         /// </summary>
-        /// <param name="levelData">The level to load</param>
-        public void LoadLevel(LevelData levelData)
+        /// <param name="CurrentLevel">The level to load</param>
+        public void LoadLevel()
         {
-            Debug.Log($"Loading level: {levelData.LevelName}");
+            Debug.Log($"Loading level: {CurrentLevel.LevelName}");
             UnloadLevel();
             Debug.Log("Spawning tiles...");
-            foreach (TilePlacement tilePlacement in levelData.TilePlacements)
+            foreach (TilePlacement tilePlacement in CurrentLevel.TilePlacements)
             {
                 Tile tile = TileFactory.CreateTile(tilePlacement, transform);
                 loadedTiles.Add(tile);
@@ -106,7 +150,6 @@ namespace Model.Level
             Debug.Log("Unloading level...");
             foreach (Tile tile in loadedTiles)
             {
-                Debug.Log($"Destroying tile: {tile.name}");
                 Destroy(tile.gameObject);
             }
             loadedTiles.Clear();
@@ -128,10 +171,11 @@ namespace Model.Level
             return tilesAtCoordinate;
         }
         #endregion
-
+        #region Checkpoint and Tick event handling
         void Start()
         {
             CheckpointHelper.OnCheckpointActivated += OnLoop;
+            GameManager.OnTick += OnTick;
         }
 
         void OnLoop()
@@ -146,7 +190,22 @@ namespace Model.Level
         void OnDestroy()
         {
             CheckpointHelper.OnCheckpointActivated -= OnLoop;
+            GameManager.OnTick -= OnTick;
         }
+
+        int steps = 0;
+        void OnTick(Coordinate _)
+        {
+            steps++;
+        }
+        public void CompleteLevel()
+        {
+            currentLevel.SetCompletionScore(steps);
+            Debug.Log($"Level {currentLevel.LevelName} completed with {steps} steps.");
+            UnloadLevel();
+        }
+
+        #endregion
     }
     
 }

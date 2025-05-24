@@ -5,6 +5,6 @@ public class StartButtonAction : CommonButtonAction
 {
     public override void Execute()
     {
-        GameManager.Instance.StartGame();
+        GameManager.Instance.LevelSetSelect();
     }
 }
