@@ -5,6 +5,6 @@ namespace Model.Other
 {
     public interface IMoveNotifier
     {
-        public event Action<Coordinate, Coordinate> OnMove;
+        public event Action<Coordinate, Coordinate, bool> OnMove;
     }
 }

@@ -16,8 +16,14 @@ namespace View.Animated
             GetComponent<MovableTile>().OnMove += Move;   
         }
 
-        void Move(Coordinate from, Coordinate to)
+        void Move(Coordinate from, Coordinate to, bool skipAnimation)
         {
+            if (skipAnimation)
+            {
+                transform.position = to.AsUnityVector;
+                GetComponent<SpriteRenderer>().sortingOrder = to.RenderOrder;
+                return;
+            }
             StartCoroutine(moveSoftlyTo(from, to));
         }
          IEnumerator moveSoftlyTo(Coordinate from, Coordinate to) {

@@ -1,3 +1,5 @@
+using Model.Tiles.Helpers;
+
 namespace Model.Tiles.Interfaces
 {
     /// <summary>

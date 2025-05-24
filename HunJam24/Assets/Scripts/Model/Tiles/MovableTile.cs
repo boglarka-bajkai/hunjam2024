@@ -6,6 +6,7 @@ using Model.Data;
 using Model.Level;
 using Model.Other;
 using Model.Tiles.Data;
+using Model.Tiles.Helpers;
 using Model.Tiles.Interfaces;
 using UnityEngine;
 using View.Animated;
@@ -24,7 +25,7 @@ namespace Model.Tiles
     {
         Coordinate _startCoordinate;
 
-        public event Action<Coordinate, Coordinate> OnMove;
+        public event Action<Coordinate, Coordinate, bool> OnMove;
         override public Coordinate Position
         {
             get => _position;
@@ -58,7 +59,6 @@ namespace Model.Tiles
                 LevelManager.Instance.GetTilesAt(this.Position.Below).ForEach(x => x.StepOn(this));
                 GameManager.OnGameStateChanged -= OnGameStateChanged;
             }
-            
         }
         public override bool CanEnter(Character character)
         {
@@ -95,7 +95,7 @@ namespace Model.Tiles
             return false;
         }
 
-        private void MoveTo(Coordinate newPos)
+        private void MoveTo(Coordinate newPos, bool teleport = false)
         {
             //Leave old position
             LevelManager.Instance.GetTilesAt(this.Position).ForEach(x => x.ExitTo(this, newPos));
@@ -104,7 +104,7 @@ namespace Model.Tiles
             LevelManager.Instance.GetTilesAt(newPos).ForEach(x => x.Enter(this));
             LevelManager.Instance.GetTilesAt(newPos.Below).ForEach(x => x.StepOn(this));
             //Finally set the new position
-            OnMove?.Invoke(this.Position, newPos);
+            OnMove?.Invoke(this.Position, newPos, teleport);
             this.Position = newPos;
         }
 
@@ -112,7 +112,7 @@ namespace Model.Tiles
         {
             if (this.Position != _startCoordinate)
             {
-                MoveTo(_startCoordinate);
+                MoveTo(_startCoordinate, true);
             }
         }
     }
