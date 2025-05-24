@@ -13,6 +13,10 @@ namespace Model.Data
         /// </summary>
         MainMenu,
         /// <summary>
+        /// The game is in the level set selection screen.
+        /// </summary>
+        LevelSetSelect,
+        /// <summary>
         /// The game is in the level selection screen.
         /// </summary>
         LevelSelect,
@@ -36,5 +40,9 @@ namespace Model.Data
         /// The game is in the settings menu.
         /// </summary>
         Settings,
+        /// <summary>
+        /// The game is in the credits menu.
+        /// </summary>
+        Credits,
     }
 }
