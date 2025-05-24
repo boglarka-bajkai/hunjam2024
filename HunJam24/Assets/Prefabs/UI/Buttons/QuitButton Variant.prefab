@@ -122,6 +122,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
       propertyPath: _flexGrow
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
+      propertyPath: _flexWrap
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
@@ -130,7 +134,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
       propertyPath: _width.Unit
-      value: 3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
+      propertyPath: _height.Unit
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
+      propertyPath: _height.Value
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
+      propertyPath: _maxWidth.Unit
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
+      propertyPath: _flexBasis.Unit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402053607869830046, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
+      propertyPath: _maxWidth.Value
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 9035462793640517976, guid: 237d11baf13ec1844b0cdcf11b77c634, type: 3}
       propertyPath: m_Name
