@@ -1,0 +1,157 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2ceccad985721f4d80fb3fd7360cada, type: 3}
+  m_Name: Test 2
+  m_EditorClassIdentifier: 
+  levelName: Timer
+  tilePlacements:
+  - coordinate:
+      x: 0
+      y: 0
+      z: 1
+    tilePrefab: {fileID: 7220321218007110503, guid: cabcd4bbd4cc17e42b31436e831c8ebf, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 0
+      y: 0
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: -5
+      y: -5
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: -5
+      y: -5
+      z: 0
+    tilePrefab: {fileID: 5069148515102972730, guid: d1b35c1f35292744b99b0789da27afe5, type: 3}
+    tileData:
+      rid: 2000890746106544190
+  - coordinate:
+      x: 0
+      y: 1
+      z: 0
+    tilePrefab: {fileID: 324425694912583516, guid: 1867e2fae4bfbd746a33ff9dd2c6ff42, type: 3}
+    tileData:
+      rid: 2000890746106544194
+  - coordinate:
+      x: 0
+      y: 2
+      z: 0
+    tilePrefab: {fileID: 324425694912583516, guid: 1867e2fae4bfbd746a33ff9dd2c6ff42, type: 3}
+    tileData:
+      rid: 2000890746106544194
+  - coordinate:
+      x: 0
+      y: 3
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 1
+      y: 3
+      z: 0
+    tilePrefab: {fileID: 324425694912583516, guid: 9eb04981d285aa6419073e8c6e13dad5, type: 3}
+    tileData:
+      rid: 2000890746106544196
+  - coordinate:
+      x: 2
+      y: 3
+      z: 0
+    tilePrefab: {fileID: 324425694912583516, guid: 9eb04981d285aa6419073e8c6e13dad5, type: 3}
+    tileData:
+      rid: 2000890746106544196
+  - coordinate:
+      x: 3
+      y: 3
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 3
+      y: 3
+      z: 1
+    tilePrefab: {fileID: 7220321218007110503, guid: ac914cf5fd6e6db4497ec9b4fd447556, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 3
+      y: 2
+      z: 0
+    tilePrefab: {fileID: 324425694912583516, guid: 1867e2fae4bfbd746a33ff9dd2c6ff42, type: 3}
+    tileData:
+      rid: 2000890746106544199
+  - coordinate:
+      x: 3
+      y: 1
+      z: 0
+    tilePrefab: {fileID: 324425694912583516, guid: 1867e2fae4bfbd746a33ff9dd2c6ff42, type: 3}
+    tileData:
+      rid: 2000890746106544199
+  - coordinate:
+      x: 3
+      y: 0
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 2
+      y: 0
+      z: 0
+    tilePrefab: {fileID: 324425694912583516, guid: 9eb04981d285aa6419073e8c6e13dad5, type: 3}
+    tileData:
+      rid: 2000890746106544201
+  - coordinate:
+      x: 1
+      y: 0
+      z: 0
+    tilePrefab: {fileID: 324425694912583516, guid: 9eb04981d285aa6419073e8c6e13dad5, type: 3}
+    tileData:
+      rid: 2000890746106544201
+  threeStarThreshold: 12
+  twoStarThreshold: 15
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 2000890746106544190
+      type: {class: TimerTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
+      data:
+        tileGroup: 0
+        activeByDefault: 1
+        tickDuration: 3
+    - rid: 2000890746106544194
+      type: {class: ConnectedTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
+      data:
+        tileGroup: 0
+    - rid: 2000890746106544196
+      type: {class: ConnectedTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
+      data:
+        tileGroup: 0
+    - rid: 2000890746106544199
+      type: {class: ConnectedTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
+      data:
+        tileGroup: 0
+    - rid: 2000890746106544201
+      type: {class: ConnectedTileData, ns: Model.Tiles.Data, asm: Assembly-CSharp}
+      data:
+        tileGroup: 0
