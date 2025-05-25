@@ -107,6 +107,11 @@ namespace Model.Level
             currentLevel = levelData;
         }
 
+        public void SelectPreviewLevel(LevelData levelData)
+        {
+            currentLevel = levelData;
+        }
+
         public LevelData NextLevel =>
             currentLevelSet.Levels.ElementAtOrDefault(currentLevelSet.Levels.IndexOf(currentLevel) + 1);
         public LevelData PreviousLevel =>

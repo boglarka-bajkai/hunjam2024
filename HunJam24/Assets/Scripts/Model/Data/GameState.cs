@@ -44,5 +44,13 @@ namespace Model.Data
         /// The game is in the credits menu.
         /// </summary>
         Credits,
+        /// <summary>
+        /// The game is in the map editor for creating or editing levels.
+        /// </summary>
+        EditingLevel,
+        /// <summary>
+        /// The game is playing a level created in the map editor for testing purposes.
+        /// </summary>
+        TestingLevel
     }
 }

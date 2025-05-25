@@ -21,7 +21,7 @@ namespace View.Animated
             if (skipAnimation)
             {
                 transform.position = to.AsUnityVector;
-                GetComponent<SpriteRenderer>().sortingOrder = to.RenderOrder;
+                GetComponent<SpriteRenderer>().sortingOrder = to.RenderOrder + 1;
                 return;
             }
             StartCoroutine(moveSoftlyTo(from, to));
@@ -39,13 +39,13 @@ namespace View.Animated
             t = 0f;
             // Vector3 startPos = transform.position;
             if (to.RenderOrder > from.RenderOrder) 
-                GetComponent<SpriteRenderer>().sortingOrder = to.RenderOrder;
+                GetComponent<SpriteRenderer>().sortingOrder = to.RenderOrder + 1;
             while (t <= 1f) {
                 t += Time.deltaTime * MOVE_MULTIPLIER;
                 transform.position = Vector3.Lerp(from.AsUnityVector, to.AsUnityVector, t);
                 yield return new WaitForEndOfFrame();
             }
-            GetComponent<SpriteRenderer>().sortingOrder = to.RenderOrder;
+            GetComponent<SpriteRenderer>().sortingOrder = to.RenderOrder + 1;
             
         }
     }

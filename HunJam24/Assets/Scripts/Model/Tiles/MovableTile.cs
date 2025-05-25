@@ -33,6 +33,14 @@ namespace Model.Tiles
             {
                 if (_position != null && _position == value) return;
                 _position = value;
+                if (GameManager.Instance.CurrentGameState != GameState.InGame)
+                {
+                    transform.position = value.AsUnityVector;
+                    foreach (var item in GetComponentsInChildren<SpriteRenderer>(true))
+                    {
+                        item.sortingOrder = value.RenderOrder + 1;
+                    }
+                }
                 //This should not get updated when the position changes as it is handled by the animation
             }
         }

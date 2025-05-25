@@ -1194,6 +1194,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NextButton Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2062719637719451209, guid: dfaea163b56c43b40ba1c0a4888b3177, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3648418051135109090, guid: dfaea163b56c43b40ba1c0a4888b3177, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

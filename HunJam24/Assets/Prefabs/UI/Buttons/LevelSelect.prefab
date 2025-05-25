@@ -556,8 +556,8 @@ MonoBehaviour:
   _flexDirection: 2
   _flexWrap: 0
   _flexBasis:
-    Value: 100
-    Unit: 2
+    Value: NaN
+    Unit: 0
   _flexGrow: 1
   _flexShrink: 1
   _justifyContent: 0

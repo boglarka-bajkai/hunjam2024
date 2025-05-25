@@ -26,5 +26,12 @@ namespace Model.Level.Data
         /// The data for the tile, based on the tile type.
         /// </summary>
         [SerializeReference] TileData tileData; public TileData TileData => tileData;
+
+        public TilePlacement(Coordinate coordinate, GameObject tilePrefab, TileData tileData = null)
+        {
+            this.coordinate = coordinate;
+            this.tilePrefab = tilePrefab;
+            this.tileData = tileData;
+        }
     }
 }

@@ -4,6 +4,7 @@ using Model;
 using Model.Characters;
 using Model.Data;
 using Model.Level;
+using Model.LevelEditor;
 using Model.Tiles;
 using Model.Tiles.Interfaces;
 using UnityEngine;
@@ -41,8 +42,8 @@ namespace Control.Input
 
         void OnGameStateChanged(GameState gameState)
         {
-            canMove = gameState == GameState.InGame;
-            if (gameState == GameState.InGame)
+            canMove = gameState == GameState.InGame || gameState == GameState.TestingLevel;
+            if (gameState == GameState.InGame || gameState == GameState.TestingLevel)
             {
                 var tiles = LevelManager.Instance.LoadedTiles.Where(tile => tile is IGroundTile);
 
@@ -70,8 +71,9 @@ namespace Control.Input
         public void OnTap(InputAction.CallbackContext context)
         {
             if (!context.started) return; // Return if the input is not a tap (i.e., not started)
-            if (GameManager.Instance.CurrentGameState != GameState.InGame) return; // Return if the game is not in the InGame state
-            if (!canMove) return; // Return if the player is not allowed to move (currently in animation)
+            if (GameManager.Instance.CurrentGameState != GameState.InGame 
+                && GameManager.Instance.CurrentGameState != GameState.EditingLevel
+                && GameManager.Instance.CurrentGameState != GameState.TestingLevel) return; // Return if the game is not in the InGame state            
             Vector2 screenPosition = Mouse.current != null && Mouse.current.leftButton.isPressed
                 ? Mouse.current.position.ReadValue()
                 : Touchscreen.current?.primaryTouch.position.ReadValue() ?? Vector2.zero;
@@ -84,15 +86,23 @@ namespace Control.Input
                     .First();
             var tile = rayFirst.collider.GetComponent<Tile>();
             if (tile == null) return;
-            if (PlayerCharacter.Instance == null)
+            if (GameManager.Instance.CurrentGameState == GameState.EditingLevel)
             {
-                Debug.LogError("No player but we are in-game!");
-                return; // Return if the player character is not initialized
+                LevelEditor.Instance.DeleteAt(tile.Position);
             }
-            Coordinate position = tile is ITopTile ? tile.Position : tile.Position.Above;
-            if (!PlayerCharacter.Instance.Move(position))
+            else if (GameManager.Instance.CurrentGameState == GameState.InGame || GameManager.Instance.CurrentGameState == GameState.TestingLevel)
             {
-                Debug.Log($"Player could not move to tile {tile.name}");
+                if (!canMove) return; // Return if the player is not allowed to move (currently in animation)
+                if (PlayerCharacter.Instance == null)
+                {
+                    Debug.LogError("No player but we are in-game!");
+                    return; // Return if the player character is not initialized
+                }
+                Coordinate position = tile is ITopTile ? tile.Position : tile.Position.Above;
+                if (!PlayerCharacter.Instance.Move(position))
+                {
+                    Debug.Log($"Player could not move to tile {tile.name}");
+                }
             }
         }
 
@@ -101,6 +111,9 @@ namespace Control.Input
         {
             if (context.performed && zoomCoroutine == null)
             {
+                if (GameManager.Instance.CurrentGameState != GameState.InGame
+                    && GameManager.Instance.CurrentGameState != GameState.EditingLevel
+                    && GameManager.Instance.CurrentGameState != GameState.TestingLevel) return; // Return if the game is not in the InGame state
                 // Read the mouse delta value
                 var delta = context.ReadValue<Vector2>();
                 // Invert the delta to move the camera in the opposite direction
@@ -116,6 +129,20 @@ namespace Control.Input
                     move.y = 0;
                 }
                 camera.transform.position += move;
+                if (GameManager.Instance.CurrentGameState == GameState.EditingLevel)
+                {
+                    //Send ray from center of screen to find tile in middle
+                    var ray = Physics2D.GetRayIntersectionAll(camera.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2)));
+                    if (ray.Length <= 0) return;
+                    var rayFirst =
+                        ray
+                        .OrderByDescending(x => x.collider.GetComponentInChildren<SpriteRenderer>().sortingOrder)
+                        .First(x => x.collider.GetComponent<Tile>() is PlaceholderTile);
+                    var tile = rayFirst.collider.GetComponent<Tile>();
+                    if (tile == null) return;
+                    Coordinate position = tile.Position;
+                    LevelEditor.Instance.Move(position);
+                }
             }
         }
 

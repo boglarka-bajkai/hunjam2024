@@ -6,12 +6,17 @@ using UnityEngine;
 namespace Model.Tiles.Data
 {
     [Serializable]
-    public class ConnectedTileData : TileData 
+    public class ConnectedTileData : TileData
     {
-        [SerializeField] 
+        [SerializeField]
         [Tooltip("The tile group this tile belongs to.")]
         [Serialize] private TileConnectionGroup tileGroup;
         public TileConnectionGroup TileGroup => tileGroup;
+        
+        public ConnectedTileData(TileConnectionGroup tileGroup)
+        {
+            this.tileGroup = tileGroup;
+        }
     }
 
     

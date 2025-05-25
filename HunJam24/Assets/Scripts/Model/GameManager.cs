@@ -1,6 +1,7 @@
 using UnityEngine;
 using Model.Data;
 using Model.Level;
+using Model.LevelEditor;
 namespace Model
 {
     /// <summary>
@@ -11,7 +12,8 @@ namespace Model
     /// It receives player input from Control, and updates the game state accordingly.
     /// It also updates the View with the current game state.
     /// </remarks>
-    public class GameManager : MonoBehaviour {
+    public class GameManager : MonoBehaviour
+    {
         #region Singleton Management
         /// <summary>
         /// Singleton instance of the GameManager.
@@ -21,11 +23,15 @@ namespace Model
         /// Gets the singleton instance of the GameManager.
         /// </summary>
         /// <returns>The singleton instance of the GameManager.</returns>
-        public static GameManager Instance {
-            get {
-                if (_instance == null) {
+        public static GameManager Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
                     _instance = FindFirstObjectByType<GameManager>();
-                    if (_instance == null) {
+                    if (_instance == null)
+                    {
                         GameObject go = new GameObject("GameManager");
                         _instance = go.AddComponent<GameManager>();
                     }
@@ -36,11 +42,15 @@ namespace Model
         /// <summary>
         /// Awake method to ensure the singleton instance is set up correctly.
         /// </summary>
-        private void Awake() {
-            if (_instance == null) {
+        private void Awake()
+        {
+            if (_instance == null)
+            {
                 _instance = this;
                 DontDestroyOnLoad(gameObject);
-            } else if (_instance != this) {
+            }
+            else if (_instance != this)
+            {
                 Destroy(gameObject);
             }
         }
@@ -48,7 +58,8 @@ namespace Model
 
         #region State Event Management
 
-        void Start() {
+        void Start()
+        {
             MainMenu();
         }
         /// <summary>
@@ -71,7 +82,8 @@ namespace Model
         /// </summary>
         public static event System.Action<Coordinate> OnTick;
 
-        public static void InvokeTick(Coordinate coordinate) {
+        public static void InvokeTick(Coordinate coordinate)
+        {
             OnTick?.Invoke(coordinate);
         }
 
@@ -108,11 +120,12 @@ namespace Model
             currentGameState = GameState.PauseMenu;
             OnGameStateChanged?.Invoke(currentGameState);
         }
-        
+
         /// <summary>
         /// Resumes the game.
         /// </summary>
-        public void ResumeGame() {
+        public void ResumeGame()
+        {
             currentGameState = GameState.InGame;
             OnGameStateChanged?.Invoke(currentGameState);
         }
@@ -129,7 +142,8 @@ namespace Model
         /// <summary>
         /// Ends the game and returns to the main menu.
         /// </summary>
-        public void MainMenu() {
+        public void MainMenu()
+        {
             LevelManager.Instance.UnloadLevel();
             currentGameState = GameState.MainMenu;
             OnGameStateChanged?.Invoke(currentGameState);
@@ -144,11 +158,12 @@ namespace Model
             OnGameStateChanged?.Invoke(currentGameState);
             LevelManager.Instance.CompleteLevel();
         }
-        
+
         /// <summary>
         /// Signals that the player is selecting the next level to play.
         /// </summary>
-        public void LevelSelect() {
+        public void LevelSelect()
+        {
             currentGameState = GameState.LevelSelect;
             OnGameStateChanged?.Invoke(currentGameState);
         }
@@ -173,6 +188,21 @@ namespace Model
         public void LevelLost()
         {
             currentGameState = GameState.GameOver;
+            OnGameStateChanged?.Invoke(currentGameState);
+        }
+
+        public void EditLevel(bool reset = true)
+        {
+            if (reset) LevelEditor.LevelEditor.Instance.ResetEditor();
+            currentGameState = GameState.EditingLevel;
+            OnGameStateChanged?.Invoke(currentGameState);
+        }
+
+        public void TestLevel()
+        {
+            LevelManager.Instance.SelectPreviewLevel(LevelEditor.LevelEditor.Instance.Level);
+            currentGameState = GameState.TestingLevel;
+            LevelManager.Instance.LoadLevel();
             OnGameStateChanged?.Invoke(currentGameState);
         }
 
