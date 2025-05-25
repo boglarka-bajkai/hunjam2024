@@ -10,75 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2ceccad985721f4d80fb3fd7360cada, type: 3}
-  m_Name: Intro1
+  m_Name: Intro 2
   m_EditorClassIdentifier: 
-  levelName: GW-1
+  levelName: GW-2
   tilePlacements:
   - coordinate:
       x: 0
-      y: 4
+      y: 0
       z: 1
     tilePrefab: {fileID: 7220321218007110503, guid: cabcd4bbd4cc17e42b31436e831c8ebf, type: 3}
     tileData:
       rid: -2
   - coordinate:
       x: 0
-      y: 4
-      z: 0
-    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
-    tileData:
-      rid: -2
-  - coordinate:
-      x: 0
-      y: 3
-      z: 0
-    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
-    tileData:
-      rid: -2
-  - coordinate:
-      x: 0
-      y: 2
+      y: 0
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
     tileData:
       rid: -2
   - coordinate:
       x: 1
-      y: 2
+      y: 0
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
     tileData:
       rid: -2
   - coordinate:
       x: 2
-      y: 2
-      z: 0
-    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
-    tileData:
-      rid: -2
-  - coordinate:
-      x: 3
-      y: 2
-      z: 0
-    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
-    tileData:
-      rid: -2
-  - coordinate:
-      x: 4
-      y: 2
-      z: 0
-    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
-    tileData:
-      rid: -2
-  - coordinate:
-      x: 4
-      y: 1
-      z: 0
-    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
-    tileData:
-      rid: -2
-  - coordinate:
-      x: 4
       y: 0
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
@@ -92,56 +50,119 @@ MonoBehaviour:
     tileData:
       rid: -2
   - coordinate:
-      x: 2
+      x: 4
       y: 0
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
     tileData:
       rid: -2
   - coordinate:
-      x: 2
-      y: 1
+      x: 5
+      y: 0
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
     tileData:
       rid: -2
   - coordinate:
-      x: 2
-      y: 2
+      x: 6
+      y: 0
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
     tileData:
       rid: -2
   - coordinate:
-      x: 2
-      y: 3
+      x: 6
+      y: -1
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
     tileData:
       rid: -2
   - coordinate:
-      x: 2
-      y: 4
+      x: 6
+      y: -2
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
     tileData:
       rid: -2
   - coordinate:
-      x: 1
-      y: 4
+      x: 5
+      y: -2
       z: 0
     tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
     tileData:
       rid: -2
   - coordinate:
       x: 4
+      y: -2
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 3
+      y: -2
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 2
+      y: -2
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 1
+      y: -2
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 0
+      y: -2
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 3
+      y: -3
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 3
+      y: -2
+      z: 1
+    tilePrefab: {fileID: 2650201492633923541, guid: cc4e42c816730a3438af37a7b67d30f6, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 6
       y: 0
       z: 1
     tilePrefab: {fileID: 7220321218007110503, guid: ac914cf5fd6e6db4497ec9b4fd447556, type: 3}
     tileData:
       rid: -2
-  threeStarThreshold: 0
-  twoStarThreshold: 0
+  - coordinate:
+      x: 0
+      y: -1
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  - coordinate:
+      x: 3
+      y: -1
+      z: 0
+    tilePrefab: {fileID: 4137797853078752787, guid: 9aef3a1b556b2f344b59e2a62d53320e, type: 3}
+    tileData:
+      rid: -2
+  threeStarThreshold: 17
+  twoStarThreshold: 20
   references:
     version: 2
     RefIds:

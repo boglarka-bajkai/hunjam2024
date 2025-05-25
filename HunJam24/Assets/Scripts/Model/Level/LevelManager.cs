@@ -136,6 +136,7 @@ namespace Model.Level
             foreach (TilePlacement tilePlacement in CurrentLevel.TilePlacements)
             {
                 Tile tile = TileFactory.CreateTile(tilePlacement, transform);
+                tile.gameObject.name = $"{tilePlacement.TilePrefab.name}_{tilePlacement.Coordinate}";
                 loadedTiles.Add(tile);
             }
             if (StartTile.Instance == null)
@@ -144,6 +145,7 @@ namespace Model.Level
                 return;
             }
             CharacterFactory.Instance.CreatePlayer();
+            steps = 0; // Reset steps for the new level
         }
         public void UnloadLevel()
         {

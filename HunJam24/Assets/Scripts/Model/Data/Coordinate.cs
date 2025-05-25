@@ -19,9 +19,9 @@ namespace Model.Data
         [System.NonSerialized]
         private const float Y_RATIO = 0.37f;
 
-        [Tooltip("Isometric X coordinate, going from top left to bottom right.")]
+        [Tooltip("Isometric X coordinate, going from bottom left to top right.")]
         [SerializeField] int x; public int X => x;
-        [Tooltip("Isometric Y coordinate, going from top right to bottom left.")]
+        [Tooltip("Isometric Y coordinate, going from top left to bottom right.")]
         [SerializeField] int y; public int Y => y;
         [Tooltip("Isometric Z coordinate, going from bottom to top.")]
         [SerializeField] int z; public int Z => z;
