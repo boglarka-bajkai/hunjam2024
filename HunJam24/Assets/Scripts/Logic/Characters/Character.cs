@@ -113,8 +113,8 @@ namespace Logic.Characters
             return true;
         }
 
-        const float WAITBEFORESTART = .1f;
-        const float MOVE_MULTIPLIER = 1.1f;
+        const float WAITBEFORESTART = .15f;
+        const float MOVE_MULTIPLIER = 1.5f;
         bool pushing = false;
 
         IEnumerator moveSoftlyTo(TileBase destination, List<TileBase> top)
