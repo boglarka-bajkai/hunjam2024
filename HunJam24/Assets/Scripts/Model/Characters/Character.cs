@@ -35,8 +35,8 @@ namespace Model.Characters
             LevelManager.Instance.GetTilesAt(position).ForEach(x => x.ExitTo(this, newPosition));
             LevelManager.Instance.GetTilesAt(position.Below).ForEach(x => x.ExitTo(this, position));
             // Enter new position
-            LevelManager.Instance.GetTilesAt(newPosition).ForEach(x => x.Enter(this));
-            LevelManager.Instance.GetTilesAt(newPosition.Below).ForEach(x => x.StepOn(this));
+            LevelManager.Instance.GetAccentTilesAt(newPosition).ForEach(x => x.Enter(this));
+            LevelManager.Instance.GetGroundTilesAt(newPosition.Below).ForEach(x => x.StepOn(this));
             //Finally set the new position
             position = newPosition;
             return true;
@@ -57,12 +57,12 @@ namespace Model.Characters
                 return false;
             }
             // If the position below is blocking the character, return false
-            if (!LevelManager.Instance.GetTilesAt(newPosition.Below).TrueForAll(x => x.CanStepOn(this)))
+            if (!LevelManager.Instance.GetGroundTilesAt(newPosition.Below).TrueForAll(x => x.CanStepOn(this)))
             {
                 return false;
             }
             // If the position is blocking the character, return false
-            if (!LevelManager.Instance.GetTilesAt(newPosition).TrueForAll(x => x.CanEnter(this)))
+            if (!LevelManager.Instance.GetAccentTilesAt(newPosition).TrueForAll(x => x.CanEnter(this)))
             {
                 return false;
             }

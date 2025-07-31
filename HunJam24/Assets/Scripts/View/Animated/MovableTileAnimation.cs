@@ -13,7 +13,7 @@ namespace View.Animated
         void Awake()
         {
             animator = GetComponent<Animator>();
-            GetComponent<MovableTile>().OnMove += Move;   
+            GetComponent<Box>().OnMove += Move;   
         }
 
         void Move(Coordinate from, Coordinate to, bool skipAnimation)

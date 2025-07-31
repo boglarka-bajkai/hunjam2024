@@ -40,6 +40,10 @@ namespace Model.Tiles
         /// Can be overwritten by subclass tiles to change the render order.
         /// </summary>
         public virtual int RenderOrder => Position.RenderOrder;
+        protected virtual void OnDestroy()
+        {
+            Destroy(gameObject);
+        }
 
         /// <summary>
         /// Initializes the tile with the given position.
@@ -49,59 +53,6 @@ namespace Model.Tiles
             Position = position;
         }
         #region Character Movement Callbacks
-        /// <summary>
-        /// Checks if the tile can be stepped in by the given character from a given direction.
-        /// </summary>
-        /// <param name="character">The character that is stepping in.</param>
-        /// <returns>True if the tile can be stepped on, false otherwise.</returns>
-        /// <remarks>
-        /// Stepping in means that the tile and the character are at the same z coordinate,
-        /// occupying the same space.
-        /// This is used for tiles that are not solid, like pressure plates, but may also be used for boxes,
-        /// which allow entry, but react by getting pushed in the opposite direction.
-        /// </remarks>
-        public abstract bool CanEnter(Character character);
-        /// <summary>
-        /// Checks if the tile can be stepped on by the character from a given direction.
-        /// </summary>
-        /// <param name="character">The character that is stepping on.</param>
-        /// <returns>True if the tile can be stepped on, false otherwise.</returns>
-        /// <remarks>
-        /// Stepping on means that the character's z coordinate is +1.
-        /// This is used for tiles that are solid, like the ground.
-        /// </remarks>
-        public abstract bool CanStepOn(Character character);
-
-        /// <summary>
-        /// The character tries to step on the tile from a given direction.
-        /// </summary>
-        /// <param name="character">The character that is stepping on.</param>
-        /// <returns>Whether the character was able to step on the tile.</returns>
-        /// <remarks>
-        /// This method should only be used to add side effects to the tile when the character steps on it.
-        /// For checking if the character can step on the tile, use CanStepOnFrom instead.
-        /// </remarks>
-        public virtual bool StepOn(Character character) {
-            return CanStepOn(character);
-        }
-
-        /// <summary>
-        /// The character tries to step in the tile from a given direction.
-        /// </summary>
-        /// <param name="character">The character that is stepping in.</param>
-        /// <returns>Whether the character was able to step in the tile.</returns>
-        /// <remarks>
-        /// This method should only be used to add side effects to the tile when the character steps in it.
-        /// For checking if the character can step in the tile, use CanEnterFrom instead.
-        /// </remarks>
-        public virtual bool Enter(Character character) {
-            return CanEnter(character);
-        }
-
-        protected virtual void OnDestroy()
-        {
-            Destroy(gameObject);
-        }
 
         /// <summary>
         /// Tells the tile that the player has exited it or stepped off it.
@@ -114,55 +65,6 @@ namespace Model.Tiles
         public virtual void ExitTo(Character character, Coordinate destination) { }
         #endregion
         #region Tile Movement Callbacks
-        /// <summary>
-        /// Checks if the tile can be stepped on from a given direction by a given tile.
-        /// </summary>
-        /// <param name="tile">The tile that is stepping on.</param>
-        /// <returns>True if the tile can be stepped on, false otherwise.</returns>
-        /// <remarks>
-        /// Stepping on means that the tile's z coordinate is +1.
-        /// This is used for tiles that are solid, like the ground.
-        /// </remarks>
-        public abstract bool CanStepOn(Tile tile);
-
-        /// <summary>
-        /// Checks if the tile can be stepped in from a given direction by a given tile.
-        /// </summary>
-        /// <param name="tile">The tile that is stepping in.</param>
-        /// <returns>True if the tile can be stepped in, false otherwise.</returns>
-        /// <remarks>
-        /// Stepping in means that the tile's z coordinate is the same.
-        /// This is used for tiles that are not solid, like pressure plates, but may also be used for boxes,
-        /// which allow entry, but react by getting pushed in the opposite direction.
-        /// </remarks>
-        public abstract bool CanEnter(Tile tile);
-
-        /// <summary>
-        /// Another tile tries to step on the tile from a given direction.
-        /// </summary>
-        /// <param name="tile">The tile that is stepping on.</param>
-        /// <returns>Whether the tile was able to step on the tile.</returns>
-        /// <remarks>
-        /// This method should only be used to add side effects to the tile when the tile steps on it.
-        /// For checking if the tile can step on the tile, use CanStepOnFrom instead.
-        /// </remarks>
-        public virtual bool StepOn(Tile tile) {
-            return CanStepOn(tile);
-        }
-
-        /// <summary>
-        /// Another tile tries to step in the tile from a given direction.
-        /// </summary>
-        /// <param name="tile">The tile that is stepping in.</param>
-        /// <returns>Whether the tile was able to step in the tile.</returns>
-        /// <remarks>
-        /// This method should only be used to add side effects to the tile when the tile steps in it.
-        /// For checking if the tile can step in the tile, use CanEnterFrom instead.
-        /// </remarks>
-        public virtual bool Enter(Tile tile) {
-            return CanEnter(tile);
-        }
-
         /// <summary>
         /// Tells the tile that another tile has exited it or stepped off it.
         /// </summary>

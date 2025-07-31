@@ -11,7 +11,7 @@ namespace Model.Tiles
     /// <summary>
     /// A tile that is the starting point and finish point of the level.
     /// </summary>
-    public sealed class StartTile : Tile, ITopTile
+    public sealed class StartTile : AccentTile
     {
         #region Singleton Management
         /// <summary>
@@ -45,10 +45,6 @@ namespace Model.Tiles
         public override bool CanEnter(Character character) => true;
 
         public override bool CanEnter(Tile tile) => true;
-
-        public override bool CanStepOn(Character character) => false;
-
-        public override bool CanStepOn(Tile tile) => false;
         public override bool Enter(Character character)
         {
             if (CanEnter(character))

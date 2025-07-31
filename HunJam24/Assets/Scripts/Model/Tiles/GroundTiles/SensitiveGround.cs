@@ -14,12 +14,10 @@ namespace Model.Tiles
     /// and CloneCharacter to step on it in looped time.
     /// Other tiles like boxes can step on it regardless of the time state.
     /// </summary>
-    public sealed class SensitiveGroundTile : Tile, IGroundTile, ILoopListener
+    public sealed class SensitiveGround : GroundTile, ILoopAware
     {
         bool IsDestroyed = false;
         [SerializeField] SpriteRenderer spriteRenderer;
-        public override bool CanEnter(Character character) => false;
-        public override bool CanEnter(Tile tile) => true;
         public override bool CanStepOn(Character character) => !IsDestroyed;
         public override bool CanStepOn(Tile tile) => !IsDestroyed;
         public override bool StepOn(Character character)

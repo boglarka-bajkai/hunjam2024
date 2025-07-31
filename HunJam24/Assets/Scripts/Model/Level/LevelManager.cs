@@ -177,6 +177,30 @@ namespace Model.Level
             }
             return tilesAtCoordinate;
         }
+        public List<GroundTile> GetGroundTilesAt(Coordinate coordinate)
+        {
+            List<GroundTile> groundTilesAtCoordinate = new List<GroundTile>();
+            foreach (Tile tile in loadedTiles)
+            {
+                if (tile.Position == coordinate && tile is GroundTile groundTile)
+                {
+                    groundTilesAtCoordinate.Add(groundTile);
+                }
+            }
+            return groundTilesAtCoordinate;
+        }
+        public List<AccentTile> GetAccentTilesAt(Coordinate coordinate)
+        {
+            List<AccentTile> accentTilesAtCoordinate = new List<AccentTile>();
+            foreach (Tile tile in loadedTiles)
+            {
+                if (tile.Position == coordinate && tile is AccentTile accentTile)
+                {
+                    accentTilesAtCoordinate.Add(accentTile);
+                }
+            }
+            return accentTilesAtCoordinate;
+        }
         #endregion
         #region Checkpoint and Tick event handling
         void Start()
@@ -188,9 +212,9 @@ namespace Model.Level
         void OnLoop()
         {
             if (loadedTiles == null) return;
-            foreach (Tile tile in loadedTiles.Where(t => t is ILoopListener))
+            foreach (Tile tile in loadedTiles.Where(t => t is ILoopAware))
             {
-                (tile as ILoopListener).OnLoop();
+                (tile as ILoopAware).OnLoop();
             }
         }
 

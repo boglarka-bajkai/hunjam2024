@@ -3,6 +3,7 @@ using Model;
 using Model.Data;
 using Model.Tiles;
 using Model.Tiles.Data;
+using Model.Tiles.Helpers;
 using UnityEngine;
 using View.Tiles.Helpers;
 
@@ -24,7 +25,7 @@ namespace View.Tiles
         {
             if (state == GameState.InGame)
             {
-                TileConnectionGroup t = gameObject.GetComponent<ActivatableTile>().TileGroup;
+                TileConnectionGroup t = gameObject.GetComponent<IConnectedTile>().TileGroup;
                 Color c = ConnectedTileColorMappings.ColorMappings[t];
                 foreach (var s in gameObject.GetComponentsInChildren<SpriteRenderer>(true))
                 {

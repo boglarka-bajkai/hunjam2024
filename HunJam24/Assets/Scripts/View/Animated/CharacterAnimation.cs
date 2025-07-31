@@ -50,7 +50,7 @@ namespace View.Animated
                 //Debug.Log("D");
                 animator.SetInteger("dir", 3);
             }
-            StartCoroutine(moveSoftlyTo(from, to, !LevelManager.Instance.GetTilesAt(to).TrueForAll(x=> x is not MovableTile)));
+            StartCoroutine(moveSoftlyTo(from, to, !LevelManager.Instance.GetTilesAt(to).TrueForAll(x=> x is not Box)));
         }
 
         protected virtual IEnumerator moveSoftlyTo(Coordinate from, Coordinate to, bool pushing)

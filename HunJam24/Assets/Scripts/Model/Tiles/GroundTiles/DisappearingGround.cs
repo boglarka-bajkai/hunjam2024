@@ -1,23 +1,27 @@
+using Logic.Characters;
+using Model.Characters;
 using Model.Data;
 using Model.Tiles.Data;
 using Model.Tiles.Helpers;
 using Model.Tiles.Interfaces;
 using UnityEngine;
-using View.Tiles;
 
 namespace Model.Tiles
 {
-    [TileDataType(typeof(ConnectedTileData))]
-    [RequireComponent(typeof(ActivatableTileRenderer))]
-    public abstract class ActivatableTile : Tile, IActivationListener, IConnectedTile
+    /// <summary>
+    /// A tile that you can only step on when it is not0 activated.
+    /// </summary>
+    public sealed class DisappearingGround : GroundTile, IActivatable, ILethal
     {
+        public override bool CanStepOn(Character character) => IsActive;
+        public override bool CanStepOn(Tile tile) => IsActive;
         [SerializeField]
         [Tooltip("The tile is active when this GameObject is active.")]
         private GameObject activeSelf;
         [SerializeField]
         [Tooltip("The tile is inactive when this GameObject is active.")]
         private GameObject inactiveSelf;
-        protected bool _active = false;
+        bool _active = false;
 
         public bool IsActive => _active;
 
@@ -37,7 +41,7 @@ namespace Model.Tiles
             inactiveSelf.SetActive(true);
         }
 
-        public virtual void Activate(TileConnectionGroup connectionGroup)
+        public void Activate(TileConnectionGroup connectionGroup)
         {
             if (connectionGroup != tileGroup) return; // Only activate if the group matches
             if (_active) return; // Avoid double activation
@@ -45,7 +49,7 @@ namespace Model.Tiles
             activeSelf.SetActive(true);
             inactiveSelf.SetActive(false);
         }
-        public virtual void Deactivate(TileConnectionGroup connectionGroup)
+        public void Deactivate(TileConnectionGroup connectionGroup)
         {
             if (connectionGroup != tileGroup) return; // Only deactivate if the group matches
             if (!_active) return; // Avoid double deactivation
@@ -58,6 +62,11 @@ namespace Model.Tiles
         {
             TileConnectionHelper.Instance.OnActivatorActivated -= Activate;
             TileConnectionHelper.Instance.OnActivatorDeactivated -= Deactivate;
+        }
+
+        public bool ShouldKill()
+        {
+            return !IsActive;
         }
     }
 }

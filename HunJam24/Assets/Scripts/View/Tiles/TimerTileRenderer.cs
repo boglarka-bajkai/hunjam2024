@@ -24,7 +24,7 @@ namespace View.Tiles
         {
             if (state == GameState.InGame)
             {
-                TileConnectionGroup t = gameObject.GetComponent<TimerActivatorTile>().TileGroup;
+                TileConnectionGroup t = gameObject.GetComponent<TimedActivator>().TileGroup;
                 Color c = ConnectedTileColorMappings.ColorMappings[t];
                 foreach (var s in gameObject.GetComponentsInChildren<SpriteRenderer>(true))
                 {

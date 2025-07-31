@@ -5,7 +5,7 @@ namespace Model.Tiles.Interfaces
     /// <summary>
     /// Interface for tiles that can be activated or deactivated by activatable tiles.
     /// </summary>
-    public interface IActivationListener
+    public interface IActivatable
     {
         /// <summary>
         /// Called when the tile is activated.

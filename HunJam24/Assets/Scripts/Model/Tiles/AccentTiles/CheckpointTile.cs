@@ -12,7 +12,7 @@ namespace Model.Tiles
     /// <summary>
     /// A tile that spawns a clone when entered.
     /// </summary>
-    public sealed class CheckpointTile : Tile, ITopTile
+    public sealed class CheckpointTile : AccentTile
     {
         bool activated = false;
         public override void Initialize(Coordinate position, TileData data)
@@ -24,9 +24,6 @@ namespace Model.Tiles
 
         public override bool CanEnter(Tile tile) => true;
 
-        public override bool CanStepOn(Character character) => false;
-
-        public override bool CanStepOn(Tile tile) => false;
         public override bool Enter(Character character)
         {
             if (CanEnter(character))

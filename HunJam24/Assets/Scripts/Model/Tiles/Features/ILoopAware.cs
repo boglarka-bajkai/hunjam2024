@@ -5,7 +5,7 @@ namespace Model.Tiles.Interfaces
     /// <summary>
     /// A tile that interacts with the time-loop mechanic.
     /// </summary>
-    public interface ILoopListener
+    public interface ILoopAware
     {
         void OnLoop();
     }

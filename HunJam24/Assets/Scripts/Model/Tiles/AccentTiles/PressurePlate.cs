@@ -16,7 +16,7 @@ namespace Model.Tiles
     /// </summary>
     [TileDataType(typeof(ConnectedTileData))]
     [RequireComponent(typeof(StepInActivatorTileRenderer))]
-    public sealed class StepInActivatorTile : Tile, ITopTile, IConnectedTile
+    public sealed class PressurePlate : AccentTile, IConnectedTile, IActivator
     {
         /// <summary>
         /// List of characters on this tile.
@@ -64,7 +64,7 @@ namespace Model.Tiles
         /// <summary>
         /// Activates the tile.
         /// </summary>
-        void Activate()
+        public void Activate()
         {
             if (_active) return; //Avoid double activation
             _active = true;
@@ -75,7 +75,7 @@ namespace Model.Tiles
         /// <summary>
         /// Deactivates the tile.
         /// </summary>
-        void Deactivate()
+        public void Deactivate()
         {
             if (!_active) return; //Avoid double deactivation
             _active = false;
@@ -87,10 +87,6 @@ namespace Model.Tiles
         public override bool CanEnter(Character character) => true;
 
         public override bool CanEnter(Tile tile) => true;
-
-        public override bool CanStepOn(Character character) => false;
-
-        public override bool CanStepOn(Tile tile) => false;
 
         public override bool Enter(Character character)
         {
@@ -131,26 +127,5 @@ namespace Model.Tiles
             }
         }
 
-        public override bool StepOn(Tile tile)
-        {
-            if (CanStepOn(tile))
-            {
-                tilesOnTile.Add(tile);
-                Activate();
-                return true;
-            }
-            return false;
-        }
-
-        public override bool StepOn(Character character)
-        {
-            if (CanStepOn(character))
-            {
-                charactersOnTile.Add(character);
-                Activate();
-                return true;
-            }
-            return false;
-        }
     }
 }

@@ -45,7 +45,7 @@ namespace Control.Input
             canMove = gameState == GameState.InGame || gameState == GameState.TestingLevel;
             if (gameState == GameState.InGame || gameState == GameState.TestingLevel)
             {
-                var tiles = LevelManager.Instance.LoadedTiles.Where(tile => tile is IGroundTile);
+                var tiles = LevelManager.Instance.LoadedTiles.Where(tile => tile is GroundTile);
 
                 if (tiles != null && tiles.Any())
                 {
@@ -98,7 +98,7 @@ namespace Control.Input
                     Debug.LogError("No player but we are in-game!");
                     return; // Return if the player character is not initialized
                 }
-                Coordinate position = tile is ITopTile ? tile.Position : tile.Position.Above;
+                Coordinate position = tile is AccentTile ? tile.Position : tile.Position.Above;
                 if (!PlayerCharacter.Instance.Move(position))
                 {
                     Debug.Log($"Player could not move to tile {tile.name}");

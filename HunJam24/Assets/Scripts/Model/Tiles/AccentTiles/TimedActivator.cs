@@ -16,7 +16,7 @@ namespace Model.Tiles
     /// </summary>
     [TileDataType(typeof(TimerTileData))]
     [RequireComponent(typeof(TimerActivatorTileRenderer))]
-    public sealed class TimerActivatorTile : Tile, ITopTile, IConnectedTile, ILoopListener
+    public sealed class TimedActivator : AccentTile, IConnectedTile, ILoopAware, IActivator
     {
         int tickDuration;
         int currentTick = 0;
@@ -73,7 +73,7 @@ namespace Model.Tiles
         /// <summary>
         /// Activates the tile.
         /// </summary>
-        void Activate()
+        public void Activate()
         {
             if (_active) return; //Avoid double activation
             _active = true;
@@ -84,7 +84,7 @@ namespace Model.Tiles
         /// <summary>
         /// Deactivates the tile.
         /// </summary>
-        void Deactivate()
+        public void Deactivate()
         {
             if (!_active) return; //Avoid double deactivation
             _active = false;
@@ -96,10 +96,6 @@ namespace Model.Tiles
         public override bool CanEnter(Character character) => false;
 
         public override bool CanEnter(Tile tile) => false;
-
-        public override bool CanStepOn(Character character) => false;
-
-        public override bool CanStepOn(Tile tile) => false;
 
         public void OnLoop()
         {

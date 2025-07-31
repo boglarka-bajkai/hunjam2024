@@ -193,11 +193,11 @@ namespace Model.LevelEditor
                     previewTile.gameObject.name = $"{selectedTile.name}_Preview";
                     previewTile.Position = previewPosition;
                     Debug.Log($"Selected tile: {selectedTile.name}");
-                    if (selectedTile is ITopTile)
+                    if (selectedTile is AccentTile)
                     {
                         previewPosition = new Coordinate(previewPosition.X, previewPosition.Y, 1);
                     }
-                    else if (selectedTile is IGroundTile)
+                    else if (selectedTile is GroundTile)
                     {
                         previewPosition = new Coordinate(previewPosition.X, previewPosition.Y, 0);
                     }
@@ -240,7 +240,7 @@ namespace Model.LevelEditor
         }
         public void Move(Coordinate coordinate)
         {
-            if (selectedTile != null && selectedTile is ITopTile)
+            if (selectedTile != null && selectedTile is AccentTile)
             {
                 previewPosition = coordinate.Above;
             }
