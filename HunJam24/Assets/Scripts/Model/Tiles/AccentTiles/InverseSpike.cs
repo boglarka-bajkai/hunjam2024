@@ -71,7 +71,7 @@ namespace Model.Tiles
 
         public bool ShouldKill()
         {
-            return !IsActive;
+            return IsActive;
         }
     }
 }
