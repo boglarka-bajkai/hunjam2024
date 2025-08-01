@@ -5,12 +5,15 @@ using Model.Tiles.Data;
 using Model.Tiles.Helpers;
 using Model.Tiles.Interfaces;
 using UnityEngine;
+using View.Tiles;
 
 namespace Model.Tiles
 {
     /// <summary>
     /// A tile that you can only step on when it is activated.
     /// </summary>
+    [TileDataType(typeof(ConnectedTileData))]
+    [RequireComponent(typeof(ActivatableTileRenderer))]
     public sealed class AppearingGround : GroundTile, IActivatable, ILethal
     {
         public override bool CanStepOn(Character character) => IsActive;
