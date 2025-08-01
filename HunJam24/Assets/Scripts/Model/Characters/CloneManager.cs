@@ -119,6 +119,18 @@ namespace Model.Characters
             clones.Clear();
             Steps.Clear();
         }
+
+        public bool AnyDies()
+        {
+            foreach (var clone in clones)
+            {
+                if (CloneCharacter.DiesAtTile(clone.Position))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         #endregion
     }
 }

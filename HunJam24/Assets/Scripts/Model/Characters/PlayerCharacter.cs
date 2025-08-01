@@ -2,6 +2,9 @@ using System.Linq;
 using Logic;
 using Model.Characters;
 using Model.Data;
+using Model.Level;
+using Model.Tiles.Interfaces;
+using Unity.Collections;
 using UnityEngine;
 using View.Animated;
 namespace Model.Characters
@@ -68,6 +71,12 @@ namespace Model.Characters
                 // If any clones are at the old position, game over
                 GameManager.Instance.LevelLost();
                 Debug.LogWarning("Lost because of jumping over clone");
+                return false;
+            }
+            if (DiesAtTile(newPosition) || CloneManager.Instance.AnyDies())
+            {
+                GameManager.Instance.LevelLost();
+                Debug.LogWarning("Lost because of stepping on lethal tile");
                 return false;
             }
             return true;

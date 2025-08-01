@@ -22,5 +22,9 @@ namespace Model.Tiles.Interfaces
         /// </summary>
         /// <returns>True if the tile is active, false otherwise.</returns>
         bool IsActive { get; }
+        /// <summary>
+        /// The group this tile gets activated by.
+        /// </summary>
+        TileConnectionGroup TileGroup { get; }
     }
 }

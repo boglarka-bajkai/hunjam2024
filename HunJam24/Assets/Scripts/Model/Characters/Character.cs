@@ -1,7 +1,9 @@
 using System;
+using System.Linq;
 using Model.Data;
 using Model.Level;
 using Model.Other;
+using Model.Tiles.Interfaces;
 using UnityEngine;
 
 namespace Model.Characters
@@ -68,6 +70,12 @@ namespace Model.Characters
             }
             // Otherwise, return true
             return true;
+        }
+
+        public static bool DiesAtTile(Coordinate newPosition)
+        {
+            return LevelManager.Instance.GetGroundTilesAt(newPosition.Below).Any(x => x is ILethal lethal && lethal.ShouldKill()) ||
+                LevelManager.Instance.GetAccentTilesAt(newPosition).Any(x => x is ILethal lethal && lethal.ShouldKill());
         }
 
         
