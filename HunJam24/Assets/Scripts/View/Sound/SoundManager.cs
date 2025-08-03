@@ -56,6 +56,8 @@ namespace View.Sound
         private void PlayReversedMusic()
         {
             if (_playingReversed) return;
+            _playingReversed = true;
+            Debug.Log("Playing reversed music");
             StopPlayingMusic(musicSource, 0.1f);
             StartPlayingMusic(reversedMusicSource, 2f, 2f);
             
@@ -74,6 +76,8 @@ namespace View.Sound
         private void PlayNormalMusic(GameState state)
         {
             if (!_playingReversed) return;
+            _playingReversed = false;
+            Debug.Log("Playing normal music");
             StopPlayingMusic(reversedMusicSource, 0.1f);
             StartPlayingMusic(musicSource, 2f, 2f);
         }
