@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Model.Data;
 using UnityEngine;
 using View.Animated;
+using View.Sound;
 
 namespace Model.Characters
 {
     [RequireComponent(typeof(CharacterAnimation))]
+    [RequireComponent(typeof(CharacterSoundEffects))]
     public sealed class CloneCharacter : Character
     {
         /// <summary>

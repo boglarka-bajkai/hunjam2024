@@ -5,6 +5,7 @@ using Model.Data;
 using Model.Level;
 using Model.Tiles;
 using UnityEngine;
+using View.Sound;
 
 namespace View.Animated
 {
@@ -15,10 +16,17 @@ namespace View.Animated
         [SerializeField] float WAITBEFORESTART = .1f;
         [SerializeField] float MOVE_MULTIPLIER = 1.1f;
         Animator animator;
+        CharacterSoundEffects soundEffects;
         void Awake()
         {
             animator = GetComponent<Animator>();
             GetComponent<Character>().OnMove += Move;   
+
+            soundEffects = GetComponent<CharacterSoundEffects>();
+            if (soundEffects == null)
+            {
+                Debug.LogError("CharacterSoundEffects component not found on Character GameObject.");
+            }
         }
 
         void Move(Coordinate from, Coordinate to, bool skipAnimation)
@@ -59,8 +67,8 @@ namespace View.Animated
             //Wait for jump anim
             yield return new WaitForEndOfFrame();
             Animator animator = GetComponent<Animator>();
+            soundEffects.PlaySoundEffect(pushing ? SoundEffectName.Push : SoundEffectName.Move);
             string suffix = "";
-
             switch (animator.GetInteger("dir"))
             {
                 case 0:

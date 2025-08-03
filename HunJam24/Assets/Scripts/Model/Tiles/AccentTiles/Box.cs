@@ -21,7 +21,7 @@ namespace Model.Tiles
     /// The tile can only be stepped in when there is room to move the tile.
     /// </remarks>
     [RequireComponent(typeof(MovableTileAnimation))]
-    public class Box : AccentTile, ILoopAware, IMoveNotifier
+    public class Box : AccentTile, ILoopAware, IMoveNotifier, ILethal
     {
         Coordinate _startCoordinate;
 
@@ -118,6 +118,12 @@ namespace Model.Tiles
             {
                 MoveTo(_startCoordinate, true);
             }
+        }
+
+        public bool ShouldKill()
+        {
+            // A box is lethal if it is pushed onto a character
+            return true;
         }
     }
 }

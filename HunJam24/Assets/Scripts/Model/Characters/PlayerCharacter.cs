@@ -7,9 +7,11 @@ using Model.Tiles.Interfaces;
 using Unity.Collections;
 using UnityEngine;
 using View.Animated;
+using View.Sound;
 namespace Model.Characters
 {
     [RequireComponent(typeof(PlayerAnimation))]
+    [RequireComponent(typeof(CharacterSoundEffects))]
     public class PlayerCharacter : Character
     {
         #region Singleton Management
@@ -38,7 +40,7 @@ namespace Model.Characters
         private void Awake()
         {
             _instance = this;
-            DontDestroyOnLoad(gameObject);   
+            DontDestroyOnLoad(gameObject);
         }
         void OnDestroy()
         {
