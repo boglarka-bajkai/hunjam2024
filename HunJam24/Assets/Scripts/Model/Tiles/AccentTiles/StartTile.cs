@@ -5,12 +5,14 @@ using Model.Tiles.Data;
 using Model.Tiles.Helpers;
 using Model.Tiles.Interfaces;
 using UnityEngine;
+using View.Tiles;
 
 namespace Model.Tiles
 {
     /// <summary>
     /// A tile that is the starting point and finish point of the level.
     /// </summary>
+    [RequireComponent(typeof(StartTileRenderer))]
     public sealed class StartTile : AccentTile
     {
         #region Singleton Management

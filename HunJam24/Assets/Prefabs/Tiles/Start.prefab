@@ -39,7 +39,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3912987705587144851}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 7712329773822297858}
   - component: {fileID: 246219625058438978}
   - component: {fileID: 3275754130729068722}
+  - component: {fileID: 1037875098576317416}
   m_Layer: 0
   m_Name: Start
   m_TagString: Untagged
@@ -184,3 +185,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bb65c1ead30a3e4c98c194ae2753b98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1037875098576317416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220321218007110503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75d6f9fbde064594486baa3d54fffc76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeSelf: {fileID: 3912987705587144851}
