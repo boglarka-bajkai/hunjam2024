@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Logic;
 using Model.Characters;
 using Model.Characters.Helpers;
 using Model.Data;

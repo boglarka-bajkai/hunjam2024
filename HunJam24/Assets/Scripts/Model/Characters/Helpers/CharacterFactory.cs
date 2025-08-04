@@ -1,5 +1,3 @@
-using Logic.Characters;
-using Logic.Tiles;
 using Model.Characters;
 using Model.Level;
 using Model.Tiles;

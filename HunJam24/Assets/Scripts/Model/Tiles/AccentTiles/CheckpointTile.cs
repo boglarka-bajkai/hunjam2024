@@ -1,5 +1,4 @@
 using System;
-using Logic.Characters;
 using Model.Characters;
 using Model.Data;
 using Model.Tiles.Data;

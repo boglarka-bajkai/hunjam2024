@@ -1,5 +1,4 @@
 using System.Linq;
-using Logic;
 using Model.Characters;
 using Model.Data;
 using Model.Level;
