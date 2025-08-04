@@ -147,7 +147,8 @@ namespace Model.Level
         public void LoadLevel()
         {
             Debug.Log($"Loading level: {CurrentLevel.LevelName}");
-            UnloadLevel();
+            if (Application.isPlaying) UnloadLevel(); // Only unload if we are in play mode, as editor preview gets unloaded by tags.
+            else loadedTiles.Clear(); // In editor preview mode, we clear the tiles to avoid referencing destroyed objects.
             Debug.Log("Spawning tiles...");
             foreach (TilePlacement tilePlacement in CurrentLevel.TilePlacements)
             {
@@ -160,7 +161,16 @@ namespace Model.Level
                 Debug.LogError("No StartTile found in the loaded level.");
                 return;
             }
-            CharacterFactory.Instance.CreatePlayer();
+            var player = CharacterFactory.Instance.CreatePlayer();
+            if (!Application.isPlaying)
+            {
+                // In editor preview mode, mark all as preview so it can be unloaded
+                foreach (Tile tile in loadedTiles)
+                {
+                    tile.gameObject.tag = "EditorPreview";
+                }
+                player.gameObject.tag = "EditorPreview";
+            }
             steps = 0; // Reset steps for the new level
         }
         public void UnloadLevel()
