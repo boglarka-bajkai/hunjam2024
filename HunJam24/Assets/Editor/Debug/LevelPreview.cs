@@ -18,6 +18,9 @@ public class LevelPreview : Editor
         // Add custom button
         if (GUILayout.Button("Preview Level in Scene"))
         {
+            var previews = GameObject.FindGameObjectsWithTag("EditorPreview");
+                foreach (var p in previews)
+                    Object.DestroyImmediate(p);
             LevelManager.Instance.SelectPreviewLevel((LevelData)target);
             LevelManager.Instance.LoadLevel();
         }
