@@ -16,5 +16,14 @@ namespace Model.Level.Data
         public int EarnableStars => levels.Count * 3;
         public int StarsBefore => LevelManager.Instance.StarsBefore(this);
         public bool IsUnlocked => StarsBefore >= StarsRequired;
+
+        public void ResetStars()
+        {
+            foreach (var level in levels)
+            {
+                level.ResetStars();
+            }
+            PlayerPrefs.Save();
+        }
     }
 }

@@ -33,6 +33,12 @@ namespace Model.Level.Data
             }
         }
 
+        public void ResetStars()
+        {
+            PlayerPrefs.SetInt($"Level_{levelName}_Stars", 0);
+            PlayerPrefs.Save();
+        }
+
         public LevelData PreviousLevel => LevelManager.Instance.PreviousLevel(this);
         public LevelData NextLevel => LevelManager.Instance.NextLevel(this);
         public bool IsUnlocked => PreviousLevel == null || PreviousLevel.CollectedStars > 0;
