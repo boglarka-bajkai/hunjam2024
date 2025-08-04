@@ -112,11 +112,22 @@ namespace Model.Level
             currentLevel = levelData;
         }
 
-        public LevelData NextLevel =>
-            currentLevelSet.Levels.ElementAtOrDefault(currentLevelSet.Levels.IndexOf(currentLevel) + 1);
-        public LevelData PreviousLevel =>
-            currentLevelSet.Levels.ElementAtOrDefault(currentLevelSet.Levels.IndexOf(currentLevel) - 1);
-
+        public LevelData NextLevel(LevelData currentLevel) {
+            if (currentLevelSet == null || currentLevelSet.Levels == null || currentLevelSet.Levels.Count == 0 || !currentLevelSet.Levels.Contains(currentLevel))
+            {
+                Debug.LogError("Current level set is not set or has no levels."); // This should not happen in production, as this only gets called in context of a level set.
+                return null;
+            }
+            return currentLevelSet.Levels.ElementAtOrDefault(currentLevelSet.Levels.IndexOf(currentLevel) + 1);
+        }
+        public LevelData PreviousLevel(LevelData currentLevel) {
+            if (currentLevelSet == null || currentLevelSet.Levels == null || currentLevelSet.Levels.Count == 0 || !currentLevelSet.Levels.Contains(currentLevel))
+            {
+                Debug.LogError("Current level set is not set or has no levels."); // This should not happen in production, as this only gets called in context of a level set.
+                return null;
+            }
+            return currentLevelSet.Levels.ElementAtOrDefault(currentLevelSet.Levels.IndexOf(currentLevel) - 1);
+        }
         #endregion
 
         #region Loaded Level Management

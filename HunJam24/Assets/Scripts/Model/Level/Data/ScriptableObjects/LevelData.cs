@@ -33,8 +33,8 @@ namespace Model.Level.Data
             }
         }
 
-        public LevelData PreviousLevel => LevelManager.Instance.PreviousLevel;
-        public LevelData NextLevel => LevelManager.Instance.NextLevel;
+        public LevelData PreviousLevel => LevelManager.Instance.PreviousLevel(this);
+        public LevelData NextLevel => LevelManager.Instance.NextLevel(this);
         public bool IsUnlocked => PreviousLevel == null || PreviousLevel.CollectedStars > 0;
         public bool HasNextLevel => NextLevel != null;
     }

@@ -28,11 +28,13 @@ namespace View.UI
 
         void OnButtonClick()
         {
+            Debug.Log($"Button clicked for level: {Level.LevelName} on {gameObject.name}");
             if (!Level.IsUnlocked)
             {
-                Debug.Log($"Level '{Level.LevelName}' is locked. Complete previous levels");
+                Debug.LogWarning($"Level '{Level.LevelName}' is locked. Complete previous levels");
                 return;
             }
+            Debug.LogWarning($"Selected level: {Level.LevelName}");
             LevelManager.Instance.SelectLevel(Level);
             GameManager.Instance.StartGame();
         }
