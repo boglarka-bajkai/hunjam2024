@@ -1,0 +1,128 @@
+using System;
+using System.Collections.Generic;
+using Model.Characters;
+using Model.Data;
+using Model.Level;
+using Model.Other;
+using Model.Tiles.Data;
+using Model.Tiles.Helpers;
+using Model.Tiles.Interfaces;
+using UnityEngine;
+using View.Animated;
+
+namespace Model.Tiles
+{
+    /// <summary>
+    /// A tile that can be moved by a character.
+    /// </summary>
+    /// <remarks>
+    /// Moving means that the tile is pushed by a character, when the character moves into the tile.
+    /// The tile can only be stepped in when there is room to move the tile.
+    /// </remarks>
+    [RequireComponent(typeof(MovableTileAnimation))]
+    public class Box : AccentTile, ILoopAware, IMoveNotifier, ILethal
+    {
+        Coordinate _startCoordinate;
+
+        public event Action<Coordinate, Coordinate, bool> OnMove;
+        override public Coordinate Position
+        {
+            get => _position;
+            set
+            {
+                if (_position != null && _position == value) return;
+                _position = value;
+                if (GameManager.Instance.CurrentGameState != GameState.InGame)
+                {
+                    transform.position = value.AsUnityVector;
+                    foreach (var item in GetComponentsInChildren<SpriteRenderer>(true))
+                    {
+                        item.sortingOrder = value.RenderOrder + 1;
+                    }
+                }
+                //This should not get updated when the position changes as it is handled by the animation
+            }
+        }
+        public override void Initialize(Coordinate position, TileData data)
+        {
+            base.Initialize(position, data);
+            _startCoordinate = position;
+            GameManager.OnGameStateChanged += OnGameStateChanged;
+            transform.position = Position.AsUnityVector;
+            foreach (var item in GetComponentsInChildren<SpriteRenderer>(true))
+            {
+                item.sortingOrder = Position.RenderOrder + 1;
+            }
+        }
+        /// <summary>
+        /// At the start of the game the tile notifies all other tiles of its position.
+        /// This is necessary because the tile can also activate other tiles, which may not be present during initialization (e.g. they get spawned later).
+        /// </summary>
+        /// <param name="state"></param>
+        void OnGameStateChanged(GameState state) {
+            if (state == GameState.InGame)
+            {
+                LevelManager.Instance.GetAccentTilesAt(this.Position).ForEach(x => x.Enter(this));
+                LevelManager.Instance.GetGroundTilesAt(this.Position.Below).ForEach(x => x.StepOn(this));
+                GameManager.OnGameStateChanged -= OnGameStateChanged;
+            }
+        }
+        public override bool CanEnter(Character character)
+        {
+            Coordinate newPos = this.Position + (this.Position - character.Position);
+            List<AccentTile> tilesInNewPos = LevelManager.Instance.GetAccentTilesAt(newPos);
+            if (tilesInNewPos.Count != 0 && !tilesInNewPos.TrueForAll(x => x.CanEnter(this)))
+            {
+                //If there are tiles in new position, and this tiles is not allowed to enter any
+                return false;
+            }
+            List<GroundTile> tilesBelowNewPos = LevelManager.Instance.GetGroundTilesAt(newPos.Below);
+            if (tilesBelowNewPos.Count == 0 || !tilesBelowNewPos.TrueForAll(x => x.CanStepOn(this)))
+            {
+                //If there are no tiles below the new position, or any tiles below do not allow this tile to step on them
+                return false;
+            }
+            return true;
+        }
+
+        public override bool CanEnter(Tile tile) => false;
+
+        public override bool Enter(Character character)
+        {
+            if (CanEnter(character))
+            {
+                Coordinate newPos = this.Position + (this.Position - character.Position);
+                MoveTo(newPos);
+                return true;
+            }
+            return false;
+        }
+
+        private void MoveTo(Coordinate newPos, bool teleport = false)
+        {
+            //Leave old position
+            LevelManager.Instance.GetTilesAt(this.Position).ForEach(x => x.ExitTo(this, newPos));
+            LevelManager.Instance.GetTilesAt(this.Position.Below).ForEach(x => x.ExitTo(this, newPos));
+            //Enter new position
+            LevelManager.Instance.GetAccentTilesAt(newPos).ForEach(x => x.Enter(this));
+            LevelManager.Instance.GetGroundTilesAt(newPos.Below).ForEach(x => x.StepOn(this));
+            //Finally set the new position
+            OnMove?.Invoke(this.Position, newPos, teleport);
+            this.Position = newPos;
+        }
+
+        public void OnLoop()
+        {
+            if (this.Position != _startCoordinate)
+            {
+                MoveTo(_startCoordinate, true);
+            }
+        }
+
+        public bool ShouldKill()
+        {
+            // A box is lethal if it is pushed onto a character
+            return true;
+        }
+    }
+}
