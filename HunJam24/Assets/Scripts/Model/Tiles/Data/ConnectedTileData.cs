@@ -12,11 +12,15 @@ namespace Model.Tiles.Data
         [Tooltip("The tile group this tile belongs to.")]
         [Serialize] private TileConnectionGroup tileGroup;
         public TileConnectionGroup TileGroup => tileGroup;
-        
+
         public ConnectedTileData(TileConnectionGroup tileGroup)
         {
             this.tileGroup = tileGroup;
         }
+        public ConnectedTileData()
+        {
+            this.tileGroup = TileConnectionGroup.CYAN;
+        } // For serialization purposes
     }
 
     

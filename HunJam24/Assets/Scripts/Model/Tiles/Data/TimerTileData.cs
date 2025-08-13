@@ -17,11 +17,17 @@ namespace Model.Tiles.Data
         [Tooltip("The tick duration for this tile.")]
         [Serialize] int tickDuration;
         public int TickDuration => tickDuration;
-        
+
         public TimerTileData(TileConnectionGroup tileGroup, bool activeByDefault, int tickDuration) : base(tileGroup)
         {
             this.activeByDefault = activeByDefault;
             this.tickDuration = tickDuration;
+        }
+
+        public TimerTileData() : base(TileConnectionGroup.CYAN)
+        {
+            this.activeByDefault = false;
+            this.tickDuration = 1;
         }
     }
 
